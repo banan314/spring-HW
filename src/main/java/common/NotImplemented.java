@@ -1,4 +1,4 @@
-package controllers.user;
+package common;
 
 /**
  * Created by kamil on 15.04.17.

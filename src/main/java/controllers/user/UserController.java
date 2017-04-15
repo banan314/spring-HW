@@ -1,6 +1,6 @@
 package controllers.user;
 
-import model.activity.Activity;
+import common.NotImplemented;
 import model.exception.NoSuchUserException;
 import model.user.User;
 import model.user.UserService;
@@ -15,7 +15,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URL;
-import java.util.List;
 import java.util.Set;
 
 /**

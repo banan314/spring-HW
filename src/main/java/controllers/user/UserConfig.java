@@ -1,6 +1,8 @@
 package controllers.user;
 
 import model.activity.Activity;
+import model.activity.ActivityDefaultService;
+import model.activity.ActivityService;
 import model.user.Sex;
 import model.user.User;
 import model.user.UserDefaultService;
@@ -21,8 +23,27 @@ public class UserConfig {
 
     @Bean
     public UserService userDefaultService() {
-        UserService userService = (UserService) new UserDefaultService();
+        init();
 
+        UserService userService = (UserService) new UserDefaultService();
+        for (User user : mockUsers) {
+            userService.addUser(user);
+        }
+        return userService;
+    }
+
+    @Bean
+    public ActivityService activityDefaultService() {
+        init();
+
+        ActivityService activityService = (ActivityService) new ActivityDefaultService();
+        for (Activity activity : mockActivities) {
+            activityService.addActivity(activity);
+        }
+        return  activityService;
+    }
+
+    private void init() {
         createMockUsers();
         createMockActivities();
 
@@ -30,10 +51,7 @@ public class UserConfig {
             user.addActivity(mockActivities.get((int) Math.floor(Math.random()*3.0))
                 .forUser(user)
             );
-            userService.addUser(user);
         }
-
-        return userService;
     }
 
     private void createMockActivities() {
