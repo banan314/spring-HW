@@ -1,5 +1,7 @@
 package model.activity;
 
+import model.user.User;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -9,7 +11,18 @@ import java.time.LocalDate;
 public class Activity implements Serializable{
     private long id;
     private String name;
-    private long UserId;
+
+    private long userId;
+    private LocalDate startDate;
+
+    public Activity() {
+    }
+
+    public Activity(long id, String name, LocalDate startDate) {
+        this.id = id;
+        this.name = name;
+        this.startDate = startDate;
+    }
 
     public long getId() {
         return id;
@@ -35,5 +48,8 @@ public class Activity implements Serializable{
         this.startDate = startDate;
     }
 
-    private LocalDate startDate;
+    public Activity forUser(User user) {
+        this.userId = user.getId();
+        return this;
+    }
 }

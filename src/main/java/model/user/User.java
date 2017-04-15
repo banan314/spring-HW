@@ -2,6 +2,8 @@ package model.user;
 
 import model.activity.Activity;
 
+import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +16,7 @@ public class User {
     private short age;
     private  Sex sex;
     private Date dateOfBirth;
-    private List<Activity> activities;
+    private List<Activity> activities = new ArrayList<Activity>();
 
    public User() {}
 
@@ -24,6 +26,12 @@ public class User {
       this.age = age;
       this.sex = sex;
       this.dateOfBirth = dateOfBirth;
+   }
+
+   @NotNull
+   public User addActivity(Activity activity) {
+       this.activities.add(activity);
+       return this;
    }
 
    public int getId() {
@@ -76,4 +84,8 @@ public class User {
               ", dateOfBirth=" + dateOfBirth +
               '}';
    }
+
+    public List<Activity> getActivities() {
+        return activities;
+    }
 }

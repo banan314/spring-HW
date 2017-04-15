@@ -1,5 +1,6 @@
 package controllers.user;
 
+import model.activity.Activity;
 import model.user.Sex;
 import model.user.User;
 import model.user.UserDefaultService;
@@ -7,22 +8,43 @@ import model.user.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 
 /**
  * Created by Kamil on 31-Mar-17.
  */
 @Configuration
 public class UserConfig {
+    Set<User> mockUsers = new HashSet<User>();
+    List<Activity> mockActivities = new ArrayList<Activity>();
+
     @Bean
     public UserService userDefaultService() {
         UserService userService = (UserService) new UserDefaultService();
 
-        Set<User> mockUsers;
-        mockUsers = new HashSet<User>();
+        createMockUsers();
+        createMockActivities();
 
+        for(User user : mockUsers) {
+            user.addActivity(mockActivities.get((int) Math.floor(Math.random()*3.0))
+                .forUser(user)
+            );
+            userService.addUser(user);
+        }
+
+        return userService;
+    }
+
+    private void createMockActivities() {
+        mockActivities.addAll(Arrays.asList(
+                new Activity(1, "lecturing", LocalDate.of(2016, 3, 20)),
+                new Activity(2, "exercising", LocalDate.of(2015, 12, 24)),
+                new Activity(3, "learning", LocalDate.of(2012, 9, 1)))
+        );
+    }
+
+    private void createMockUsers() {
         User mockUser;
 
         mockUser = new User(
@@ -42,11 +64,5 @@ public class UserConfig {
                 new Date(1989, 12, 21)
         );
         mockUsers.add(mockUser);
-
-        for(User user : mockUsers) {
-            userService.addUser(user);
-        }
-
-        return userService;
     }
 }

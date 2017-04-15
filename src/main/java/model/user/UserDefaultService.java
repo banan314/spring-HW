@@ -38,6 +38,10 @@ public class UserDefaultService implements UserService {
         users.removeIf(user -> user.getId() == id);
     }
 
+    public void deleteAll() {
+        users = null;
+    }
+
     public void updateUser(User user) {
         User found;
         try {
