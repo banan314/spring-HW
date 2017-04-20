@@ -45,7 +45,7 @@ public class ActivityDefaultService implements ActivityService {
         activities = null;
     }
 
-    public void updateActivity(Activity activity) {
+    public void updateActivity(long id, Activity activity) {
         Activity found;
         try {
             found = getById((int) activity.getId());

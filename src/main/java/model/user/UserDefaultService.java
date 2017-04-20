@@ -42,7 +42,7 @@ public class UserDefaultService implements UserService {
         users = null;
     }
 
-    public void updateUser(User user) {
+    public void updateUser(int id, User user) {
         User found;
         try {
             found = getById(user.getId());

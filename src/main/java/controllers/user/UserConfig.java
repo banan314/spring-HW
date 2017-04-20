@@ -44,8 +44,10 @@ public class UserConfig {
     }
 
     private void init() {
-        createMockUsers();
-        createMockActivities();
+        if(mockUsers.isEmpty())
+            createMockUsers();
+        if(mockActivities.isEmpty())
+            createMockActivities();
 
         for(User user : mockUsers) {
             user.addActivity(mockActivities.get((int) Math.floor(Math.random()*3.0))

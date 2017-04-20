@@ -14,5 +14,5 @@ public interface UserService {
     User getById(int id) throws NoSuchUserException;
     void addUser(User user);
     void deleteUser(int id);
-    void updateUser(User user);
+    void updateUser(int id, User user);
 }

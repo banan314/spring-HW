@@ -3,6 +3,7 @@ package model.user;
 import model.activity.Activity;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * Created by Kamil on 31-Mar-17.
  */
-public class User {
+public class User implements Serializable {
    private int id;
     private String username;
     private short age;

@@ -12,6 +12,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,67 +45,7 @@ public class ActivityController {
         try {
             return activityService.getById(id);
         } catch (NoSuchActivityException e) {
-            throw new ResourceNotFoundException("Activity with id " + id + " not found!", new Resource() {
-                @Override
-                public boolean exists() {
-                    return false;
-                }
-
-                @Override
-                public boolean isReadable() {
-                    return false;
-                }
-
-                @Override
-                public boolean isOpen() {
-                    return false;
-                }
-
-                @Override
-                public URL getURL() throws IOException {
-                    return null;
-                }
-
-                @Override
-                public URI getURI() throws IOException {
-                    return null;
-                }
-
-                @Override
-                public File getFile() throws IOException {
-                    return null;
-                }
-
-                @Override
-                public long contentLength() throws IOException {
-                    return 0;
-                }
-
-                @Override
-                public long lastModified() throws IOException {
-                    return 0;
-                }
-
-                @Override
-                public Resource createRelative(String relativePath) throws IOException {
-                    return null;
-                }
-
-                @Override
-                public String getFilename() {
-                    return null;
-                }
-
-                @Override
-                public String getDescription() {
-                    return null;
-                }
-
-                @Override
-                public InputStream getInputStream() throws IOException {
-                    return null;
-                }
-            });
+            throw new ResourceNotFoundException("Activity with id " + id + " not found!", null);
         }
     }
 
@@ -114,14 +55,16 @@ public class ActivityController {
         return activitySet.toArray(new Activity[activitySet.size()]);
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "")
-    public void create(@RequestBody Activity activity) {
+    public void create(@Valid @RequestBody Activity activity) {
         activityService.addActivity(activity);
     }
 
     @PutMapping(value = "/{id}")
     public void update(@PathVariable(value = "id") int id, @RequestBody Activity activity) {
-        activityService.updateActivity(activity);
+        //TODO: think of id
+        activityService.updateActivity(id, activity);
     }
 
     @DeleteMapping(value = "/{id}")

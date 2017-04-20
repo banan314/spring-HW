@@ -6,15 +6,9 @@ import model.user.User;
 import model.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ResourceNotFoundException;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.net.URL;
 import java.util.Set;
 
 /**
@@ -48,67 +42,7 @@ public class UserController {
         try {
             specific = userService.getById(id);
         } catch (NoSuchUserException e) {
-            throw new ResourceNotFoundException("User of id " + id + " not found!", new Resource() {
-                @Override
-                public boolean exists() {
-                    return false;
-                }
-
-                @Override
-                public boolean isReadable() {
-                    return false;
-                }
-
-                @Override
-                public boolean isOpen() {
-                    return false;
-                }
-
-                @Override
-                public URL getURL() throws IOException {
-                    return null;
-                }
-
-                @Override
-                public URI getURI() throws IOException {
-                    return null;
-                }
-
-                @Override
-                public File getFile() throws IOException {
-                    return null;
-                }
-
-                @Override
-                public long contentLength() throws IOException {
-                    return 0;
-                }
-
-                @Override
-                public long lastModified() throws IOException {
-                    return 0;
-                }
-
-                @Override
-                public Resource createRelative(String relativePath) throws IOException {
-                    return null;
-                }
-
-                @Override
-                public String getFilename() {
-                    return null;
-                }
-
-                @Override
-                public String getDescription() {
-                    return null;
-                }
-
-                @Override
-                public InputStream getInputStream() throws IOException {
-                    return null;
-                }
-            });
+            throw new ResourceNotFoundException("User of id " + id + " not found!", null);
         }
         return specific;
     }
@@ -121,7 +55,7 @@ public class UserController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     public void put(@RequestBody User user, @PathVariable int id) {
         user.setId(id);
-        userService.updateUser(user);
+        userService.updateUser(id, user);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
