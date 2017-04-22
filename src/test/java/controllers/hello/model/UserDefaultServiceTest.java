@@ -36,7 +36,6 @@ public class UserDefaultServiceTest {
         User mockUser;
 
         mockUser = new User(
-                1,
                 "Maria23",
                 (short) 20,
                 Sex.FEMALE,
@@ -45,7 +44,6 @@ public class UserDefaultServiceTest {
         mockUsers.add(mockUser);
 
         mockUser = new User(
-                2,
                 "dynamite Joe",
                 (short) 25,
                 Sex.MALE,

@@ -1,6 +1,8 @@
 package model.user;
 
+import controllers.data.UserRepository;
 import model.exception.NoSuchUserException;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,6 +11,8 @@ import java.util.Set;
  * Created by Kamil on 31-Mar-17.
  */
 public class UserDefaultService implements UserService {
+    @Autowired
+    private UserRepository userRepository;
     private Set<User> users = new HashSet<User>();
 
     public Set<User> getAll() {
@@ -16,12 +20,13 @@ public class UserDefaultService implements UserService {
     }
 
     public User getById(int id) throws NoSuchUserException {
-        for(User user : users) {
+        return userRepository.findOne(id);
+        /*for(User user : users) {
             if(user.getId() == id) {
                 return user;
             }
         }
-        throw new NoSuchUserException();
+        throw new NoSuchUserException();*/
     }
 
     public void addUser(User user) {

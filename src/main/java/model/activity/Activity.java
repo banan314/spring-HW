@@ -2,14 +2,18 @@ package model.activity;
 
 import model.user.User;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 /**
  * Created by Kamil on 05-Apr-17.
  */
+@Entity
 public class Activity implements Serializable{
-    private long id;
+    private @Id @GeneratedValue long id;
     private String name;
 
     private long userId;
@@ -18,8 +22,7 @@ public class Activity implements Serializable{
     public Activity() {
     }
 
-    public Activity(long id, String name, LocalDate startDate) {
-        this.id = id;
+    public Activity(String name, LocalDate startDate) {
         this.name = name;
         this.startDate = startDate;
     }

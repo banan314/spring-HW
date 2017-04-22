@@ -2,6 +2,9 @@ package model.user;
 
 import model.activity.Activity;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -11,18 +14,18 @@ import java.util.List;
 /**
  * Created by Kamil on 31-Mar-17.
  */
+@Entity
 public class User implements Serializable {
-   private int id;
+   private @Id @GeneratedValue int id;
     private String username;
     private short age;
     private  Sex sex;
     private Date dateOfBirth;
-    private List<Activity> activities = new ArrayList<Activity>();
+    //private List<Activity> activities = new ArrayList<Activity>();
 
    public User() {}
 
-   public User(int id, String username, short age, Sex sex, Date dateOfBirth) {
-      this.id = id;
+   public User(String username, short age, Sex sex, Date dateOfBirth) {
       this.username = username;
       this.age = age;
       this.sex = sex;
@@ -31,7 +34,7 @@ public class User implements Serializable {
 
    @NotNull
    public User addActivity(Activity activity) {
-       this.activities.add(activity);
+       //this.activities.add(activity);
        return this;
    }
 
@@ -87,6 +90,7 @@ public class User implements Serializable {
    }
 
     public List<Activity> getActivities() {
-        return activities;
+//        return activities;
+        return null;
     }
 }
