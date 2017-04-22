@@ -1,10 +1,9 @@
 package model.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import model.activity.Activity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,7 +20,10 @@ public class User implements Serializable {
     private short age;
     private  Sex sex;
     private Date dateOfBirth;
-    //private List<Activity> activities = new ArrayList<Activity>();
+
+    @JsonBackReference
+    @OneToMany(mappedBy = "user")
+    private List<Activity> activities = new ArrayList<Activity>();
 
    public User() {}
 
@@ -34,7 +36,7 @@ public class User implements Serializable {
 
    @NotNull
    public User addActivity(Activity activity) {
-       //this.activities.add(activity);
+       this.activities.add(activity);
        return this;
    }
 
@@ -90,7 +92,9 @@ public class User implements Serializable {
    }
 
     public List<Activity> getActivities() {
-//        return activities;
-        return null;
+        return activities;
+    }
+    public void setActivities(List<Activity> activities) {
+       this.activities = activities;
     }
 }

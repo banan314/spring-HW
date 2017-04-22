@@ -1,7 +1,9 @@
 package model.activity;
 
+import controllers.data.ActivityRepository;
 import model.exception.NoSuchActivityException;
 import model.activity.Activity;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,17 +14,27 @@ import java.util.Set;
 public class ActivityDefaultService implements ActivityService {
     private Set<Activity> activities = new HashSet<Activity>();
 
+    @Autowired
+    ActivityRepository activityRepository;
+
     public Set<Activity> getAll() {
-        return activities;
+        Iterable<Activity> Activitys = activityRepository.findAll();
+        Set<Activity> ActivitySet = new HashSet<>();
+        for(Activity Activity : Activitys) {
+            ActivitySet.add(Activity);
+        }
+        return ActivitySet;
+//        return activities;
     }
 
     public Activity getById(int id) throws NoSuchActivityException {
-        for(Activity user : activities) {
-            if(user.getId() == id) {
-                return user;
+        return activityRepository.findOne(id);
+        /*for(Activity Activity : activities) {
+            if(Activity.getId() == id) {
+                return Activity;
             }
         }
-        throw new NoSuchActivityException();
+        throw new NoSuchActivityException();*/
     }
 
     @Override
@@ -30,7 +42,10 @@ public class ActivityDefaultService implements ActivityService {
         if(hasntActivityId(activity))
             activity.setId((int) Math.floor(Math.random()*500000000));
 
-        activities.add(activity);
+        if(null != activityRepository) {
+            activityRepository.save(activity);
+        }
+//        activities.add(activity);
     }
 
     private boolean hasntActivityId(Activity activity) {
@@ -61,8 +76,8 @@ public class ActivityDefaultService implements ActivityService {
     public String toString() {
         final StringBuffer sb = new StringBuffer("");
         sb.append("Activitys = [");
-        for (Activity user : activities) {
-            sb.append(user.toString()).append(", \n");
+        for (Activity Activity : activities) {
+            sb.append(Activity.toString()).append(", \n");
         }
         sb.append(']');
         return sb.toString();

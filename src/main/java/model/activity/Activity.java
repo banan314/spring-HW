@@ -1,10 +1,12 @@
 package model.activity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import model.user.User;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.time.LocalDate;
 
@@ -13,14 +15,16 @@ import java.time.LocalDate;
  */
 @Entity
 public class Activity implements Serializable{
-    private @Id @GeneratedValue long id;
+    private @Id @GeneratedValue int id;
     private String name;
 
-    private long userId;
+    @JsonManagedReference
+    @ManyToOne
+    private User user;
+
     private LocalDate startDate;
 
-    public Activity() {
-    }
+    public Activity() { }
 
     public Activity(String name, LocalDate startDate) {
         this.name = name;
@@ -32,7 +36,14 @@ public class Activity implements Serializable{
     }
 
     public void setId(long id) {
-        this.id = id;
+        this.id = (int) id;
+    }
+
+    public User getUser() {
+        return this.user;
+    }
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public String getName() {
@@ -52,7 +63,7 @@ public class Activity implements Serializable{
     }
 
     public Activity forUser(User user) {
-        this.userId = user.getId();
+        this.user = user;
         return this;
     }
 }

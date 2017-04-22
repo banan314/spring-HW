@@ -16,7 +16,13 @@ public class UserDefaultService implements UserService {
     private Set<User> users = new HashSet<User>();
 
     public Set<User> getAll() {
-        return users;
+//        return users;
+        Iterable<User> users =userRepository.findAll();
+        Set<User> userSet = new HashSet<>();
+        for(User user : users) {
+            userSet.add(user);
+        }
+        return userSet;
     }
 
     public User getById(int id) throws NoSuchUserException {
@@ -30,10 +36,12 @@ public class UserDefaultService implements UserService {
     }
 
     public void addUser(User user) {
-        if(hasUserId(user))
-            user.setId((int) Math.floor(Math.random()*500000000));
-
-        users.add(user);
+        /*if(hasUserId(user))
+            user.setId((int) Math.floor(Math.random()*500000000));*/
+        if(null != userRepository) {
+            userRepository.save((User)null);
+        }
+//        users.add(user);
     }
     private boolean hasUserId(User user) {
         return user.getId() == 0;
