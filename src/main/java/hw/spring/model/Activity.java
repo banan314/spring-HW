@@ -22,7 +22,7 @@ public class Activity implements Serializable{
     @JsonIgnore
     @ManyToOne
     private User user;
-
+    //TODO: serialize it properly
     private LocalDate startDate;
 
     public Activity() { }

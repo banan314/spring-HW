@@ -7,6 +7,7 @@ import hw.spring.model.user.User;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,7 +19,6 @@ import java.util.Set;
 public class UserDefaultService implements UserService {
 
     UserRepository userRepository;
-    private Set<User> users = new HashSet<User>();
 
     Set<User> mockUsers = new HashSet<User>();
 
@@ -55,32 +55,23 @@ public class UserDefaultService implements UserService {
     }
 
     public Set<User> getAll() {
-//        return users;
-        Iterable<User> users = userRepository.findAll();
-        Set<User> userSet = new HashSet<>();
-        for (User user : users) {
-            userSet.add(user);
-        }
-        return userSet;
+        Set<User> users = new HashSet<>();
+        userRepository.findAll().forEach(user -> users.add(user));
+        return users;
     }
 
     public User getById(int id) throws NoSuchUserException {
-        return userRepository.findOne(id);
-        /*for(User user : users) {
-            if(user.getId() == id) {
-                return user;
-            }
+        User user = userRepository.findOne(id);
+        if (null == user) {
+            throw new NoSuchUserException();
         }
-        throw new NoSuchUserException();*/
+        return user;
     }
 
     public void addUser(User user) {
-        /*if(hasUserId(user))
-            user.setId((int) Math.floor(Math.random()*500000000));*/
         if (null != userRepository) {
             userRepository.save((User) null);
         }
-//        users.add(user);
     }
 
     private boolean hasUserId(User user) {
@@ -88,33 +79,14 @@ public class UserDefaultService implements UserService {
     }
 
     public void deleteUser(int id) {
-        users.removeIf(user -> user.getId() == id);
+        userRepository.delete(id);
     }
 
     public void deleteAll() {
-        users = null;
+        userRepository.deleteAll();
     }
 
     public void updateUser(int id, User user) {
-        User found;
-        try {
-            found = getById(user.getId());
-        } catch (NoSuchUserException e) {
-            addUser(user); //should be?
-            return;
-        }
-        users.remove((Object) found);
-        users.add(user);
-    }
-
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("");
-        sb.append("Users = [");
-        for (User user : users) {
-            sb.append(user.toString()).append(", \n");
-        }
-        sb.append(']');
-        return sb.toString();
+        userRepository.save(user);
     }
 }

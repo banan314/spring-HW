@@ -15,14 +15,14 @@ import java.util.*;
  */
 @Service
 public class ActivityDefaultService implements ActivityService {
-    private Set<Activity> activities = new HashSet<Activity>();
 
     List<Activity> mockActivities = new ArrayList<Activity>();
 
     private void init() {
-        if(mockActivities.isEmpty())
+        if (mockActivities.isEmpty())
             createMockActivities();
     }
+
     private void createMockActivities() {
         mockActivities.addAll(Arrays.asList(
                 new Activity("lecturing", LocalDate.of(2016, 3, 20)),
@@ -41,34 +41,24 @@ public class ActivityDefaultService implements ActivityService {
     }
 
     public Set<Activity> getAll() {
-        Iterable<Activity> Activitys = activityRepository.findAll();
-        Set<Activity> ActivitySet = new HashSet<>();
-        for(Activity Activity : Activitys) {
-            ActivitySet.add(Activity);
-        }
-        return ActivitySet;
-//        return activities;
+        Set<Activity> activities = new HashSet<>();
+        activityRepository.findAll().forEach(activity -> activities.add(activity));
+        return activities;
     }
 
     public Activity getById(int id) throws NoSuchActivityException {
-        return activityRepository.findOne(id);
-        /*for(Activity Activity : activities) {
-            if(Activity.getId() == id) {
-                return Activity;
-            }
+        Activity activity = activityRepository.findOne(id);
+        if (null == activity) {
+            throw new NoSuchActivityException();
         }
-        throw new NoSuchActivityException();*/
+        return activity;
     }
 
     @Override
     public void addActivity(Activity activity) {
-        if(hasntActivityId(activity))
-            activity.setId((int) Math.floor(Math.random()*500000000));
-
-        if(null != activityRepository) {
+        if (null != activityRepository) {
             activityRepository.save(activity);
         }
-//        activities.add(activity);
     }
 
     private boolean hasntActivityId(Activity activity) {
@@ -76,34 +66,14 @@ public class ActivityDefaultService implements ActivityService {
     }
 
     public void deleteActivity(int id) {
-        activities.removeIf(activity -> activity.getId() == id);
+        activityRepository.delete(id);
     }
 
     public void deleteAll() {
-        activities = null;
+        activityRepository.deleteAll();
     }
 
     public void updateActivity(long id, Activity activity) {
-        /*Activity found;
-        try {
-            found = getById((int) activity.getId());
-        } catch (NoSuchActivityException e) {
-            addActivity(activity); //should be?
-            return;
-        }
-        activities.remove((Object)found);
-        activities.add(activity);*/
         activityRepository.save(activity);
-    }
-
-    @Override
-    public String toString() {
-        final StringBuffer sb = new StringBuffer("");
-        sb.append("Activitys = [");
-        for (Activity Activity : activities) {
-            sb.append(Activity.toString()).append(", \n");
-        }
-        sb.append(']');
-        return sb.toString();
     }
 }
