@@ -1,7 +1,6 @@
 package hw.spring.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import hw.spring.model.user.User;
 
 import javax.persistence.Entity;
@@ -21,7 +20,7 @@ public class Activity implements Serializable{
 
     @JsonIgnore
     @ManyToOne
-    private User user;
+    private User ownerUser;
     //TODO: serialize it properly
     private LocalDate startDate;
 
@@ -41,10 +40,10 @@ public class Activity implements Serializable{
     }
 
     public User getUser() {
-        return this.user;
+        return this.ownerUser;
     }
     public void setUser(User user) {
-        this.user = user;
+        this.ownerUser = user;
     }
 
     public String getName() {
@@ -64,7 +63,7 @@ public class Activity implements Serializable{
     }
 
     public Activity forUser(User user) {
-        this.user = user;
+        this.ownerUser = user;
         return this;
     }
 }

@@ -15,6 +15,7 @@ import java.util.List;
  * Created by Kamil on 31-Mar-17.
  */
 @Entity
+@Table(name = "users")
 public class User implements Serializable {
     private @Id @GeneratedValue int id;
     private String username;
@@ -24,9 +25,7 @@ public class User implements Serializable {
     //TODO: serialize it properly
     private Date dateOfBirth;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "user")
-    private List<Activity> activities = new ArrayList<Activity>();
+    @JsonIgnore @OneToMany(mappedBy = "ownerUser") private List<Activity> activities = new ArrayList<Activity>();
 
     public User() {
     }
