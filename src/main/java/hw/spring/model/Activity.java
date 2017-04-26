@@ -1,6 +1,8 @@
 package hw.spring.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import hw.spring.common.serializer.LocalDateSerializer;
 import hw.spring.model.user.User;
 
 import javax.persistence.Entity;
@@ -21,7 +23,8 @@ public class Activity implements Serializable{
     @JsonIgnore
     @ManyToOne
     private User ownerUser;
-    //TODO: serialize it properly
+
+    @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate startDate;
 
     public Activity() { }

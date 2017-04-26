@@ -2,6 +2,10 @@ package hw.spring.model.user;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
+import hw.spring.common.serializer.ActivitiesListSerializer;
+import hw.spring.common.serializer.CustomDateSerializer;
 import hw.spring.model.Activity;
 
 import javax.persistence.*;
@@ -20,12 +24,13 @@ public class User implements Serializable {
     private @Id @GeneratedValue int id;
     private String username;
     private short age;
-    //TODO: serialize explicitly
     private Sex sex;
-    //TODO: serialize it properly
+
+    @JsonSerialize(using = CustomDateSerializer.class)
     private Date dateOfBirth;
 
-    @JsonIgnore @OneToMany(mappedBy = "ownerUser") private List<Activity> activities = new ArrayList<Activity>();
+    @JsonSerialize(using = ActivitiesListSerializer.class)
+    @OneToMany(mappedBy = "ownerUser") private List<Activity> activities = new ArrayList<Activity>();
 
     public User() {
     }
