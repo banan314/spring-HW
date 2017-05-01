@@ -1,3 +1,20 @@
-<h1>
-  {{title}}
-</h1>
+<div class="container">
+  <h1>
+    {{title}}
+  </h1>
+  {{greetings}}
+  <h3>Lista obecności</h3>
+
+  <input placeholder="Szukaj...">
+  <table>
+    <thead>
+    <td>Imię i nazwisko</td>
+
+    </thead>
+    <tr *ngFor="let user of users">
+      <td><b>{{user.username}}</b></td>
+        <td *ngFor="let activity of user.activities">{{activity}}</td>
+    </tr>
+  </table>
+  <footer>footer...</footer>
+</div>
