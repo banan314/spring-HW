@@ -5,11 +5,15 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { FooterComponent } from './views/footer/footer.component';
+import { CreateActivityComponent } from './views/create.activity.component';
+import { ActivityListComponent } from './views/activity-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
+    CreateActivityComponent,
+    ActivityListComponent,
   ],
   imports: [
     BrowserModule,

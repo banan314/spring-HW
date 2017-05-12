@@ -5,24 +5,23 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hw.spring.common.serializer.LocalDateSerializer;
 import hw.spring.model.user.User;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 /**
  * Created by Kamil on 05-Apr-17.
  */
-@Entity
+@Entity(name = "activities")
 public class Activity implements Serializable{
     private @Id @GeneratedValue int id;
     private String name;
+    private String location;
 
     @JsonIgnore
-    @ManyToOne
-    private User ownerUser;
+    @ManyToMany
+    private List<UserActivity> ownerUsers;
 
     @JsonSerialize(using = LocalDateSerializer.class)
     private LocalDate startDate;
@@ -42,13 +41,13 @@ public class Activity implements Serializable{
         this.id = (int) id;
     }
 
-    public User getUser() {
-        return this.ownerUser;
-    }
-    public void setUser(User user) {
-        this.ownerUser = user;
+    public List<UserActivity> getUser() {
+        return this.ownerUsers;
     }
 
+    public void setUser(List<UserActivity> users) {
+        this.ownerUsers = users;
+    }
     public String getName() {
         return name;
     }
@@ -65,8 +64,16 @@ public class Activity implements Serializable{
         this.startDate = startDate;
     }
 
-    public Activity forUser(User user) {
-        this.ownerUser = user;
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public Activity forUser(UserActivity user) {
+        this.ownerUsers.add(user);
         return this;
     }
 }

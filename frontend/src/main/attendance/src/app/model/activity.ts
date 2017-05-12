@@ -1,4 +1,19 @@
+import {User} from "./user";
 export class Activity {
+  get users(): User[] {
+    return this._users;
+  }
+
+  set users(value: User[]) {
+    this._users = value;
+  }
+
+  private _id: number;
+  private _name: string;
+  private _startDate: Date;
+  private _location: string;
+  private _users: User[];
+
   get id(): number {
     return this._id;
   }
@@ -18,12 +33,14 @@ export class Activity {
   get startDate(): Date {
     return this._startDate;
   }
-
   set startDate(value: Date) {
     this._startDate = value;
   }
+  get location(): string {
+    return this._location;
+  }
 
-  private _id: number;
-  private _name: string;
-  private _startDate: Date;
+  set location(value: string) {
+    this._location = value;
+  }
 }

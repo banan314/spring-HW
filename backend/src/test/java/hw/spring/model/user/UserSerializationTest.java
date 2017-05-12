@@ -3,7 +3,6 @@ package hw.spring.model.user;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hw.spring.model.Activity;
 import org.junit.Test;
-import org.hamcrest.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,11 +30,8 @@ public class UserSerializationTest {
     @Test
     public void givenSexAndDate_whenSerializing_thenReadable() throws Exception {
         User user = new User(
-                "Joe334",
-                (short) 20,
-                Sex.FEMALE,
-                new Date(1994, 3, 20)
-        );
+                "Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, new Date(1994, 3, 20),
+                "Joe Staunton");
 
         String result = new ObjectMapper().writeValueAsString(user);
 
@@ -46,11 +42,8 @@ public class UserSerializationTest {
     @Test
     public void givenActivities_whenSerializing_thenReadableOutput() throws Exception {
         User user = new User(
-                "Joe334",
-                (short) 20,
-                Sex.FEMALE,
-                new Date(1994, 3, 20)
-        );
+                "Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, new Date(1994, 3, 20),
+                "Joe Staunton");
         createMockActivities();
         mockActivities.stream().skip(1).forEach(a -> user.addActivity(a));
 

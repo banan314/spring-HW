@@ -29,6 +29,7 @@ public class ActivityDefaultService implements ActivityService {
                 new Activity("exercising", LocalDate.of(2015, 12, 24)),
                 new Activity("learning", LocalDate.of(2012, 9, 1)))
         );
+        mockActivities.stream().forEach(activity -> activity.setLocation("Politechnika Rzeszowska"));
     }
 
     ActivityRepository activityRepository;

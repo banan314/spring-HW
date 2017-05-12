@@ -1,0 +1,8 @@
+<div class="container">
+  <h3>Lista zajęć</h3>
+  Wybierz z listy zajęcia w których brałeś udział
+  <p><b>Twoja obecność na zajęciach: 2/8</b></p>
+  <ul>
+    <li *ngFor="let activity of activities">{{activity.name}}, {{activity.location}}</li>
+  </ul>
+</div>

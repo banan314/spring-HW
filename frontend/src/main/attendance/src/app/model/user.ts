@@ -3,6 +3,13 @@
  */
 enum Sex {MALE, FEMALE};
 export class User {
+  get email(): string {
+    return this._email;
+  }
+
+  set email(value: string) {
+    this._email = value;
+  }
   get id(): number {
     return this._id;
   }
@@ -58,4 +65,7 @@ export class User {
 
   private _dateOfBirth: Date;
   private _activities: string[];
+  private firstName: string;
+  private lastName: string;
+  private _email: string;
 }

@@ -1,0 +1,27 @@
+footer {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  bottom: 0px;
+  left: 0px;
+
+  color: #cacaca;
+  /*https://css-tricks.com/snippets/css/fixed-footer/*/
+  position: fixed;
+  background-color: #222222;
+
+  z-index: 900;
+}
+
+footer div {
+  /*https://css-tricks.com/centering-css-complete-guide/#center-horizontally-and-vertically*/
+  height: 75px;
+  position: relative;
+}
+
+footer div p {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

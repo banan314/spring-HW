@@ -1,9 +1,6 @@
 package hw.spring.model.user;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import hw.spring.common.serializer.ActivitiesListSerializer;
 import hw.spring.common.serializer.CustomDateSerializer;
 import hw.spring.model.Activity;
@@ -21,25 +18,70 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 public class User implements Serializable {
+    public enum Role {ADMIN, STUDENT}
+
     private @Id @GeneratedValue int id;
+    private String email;
     private String username;
     private short age;
     private Sex sex;
+
+    private String firstName, lastName;
+    private Role role;
+    private String password;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setName(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+    public String getName() {
+        return new StringBuffer().append(this.firstName).append(this.lastName)
+                .toString();
+    }
 
     @JsonSerialize(using = CustomDateSerializer.class)
     private Date dateOfBirth;
 
     @JsonSerialize(using = ActivitiesListSerializer.class)
-    @OneToMany(mappedBy = "ownerUser") private List<Activity> activities = new ArrayList<Activity>();
+    @ManyToMany(mappedBy = "ownerUsers") private List<Activity> activities = new ArrayList<Activity>();
 
     public User() {
     }
 
-    public User(String username, short age, Sex sex, Date dateOfBirth) {
+    public User(String username, String email, short age, Sex sex, Date dateOfBirth, String name) {
         this.username = username;
         this.age = age;
         this.sex = sex;
         this.dateOfBirth = dateOfBirth;
+        setEmail(email);
+
+        //TODO: does not work with multiple names (more than 2 words)
+        String splitted[] = name.split(" ");
+        setName(splitted[0], splitted[1]);
     }
 
     @NotNull

@@ -1,6 +1,7 @@
 package hw.spring.controllers;
 
 import hw.spring.common.NotImplemented;
+import hw.spring.common.facade.RelationshipFacade;
 import hw.spring.model.Activity;
 import hw.spring.model.exception.NoSuchActivityException;
 import hw.spring.model.exception.NoSuchUserException;
@@ -21,6 +22,8 @@ public class UserActivitiesController {
 
     private UserService userService;
     private ActivityService activityService;
+    @Autowired
+    private RelationshipFacade relationshipFacade;
 
     public UserActivitiesController(@Autowired UserService us, @Autowired ActivityService as) {
         this.userService = us;
@@ -64,29 +67,8 @@ public class UserActivitiesController {
             specific = null;
         }
         for(Activity activity : activities) {
-            specific.addActivity(
-                    activity.forUser(specific)
-            );
+            relationshipFacade.assign(specific, activity);
         }
-    }
-
-    @RequestMapping(value = "/{id}/activities/{activityId}", method = RequestMethod.PUT)
-    public void put(@PathVariable(value = "id") int userId, @PathVariable(value = "activityId") int activityId) {
-        User user;
-        try {
-            user = userService.getById(userId);
-        } catch (NoSuchUserException e) {
-            return;
-        }
-        Activity activity;
-        try {
-            activity = activityService.getById(activityId);
-        } catch (NoSuchActivityException e) {
-            return;
-        }
-        user.addActivity(activity.forUser(user));
-        userService.updateUser(userId, user);
-        activityService.updateActivity(activityId, activity);
     }
 
     @NotImplemented

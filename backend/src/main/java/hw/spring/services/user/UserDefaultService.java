@@ -7,7 +7,6 @@ import hw.spring.model.user.User;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -38,19 +37,13 @@ public class UserDefaultService implements UserService {
         User mockUser;
 
         mockUser = new User(
-                "Joe334",
-                (short) 20,
-                Sex.FEMALE,
-                new Date(1994, 3, 20)
-        );
+                "Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, new Date(1994, 3, 20),
+                "Joe Staunton");
         mockUsers.add(mockUser);
 
         mockUser = new User(
-                "Bloody_Mary",
-                (short) 25,
-                Sex.MALE,
-                new Date(1989, 12, 21)
-        );
+                "Bloody_Mary", "bmary@yandex.ru", (short) 25, Sex.MALE, new Date(1989, 12, 21),
+                "Mary Dobrowolski");
         mockUsers.add(mockUser);
     }
 
@@ -70,7 +63,7 @@ public class UserDefaultService implements UserService {
 
     public void addUser(User user) {
         if (null != userRepository) {
-            userRepository.save((User) null);
+            userRepository.save(user);
         }
     }
 
