@@ -3,6 +3,24 @@
   Wybierz z listy zajęcia w których brałeś udział
   <p><b>Twoja obecność na zajęciach: 2/8</b></p>
   <ul>
-    <li *ngFor="let activity of activities">{{activity.name}}, {{activity.location}}</li>
+    <li *ngFor="let activity of activities">{{activity.name}}, {{activity.location}}
+    ({{activity.startDate}})</li>
   </ul>
+
+  <h2>Dodawanie zajęć</h2>
+  <p>Uzupełnij formularz aby dodać nowe zajęcia</p>
+
+  <div><label>Temat zajęć</label><input [(ngModel)]="activity.name"></div>
+  <div><label>Lokalizacja</label><input [(ngModel)]="activity.location"></div>
+  <div class='input-group date datepicker'>
+    <label>Data:</label>
+    <input type='text' class="form-control" id="datepicker" [(ngModel)]="activity.startDate">
+    <span class="input-group-addon" onclick="$('#datepicker').datepicker('dialog', new Date());">
+         <span class="glyphicon glyphicon-calendar"></span>
+       </span>
+    {{activity.startDate}}
+  </div>
+  <button class="form-control" style="color: white; background-color: #ff7726; width: 190px;" (click)="addActivity()">
+    Dodaj zajęcie
+  </button>
 </div>

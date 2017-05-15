@@ -15,11 +15,22 @@ import {Activity} from "../model/activity";
 export class ActivityListComponent implements OnInit {
   activities: Activity[];
 
+  activity: Activity = new Activity;
+
+  addActivity() {
+    console.log("add activity");
+    this.activityService.addActivity(this.activity, ()=>this.getActivities());
+  }
+
+  getActivities() {
+    this.activityService.getActivities()
+      .then(res => this.activities = res);
+  }
+
   constructor(private activityService: ActivityService) {
   }
 
   ngOnInit() {
-    this.activityService.getActivities()
-      .then(res => this.activities = res);
+    this.getActivities();
   }
 }

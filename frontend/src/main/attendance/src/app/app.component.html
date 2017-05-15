@@ -3,42 +3,10 @@
     {{title}}
   </h1>
   {{greetings}}
-  <h3>Lista obecności</h3>
 
-  <div class="input-group input-group-sm">
-    <span class="input-group-addon"><i class="fa fa-search"></i></span>
-    <input class="form-control" placeholder="Szukaj...">
-  </div>
-  <table>
-    <thead>
-    <td>Imię i nazwisko</td>
-    <td>Kontakt</td>
-    </thead>
-    <tr *ngFor="let user of users">
-      <td><b>{{user.username}}</b></td>
-      <td>{{user.email}}</td>
-      <td>
-        <button class="delete"
-                (click)="deleteUser(user); $event.stopPropagation()"><i class="fa fa-times"></i></button>
-      </td>
-      <td>
-        <button><i class="fa fa-check"></i></button>
-      </td>
-      <!--
-      font awesome signs:
-      - fa-check
-      - fa-times
-      - .fa-pencil-square-o
-      - .fa-trash-o
-      -->
-      <td *ngFor="let activity of user.activities">{{activity}}</td>
-    </tr>
-  </table>
-  <span><button class="form-control" style="width: 30px;" (click)="addUser()">+</button><input class="form-control"
-                                                                                               placeholder="Dodaj użytkownika..."
-                                                                                               [(ngModel)]="user.username"/></span>
+
+  <attendance-list></attendance-list>
   <activity-list></activity-list>
-  <create-activity></create-activity>
   <end-matter style="display: block">footer...</end-matter>
 
 </div>

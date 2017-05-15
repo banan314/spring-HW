@@ -1,4 +1,4 @@
-import { Component, Injectable } from '@angular/core';
+import {Component, Injectable} from '@angular/core';
 import {Headers, Http} from "@angular/http";
 
 import 'rxjs/add/operator/toPromise';
@@ -15,22 +15,9 @@ import {Activity} from "./model/activity";
 })
 export class AppComponent {
   title = 'Attendance manager';
-  greetings :string = "Sprawdź swoją obecność i dostępne zajęcia. Dodaj zajęcia lub użytkowników.";
+  greetings: string = "Sprawdź swoją obecność i dostępne zajęcia. Dodaj zajęcia lub użytkowników.";
 
-  users: User[];
-  user: User = new User;
+  constructor() {
 
-  addUser() {
-    console.log("adduser");
-    this.userService.addUser(this.user);
-  }
-
-  deleteUser(user: User) {
-    console.log('delete user ' + user.username);
-    this.userService.deleteUser(user.id);
-  }
-
-  constructor(private http: Http, private userService: UserService, private activityService: ActivityService) {
-    userService.getUsers().then(res => {this.users = res; console.log(this.users.length)});
   }
 }

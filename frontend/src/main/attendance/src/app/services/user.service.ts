@@ -33,19 +33,26 @@ export class UserService extends DatabaseService{
       .catch(this.handleError);
   }
 
-  addUser(user: User): void {
+  addUser(user: User, callback: ()=>void): void {
     console.log("add " + user.username);
     console.log("href = " + this.backendHref + this.usersHref)
     this.http.post(this.backendHref + this.usersHref, JSON.stringify({username: user.username}), {headers: this.headers})
       .toPromise()
-      .then(res => res.text())
+      .then(res => {
+        res.text();
+        callback();
+      })
       .catch(this.handleError);
   }
 
-  deleteUser(id: number) {
+  deleteUser(id: number, callback?: ()=>void) {
     this.http.delete(this.composeIdUrl(id), null)
       .toPromise()
-      .then(res => res.text())
+      .then(res => {
+        res.text();
+        if(callback !== undefined)
+          callback();
+      })
       .catch(this.handleError);
   }
 

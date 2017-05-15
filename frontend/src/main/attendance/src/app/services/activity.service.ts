@@ -27,7 +27,7 @@ export class ActivityService extends DatabaseService {
       .catch(this.handleError);
   }
 
-  addActivity(activity: Activity): void {
+  addActivity(activity: Activity, callback?: ()=>void): void {
     this.http.post(this.backendHref + this.activityHref, JSON.stringify(
       {
         name: activity.name,
@@ -36,7 +36,11 @@ export class ActivityService extends DatabaseService {
       }),
       {headers: this.headers})
       .toPromise()
-      .then(res => res.text())
+      .then(res => {
+        res.text();
+        if(callback !== undefined)
+          callback();
+      })
       .catch(this.handleError);
   }
 
