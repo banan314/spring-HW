@@ -3,6 +3,29 @@
  */
 enum Sex {MALE, FEMALE};
 export class User {
+
+  constructor(id?: number, username?: string, age?: number, sex?: Sex, dateOfBirth?: Date, email?: string, activities?: string[]) {
+    this._id = id;
+    this._username = username;
+    this._age = age;
+    this._sex = sex;
+    this._dateOfBirth = dateOfBirth;
+    this._activities = activities;
+    this._email = email;
+  }
+
+  static fromUser(user: User): User {
+    return new this(
+      user.id,
+      user.username,
+      user.age,
+      user.sex,
+      user.dateOfBirth,
+      user.email,
+      user.activities
+    );
+  }
+
   get email(): string {
     return this._email;
   }

@@ -13,9 +13,16 @@ import {Activity} from "../model/activity";
 })
 
 export class ActivityListComponent implements OnInit {
-  activities: Activity[];
 
+  activities: Activity[];
   activity: Activity = new Activity;
+
+  constructor(private activityService: ActivityService) {
+  }
+
+  ngOnInit() {
+    this.getActivities();
+  }
 
   addActivity() {
     console.log("add activity");
@@ -25,12 +32,5 @@ export class ActivityListComponent implements OnInit {
   getActivities() {
     this.activityService.getActivities()
       .then(res => this.activities = res);
-  }
-
-  constructor(private activityService: ActivityService) {
-  }
-
-  ngOnInit() {
-    this.getActivities();
   }
 }

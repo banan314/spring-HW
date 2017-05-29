@@ -10,11 +10,11 @@
   <h2>Dodawanie zajęć</h2>
   <p>Uzupełnij formularz aby dodać nowe zajęcia</p>
 
-  <div><label>Temat zajęć</label><input [(ngModel)]="activity.name"></div>
-  <div><label>Lokalizacja</label><input [(ngModel)]="activity.location"></div>
+  <div><label>Temat zajęć</label><input [(ngModel)]="activity.name" name="name"></div>
+  <div><label>Lokalizacja</label><input [(ngModel)]="activity.location" name="location"></div>
   <div class='input-group date datepicker'>
     <label>Data:</label>
-    <input type='text' class="form-control" id="datepicker" [(ngModel)]="activity.startDate">
+    <input type='text' class="form-control" id="datepicker" [(ngModel)]="activity.startDate" name="startDate">
     <span class="input-group-addon" onclick="$('#datepicker').datepicker('dialog', new Date());">
          <span class="glyphicon glyphicon-calendar"></span>
        </span>
@@ -24,3 +24,4 @@
     Dodaj zajęcie
   </button>
 </div>
+<router-outlet></router-outlet>

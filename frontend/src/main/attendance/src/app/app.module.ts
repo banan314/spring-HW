@@ -8,17 +8,24 @@ import { FooterComponent } from './views/footer/footer.component';
 import { ActivityListComponent } from './views/activity-list.component';
 import { AttendanceListComponent } from './views/attendance-list.component';
 
+import { RoutingModule } from './routing/routing.module';
+import { NewStudentComponent } from './new-student/new-student.component';
+import { NavBarComponent } from './nav-bar/nav-bar.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     FooterComponent,
     ActivityListComponent,
     AttendanceListComponent,
+    NewStudentComponent,
+    NavBarComponent,
   ],
   imports: [
     BrowserModule,
     FormsModule,
-    HttpModule
+    HttpModule,
+    RoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
