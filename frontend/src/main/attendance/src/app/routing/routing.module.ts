@@ -4,7 +4,7 @@ import {RouterModule, Routes} from "@angular/router";
 
 import { AttendanceListComponent } from '../views/attendance-list.component';
 import { ActivityListComponent } from '../views/activity-list.component';
-import { NewStudentComponent } from '../new-student/new-student.component';
+import { NewStudentComponent } from '../views/new-student/new-student.component';
 import {AppComponent} from "../app.component";
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
 

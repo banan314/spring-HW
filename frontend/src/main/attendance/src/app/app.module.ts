@@ -9,8 +9,9 @@ import { ActivityListComponent } from './views/activity-list.component';
 import { AttendanceListComponent } from './views/attendance-list.component';
 
 import { RoutingModule } from './routing/routing.module';
-import { NewStudentComponent } from './new-student/new-student.component';
+import { NewStudentComponent } from './views/new-student/new-student.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
+import { NewActivityComponent } from './views/new-activity/new-activity.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
     AttendanceListComponent,
     NewStudentComponent,
     NavBarComponent,
+    NewActivityComponent,
   ],
   imports: [
     BrowserModule,

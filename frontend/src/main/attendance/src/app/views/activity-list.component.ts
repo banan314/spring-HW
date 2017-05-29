@@ -33,4 +33,8 @@ export class ActivityListComponent implements OnInit {
     this.activityService.getActivities()
       .then(res => this.activities = res);
   }
+
+  deleteActivity(activity: Activity): void {
+    this.activityService.deleteActivity(activity.id, () => this.getActivities());
+  }
 }

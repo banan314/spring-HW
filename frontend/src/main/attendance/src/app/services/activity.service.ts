@@ -44,10 +44,14 @@ export class ActivityService extends DatabaseService {
       .catch(this.handleError);
   }
 
-  deleteActivity(id: number): void {
+  deleteActivity(id: number, callback?: ()=>void): void {
     this.http.delete(this.composeIdUrl(id))
       .toPromise()
-      .then(response => response.text())
+      .then(response =>{
+          response.text();
+          if(callback !== undefined)
+            callback();
+      })
       .catch(this.handleError);
   }
 
