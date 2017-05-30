@@ -1,5 +1,6 @@
 package hw.spring.services.activity;
 
+import hw.spring.model.exception.BadRequestException;
 import hw.spring.repositories.ActivityRepository;
 import hw.spring.model.exception.NoSuchActivityException;
 import hw.spring.model.Activity;
@@ -16,6 +17,7 @@ import java.util.*;
 @Service
 public class ActivityDefaultService implements ActivityService {
 
+    private static final int MAX_ACTIVITIES = 8;
     List<Activity> mockActivities = new ArrayList<Activity>();
 
     private void init() {
@@ -56,7 +58,11 @@ public class ActivityDefaultService implements ActivityService {
     }
 
     @Override
-    public void addActivity(Activity activity) {
+    public void addActivity(Activity activity) throws BadRequestException {
+        if (activityRepository.count() > MAX_ACTIVITIES) {
+            throw new BadRequestException("Max activities count reached");
+        }
+
         if (null != activityRepository) {
             activityRepository.save(activity);
         }

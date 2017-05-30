@@ -4,6 +4,7 @@ import hw.spring.model.user.Sex;
 import hw.spring.repositories.UserRepository;
 import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.User;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
