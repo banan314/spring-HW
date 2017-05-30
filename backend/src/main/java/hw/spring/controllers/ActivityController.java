@@ -1,6 +1,7 @@
 package hw.spring.controllers;
 
 import hw.spring.model.Activity;
+import hw.spring.model.exception.BadRequestException;
 import hw.spring.services.activity.ActivityService;
 import hw.spring.model.exception.NoSuchActivityException;
 import org.springframework.boot.context.config.ResourceNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
+import java.util.Arrays;
 import java.util.Set;
 
 /**
@@ -31,6 +33,12 @@ public class ActivityController {
         return HttpStatus.valueOf(404);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public HttpStatus handleBadRequest() {
+        return HttpStatus.BAD_REQUEST;
+    }
+
     @GetMapping(value = "/{id}")
     public Activity getActivity(@PathVariable(value = "id") int id) {
         try {
@@ -43,12 +51,14 @@ public class ActivityController {
     @GetMapping(value = "")
     public Activity[] getAll() {
         Set<Activity> activitySet = activityService.getAll();
-        return activitySet.toArray(new Activity[activitySet.size()]);
+        Activity[] activitiesArray = activitySet.toArray(new Activity[0]);
+        Arrays.sort(activitiesArray);
+        return activitiesArray;
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "")
-    public void create(@Valid @RequestBody Activity activity) {
+    public void create(@Valid @RequestBody Activity activity) throws BadRequestException {
         activityService.addActivity(activity);
     }
 
