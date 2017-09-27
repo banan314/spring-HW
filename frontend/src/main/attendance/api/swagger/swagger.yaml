@@ -1,0 +1,45 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: Activity Manager
+host: localhost:8080
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /student:
+    get:
+      summary: gets all the students
+      description: gets all the students
+      responses:
+        200:
+          description: OK
+          
+  /student/id:
+    post:
+      summary: adds a new student
+      description: adds a new student
+      responses:
+        200:
+          description: OK - student added and ID is returned
+    put:
+      summary: updates existing student
+      description: updates existing student
+      responses:
+        200:
+          description: OK - student updated and ID is returned
+    delete:
+      summary: deletes an existing student
+      description: deletes an existing student
+      responses:
+        200:
+          description: OK - student is deleted
+        404:
+          description: Not Found
+              
+    
+    

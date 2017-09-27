@@ -19,8 +19,6 @@ import java.util.List;
 @Table(name = "users")
 public class User implements Serializable, Comparable<User> {
 
-
-
     public enum Role {ADMIN, STUDENT;}
     private @Id @GeneratedValue int id;
 
