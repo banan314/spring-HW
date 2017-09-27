@@ -38,7 +38,7 @@ public class ActivityDefaultService implements ActivityService {
 
     @Inject
     ActivityDefaultService(ActivityRepository ar) {
-        init();
+        //init();
         activityRepository = ar;
         activityRepository.save(mockActivities);
     }

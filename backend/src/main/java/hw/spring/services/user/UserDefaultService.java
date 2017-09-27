@@ -24,7 +24,7 @@ public class UserDefaultService implements UserService {
 
     @Inject
     UserDefaultService(UserRepository ur) {
-        init();
+        //init();
         this.userRepository = ur;
         userRepository.save(mockUsers);
     }
