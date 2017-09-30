@@ -47,9 +47,13 @@ public class UserController {
         try {
             specific = userService.getById(id);
         } catch (NoSuchUserException e) {
-            throw new ResourceNotFoundException("User of id " + id + " not found!", null);
+            throw createNotFoundException(id);
         }
         return specific;
+    }
+
+    private RuntimeException createNotFoundException(int id) {
+        return new ResourceNotFoundException("User of id" + id + " not found", null);
     }
 
     @RequestMapping(value = "", method = RequestMethod.POST)
@@ -65,6 +69,11 @@ public class UserController {
 
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     public void deleteUser(@PathVariable int id) {
+        try {
+            userService.getById(id);
+        } catch (NoSuchUserException e) {
+            throw createNotFoundException(id);
+        }
         userService.deleteUser(id);
     }
 

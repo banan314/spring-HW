@@ -80,7 +80,10 @@ public class ActivityDefaultService implements ActivityService {
         activityRepository.deleteAll();
     }
 
-    public void updateActivity(long id, Activity activity) {
+    public void updateActivity(long id, Activity activity) throws NoSuchActivityException {
+        if(null == activityRepository.findOne((int) id)) {
+            throw new NoSuchActivityException();
+        }
         activityRepository.save(activity);
     }
 }

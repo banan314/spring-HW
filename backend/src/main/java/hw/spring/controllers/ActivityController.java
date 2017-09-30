@@ -44,8 +44,12 @@ public class ActivityController {
         try {
             return activityService.getById(id);
         } catch (NoSuchActivityException e) {
-            throw new ResourceNotFoundException("Activity with id " + id + " not found!", null);
+            throw createNotFoundException(id);
         }
+    }
+
+    private RuntimeException createNotFoundException(int id) {
+        return new ResourceNotFoundException("Activity with id " + id + " not found!", null);
     }
 
     @GetMapping(value = "")
@@ -63,13 +67,22 @@ public class ActivityController {
     }
 
     @PutMapping(value = "/{id}")
-    public void update(@PathVariable(value = "id") int id, @RequestBody Activity activity) {
-        //TODO: think of id
-        activityService.updateActivity(id, activity);
+    public HttpStatus update(@PathVariable(value = "id") int id, @RequestBody Activity activity) {
+        try {
+            activityService.updateActivity(id, activity);
+            return HttpStatus.OK;
+        } catch (NoSuchActivityException e) {
+            return HttpStatus.NOT_FOUND;
+        }
     }
 
     @DeleteMapping(value = "/{id}")
     public void deleteActivity(@PathVariable(value = "id") int id) {
+        try {
+            activityService.getById(id);
+        } catch (NoSuchActivityException e) {
+            throw createNotFoundException(id);
+        }
         activityService.deleteActivity(id);
     }
 }
