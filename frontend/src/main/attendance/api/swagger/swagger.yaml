@@ -18,7 +18,7 @@ paths:
       responses:
         200:
           description: OK
-      produces: 
+      produces:
       - text
   /users:
     get:
@@ -88,7 +88,7 @@ paths:
         201:
           description: OK - activity added and ID is returned
         400:
-          description: bad request
+          description: bad request - too many activities
   /activities/{id}:
     get:
       summary: specific activity
