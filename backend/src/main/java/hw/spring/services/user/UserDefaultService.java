@@ -5,6 +5,7 @@ import hw.spring.repositories.UserRepository;
 import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.User;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -82,5 +83,11 @@ public class UserDefaultService implements UserService {
 
     public void updateUser(int id, User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String name) {
+        //TODO: add to repository and return valid
+        return null;
     }
 }

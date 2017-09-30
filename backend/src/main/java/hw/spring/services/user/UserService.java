@@ -2,6 +2,7 @@ package hw.spring.services.user;
 
 import hw.spring.model.user.User;
 import hw.spring.model.exception.NoSuchUserException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;
@@ -15,4 +16,6 @@ public interface UserService {
     void addUser(User user);
     void deleteUser(int id);
     void updateUser(int id, User user);
+
+    UserDetails loadUserByUsername(String name);
 }
