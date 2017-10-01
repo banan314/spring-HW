@@ -28,6 +28,7 @@ public class SecurityConfig
                     .antMatchers("/users/**").hasRole("ADMIN")
                     .antMatchers("/activities/**").hasRole("STUDENT")
                     .antMatchers("/login").permitAll()
+                    .antMatchers("/docs").permitAll()
                     //TODO: how about endpoints that gives access to users via activities
                     ;
 

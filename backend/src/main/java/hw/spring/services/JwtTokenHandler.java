@@ -17,7 +17,7 @@ public final class JwtTokenHandler {
     private final UserService userService;
 
     @Autowired
-    public JwtTokenHandler(@Value("${app.blog.jwt.secret}") String secret, UserService userService) {
+    public JwtTokenHandler(@Value("${hw.spring.jwt.secret}") String secret, UserService userService) {
         this.secret = secret;
         this.userService = userService;
     }
