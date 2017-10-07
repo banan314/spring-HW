@@ -87,11 +87,23 @@ public class UserDefaultService implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String name) {
-        if(name == "user") {
-            Collection<? extends GrantedAuthority> authorities = Collections.singleton(() -> "STUDENT");
-            return new JavadevUserDetails("user", "default", authorities);
+        User loadedUser = userRepository.findByUsername(name);
+        if(null == loadedUser) {
+            return null;
         }
-        //TODO: add to repository and return valid
-        return null;
+        return new JavadevUserDetails(loadedUser.getUsername(), loadedUser.getPassword(), authorities());
+    }
+
+    @Override
+    public UserDetails loadUserByEmail(String email) {
+        User loadedUser = userRepository.findByEmail(email);
+        if(null == loadedUser) {
+            return null;
+        }
+        return new JavadevUserDetails(loadedUser.getUsername(), loadedUser.getPassword(), authorities());
+    }
+
+    Collection<? extends GrantedAuthority> authorities() {
+        return Collections.singleton(User.Role.STUDENT::toString);
     }
 }

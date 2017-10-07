@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 
 import javax.servlet.FilterChain;
@@ -21,9 +22,9 @@ import java.io.IOException;
 
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
     private final TokenAuthenticationService tokenAuthenticationService;
-    private final UserService userService;
+    private final UserDetailsService userService;
 
-    public LoginFilter(String urlMapping, TokenAuthenticationService tokenAuthenticationService, UserService
+    public LoginFilter(String urlMapping, TokenAuthenticationService tokenAuthenticationService, UserDetailsService
             userService, AuthenticationManager authenticationManager) {
         super(urlMapping);
         this.tokenAuthenticationService = tokenAuthenticationService;

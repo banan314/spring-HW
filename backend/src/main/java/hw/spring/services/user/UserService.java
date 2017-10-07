@@ -18,4 +18,5 @@ public interface UserService {
     void updateUser(int id, User user);
 
     UserDetails loadUserByUsername(String name);
+    UserDetails loadUserByEmail(String email);
 }
