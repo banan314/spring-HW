@@ -23,17 +23,18 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
     private final TokenAuthenticationService tokenAuthenticationService;
     private final UserService userService;
 
-    public LoginFilter(String urlMapping,TokenAuthenticationService tokenAuthenticationService,
-                                UserService userService, AuthenticationManager authenticationManager) {
+    public LoginFilter(String urlMapping, TokenAuthenticationService tokenAuthenticationService, UserService
+            userService, AuthenticationManager authenticationManager) {
         super(urlMapping);
         this.tokenAuthenticationService = tokenAuthenticationService;
         this.userService = userService;
+        assert null != authenticationManager : "authentication manager must not be null";
         setAuthenticationManager(authenticationManager);
     }
 
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request,
-                                                HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws
+            AuthenticationException, IOException, ServletException {
         final UserDTO user = toUser(request);
         final UsernamePasswordAuthenticationToken loginToken = user.toAuthenticationToken();
         return getAuthenticationManager().authenticate(loginToken);
@@ -44,10 +45,8 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
     }
 
     @Override
-    protected void successfulAuthentication(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            FilterChain chain,
-                                            Authentication authResult) throws IOException, ServletException {
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain
+            chain, Authentication authResult) throws IOException, ServletException {
         final UserDetails authenticatedUser = userService.loadUserByUsername(authResult.getName());
         final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
         tokenAuthenticationService.addJwtTokenToHeader(response, userAuthentication);

@@ -1,17 +1,17 @@
 package hw.spring.services.user;
 
+import hw.spring.model.user.JavadevUserDetails;
 import hw.spring.model.user.Sex;
 import hw.spring.repositories.UserRepository;
 import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.User;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Kamil on 31-Mar-17.
@@ -87,6 +87,10 @@ public class UserDefaultService implements UserService {
 
     @Override
     public UserDetails loadUserByUsername(String name) {
+        if(name == "user") {
+            Collection<? extends GrantedAuthority> authorities = Collections.singleton(() -> "STUDENT");
+            return new JavadevUserDetails("user", "default", authorities);
+        }
         //TODO: add to repository and return valid
         return null;
     }

@@ -1,5 +1,6 @@
 package hw.spring.config;
 
+import hw.spring.filters.AuthenticationFilter;
 import hw.spring.filters.LoginFilter;
 import hw.spring.services.TokenAuthenticationService;
 import hw.spring.services.user.UserService;
@@ -22,6 +23,13 @@ public class SecurityConfig
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
+            //TODO: must be a better workaround...
+            /** INFO:
+            * with CSRF enabled, after posting login credentials the server responded 403:
+            * Forbidden","message":"Invalid CSRF Token 'null' was found on the request parameter '_csrf' or header 'X-CSRF-TOKEN'.","path":"/login"
+            * */
+            http.csrf().disable();
+
             http
                     .authorizeRequests()
                     .antMatchers("/").permitAll()
@@ -36,6 +44,11 @@ public class SecurityConfig
                     new LoginFilter("/login", tokenAuthenticationService, userService, authenticationManager()),
                     UsernamePasswordAuthenticationFilter.class
             );
+
+            //TODO: add it when understood
+            /*http.addFilterBefore(
+                    new AuthenticationFilter
+            );*/
         }
 
         @Autowired
