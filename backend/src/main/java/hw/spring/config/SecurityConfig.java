@@ -49,9 +49,10 @@ public class SecurityConfig
                     UsernamePasswordAuthenticationFilter.class
             );
 
-            //TODO: add it when understood
+            //TODO: add it
             /*http.addFilterBefore(
-                    new AuthenticationFilter
+                    new AuthenticationFilter(tokenAuthenticationService),
+                    UsernamePasswordAuthenticationFilter.class
             );*/
         }
 
@@ -63,16 +64,10 @@ public class SecurityConfig
 
         @Override
         public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//            auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
+            //TODO: check the password against database
+//           auth.userDetailsService(userService).passwordEncoder(new BCryptPasswordEncoder());
             auth
                     .inMemoryAuthentication()
                     .withUser("user").password("password").roles("STUDENT");
         }
-
-        /*@Autowired
-        public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-            auth
-                    .inMemoryAuthentication()
-                    .withUser("user").password("password").roles("STUDENT");
-        }*/
 }

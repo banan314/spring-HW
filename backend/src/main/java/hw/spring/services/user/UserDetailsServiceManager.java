@@ -2,6 +2,7 @@ package hw.spring.services.user;
 
 import hw.spring.model.user.JavadevUserDetails;
 import hw.spring.model.user.User;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
