@@ -6,6 +6,7 @@ import hw.spring.common.serializer.CustomDateSerializer;
 import hw.spring.model.Activity;
 
 import javax.persistence.*;
+import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -16,12 +17,26 @@ import java.util.List;
  * Created by Kamil on 31-Mar-17.
  */
 @Entity
-@Table(name = "users")
+@Table(
+        name = "users",
+        uniqueConstraints =
+                @UniqueConstraint(columnNames = {"email", "username"})
+)
 public class User implements Serializable, Comparable<User> {
 
+    public enum Role {
+        ADMIN, STUDENT;
 
-
-    public enum Role {ADMIN, STUDENT;}
+        @Override
+        public String toString() {
+            switch (this) {
+                case ADMIN: return "ROLE_ADMIN";
+                case STUDENT: return "ROLE_STUDENT";
+                default: return "ROLE";
+            }
+        }
+    }
+  
     private @Id @GeneratedValue int id;
 
     private String email;

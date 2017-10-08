@@ -1,16 +1,17 @@
 package hw.spring.services.user;
 
+import hw.spring.model.user.JavadevUserDetails;
 import hw.spring.model.user.Sex;
 import hw.spring.repositories.UserRepository;
 import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.User;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Kamil on 31-Mar-17.
@@ -82,5 +83,27 @@ public class UserDefaultService implements UserService {
 
     public void updateUser(int id, User user) {
         userRepository.save(user);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String name) {
+        User loadedUser = userRepository.findByUsername(name);
+        if(null == loadedUser) {
+            return null;
+        }
+        return new JavadevUserDetails(loadedUser.getUsername(), loadedUser.getPassword(), authorities());
+    }
+
+    @Override
+    public UserDetails loadUserByEmail(String email) {
+        User loadedUser = userRepository.findByEmail(email);
+        if(null == loadedUser) {
+            return null;
+        }
+        return new JavadevUserDetails(loadedUser.getUsername(), loadedUser.getPassword(), authorities());
+    }
+
+    Collection<? extends GrantedAuthority> authorities() {
+        return Collections.singleton(User.Role.STUDENT::toString);
     }
 }

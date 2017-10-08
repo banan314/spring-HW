@@ -1,0 +1,195 @@
+swagger: "2.0"
+info:
+  version: "0.2.1"
+  title: Activity Manager
+host: localhost:8080
+basePath: /
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+paths:
+  /:
+    get:
+      summary: test
+      description: test - responses with *Greetings from Spring Boot!*
+      responses:
+        200:
+          description: OK
+      produces:
+      - text
+  /users:
+    get:
+      summary: gets all the users
+      description: gets all the users
+      responses:
+        200:
+          description: OK
+    # delete:
+    #   summary: not implemented
+    #   description: not implemented
+    #   responses:
+    #     200:
+    #       description: OK
+    post:
+      summary: adds a new user
+      description: adds a new user
+      responses:
+        200:
+          description: OK - user added and ID is returned
+        404:
+          description: Bad request
+  /users/{id}:
+    get:
+      summary: specific user
+      description: gets the specific user by id
+      responses:
+        200:
+          description: OK
+        404:
+          description: resource not found
+    put:
+      summary: updates existing user
+      description: updates existing user
+      responses:
+        200:
+          description: OK - user updated and ID is returned
+        400:
+          description: Bad request
+        404:
+          description: Not Found
+    delete:
+      summary: deletes an existing user
+      description: deletes an existing user
+      responses:
+        200:
+          description: OK - user is deleted
+        404:
+          description: Not Found
+    parameters:
+    - name: id
+      in: path
+      description: ID of a user
+      required: true
+      type: integer
+  /activities:
+    get:
+      summary: gets all the activities
+      description: gets all the activities
+      responses:
+        200:
+          description: OK
+    post:
+      summary: adds a new activity
+      description: adds a new activity
+      responses:
+        201:
+          description: OK - activity added and ID is returned
+        400:
+          description: bad request - too many activities
+  /activities/{id}:
+    get:
+      summary: specific activity
+      description: gets the specific activity
+      responses:
+        200:
+          description: OK
+    put:
+      summary: updates existing activity
+      description: updates existing activity
+      responses:
+        200:
+          description: OK - activity updated and ID is returned
+        400:
+          description: bad request
+        404:
+          description: Not Found
+    delete:
+      summary: deletes an existing activity
+      description: deletes an existing activity
+      responses:
+        200:
+          description: OK - activity is deleted
+        404:
+          description: Not Found
+    parameters:
+    - name: id
+      in: path
+      description: ID of an activity
+      required: true
+      type: integer
+  /activities/{activityId}/users/{userId}:
+    get:
+      summary: get user corresponding to the activity
+      description: get a user with matching ID corresponding to the activity with matching ID
+      responses:
+        200:
+          description: OK
+    parameters:
+    - name: userId
+      in: path
+      description: ID of a user
+      required: true
+      type: integer
+    - name: activityId
+      in: path
+      description: ID of an activity
+      required: true
+      type: integer
+  /users/{userId}/activities:
+    get:
+      summary: all user's activities
+      description: all activities correspoinding to the user
+      responses:
+        200:
+          description: OK
+    # delete:
+    #   summary: not implemented
+    #   description: not implemented
+    #   responses:
+    #     200:
+    #       description: OK
+    post:
+      summary: add an activity to the list of user's activities
+      description: add an activity to the list of user's activities
+      responses:
+        200:
+          description: OK - activity added
+    parameters:
+    - name: userId
+      in: path
+      description: ID of a user
+      required: true
+      type: integer
+  /users/{userId}/activities/{activityId}:
+    get:
+      summary: get user's activity
+      description: get an activity with matching ID of a user with matching ID
+      responses:
+        200:
+          description: OK
+    delete:
+      summary: deletes a user's activity with matching ID
+      description: deletes a user's activity with matching ID
+      responses:
+        200:
+          description: OK - activity deleted
+    put:
+      summary: updates a user's activity
+      description: updates a user's activity
+      responses:
+        200:
+          description: OK - activity updated
+    parameters:
+    - name: userId
+      in: path
+      description: ID of a user
+      required: true
+      type: integer
+    - name: activityId
+      in: path
+      description: ID of an activity
+      required: true
+      type: integer
