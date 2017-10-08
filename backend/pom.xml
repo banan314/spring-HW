@@ -5,6 +5,7 @@
 
     <groupId>hw.spring</groupId>
     <artifactId>backend</artifactId>
+
     <version>0.3.1</version>
 
     <properties>
@@ -14,7 +15,6 @@
         <junit.vintage.version>${junit.version}.1</junit.vintage.version>
         <junit.platform.version>1.0.1</junit.platform.version>
     </properties>
-
 
     <parent>
         <groupId>org.springframework</groupId>

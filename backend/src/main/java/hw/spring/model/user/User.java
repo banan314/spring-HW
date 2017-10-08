@@ -36,6 +36,7 @@ public class User implements Serializable, Comparable<User> {
             }
         }
     }
+  
     private @Id @GeneratedValue int id;
 
     private String email;
