@@ -6,11 +6,10 @@ import hw.spring.common.serializer.CustomDateSerializer;
 import hw.spring.model.Activity;
 
 import javax.persistence.*;
-import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**

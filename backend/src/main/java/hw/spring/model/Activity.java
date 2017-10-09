@@ -3,12 +3,13 @@ package hw.spring.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hw.spring.common.serializer.LocalDateSerializer;
-import hw.spring.model.user.User;
 
-import javax.persistence.*;
-import javax.validation.constraints.Max;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -25,11 +26,11 @@ public class Activity implements Serializable {
     private List<UserActivity> ownerUsers;
 
     @JsonSerialize(using = LocalDateSerializer.class)
-    private LocalDate startDate;
+    private Date startDate;
 
     public Activity() { }
 
-    public Activity(String name, LocalDate startDate) {
+    public Activity(String name, Date startDate) {
         this.name = name;
         this.startDate = startDate;
     }
@@ -57,11 +58,11 @@ public class Activity implements Serializable {
         this.name = name;
     }
 
-    public LocalDate getStartDate() {
+    public Date getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDate startDate) {
+    public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
