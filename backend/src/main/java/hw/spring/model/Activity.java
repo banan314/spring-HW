@@ -2,6 +2,7 @@ package hw.spring.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import hw.spring.common.serializer.CustomDateSerializer;
 import hw.spring.common.serializer.LocalDateSerializer;
 
 import javax.persistence.Entity;
@@ -25,7 +26,7 @@ public class Activity implements Serializable {
     @ManyToMany
     private List<UserActivity> ownerUsers;
 
-    @JsonSerialize(using = LocalDateSerializer.class)
+    @JsonSerialize(using = CustomDateSerializer.class)
     private Date startDate;
 
     public Activity() { }
