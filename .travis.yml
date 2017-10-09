@@ -1,8 +1,0 @@
-language: java
-jdk:
-  - oraclejdk8
-services:
-  - postgresql
-before_script:
-  - psql -c 'create database travis_CI_test;' -U postgres
-  - cp properties.yml.travis backend/src/main/resources/application.yml
