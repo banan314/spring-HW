@@ -4,11 +4,18 @@ import {Http, Headers} from "@angular/http";
  */
 export class DatabaseService {
   protected backendHref= "backend";
-  protected headers = new Headers({'Content-Type': 'application/json'});
 
   protected handleError(error: any): Promise<any> {
     console.error('An error occurred', error); // for demo purposes only
     return Promise.reject(error.message || error);
+  }
+
+  protected prepareHeaders(){
+    return new Headers({
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+      'x-auth-token': localStorage.getItem('jwt')
+    });
   }
 
   constructor() {

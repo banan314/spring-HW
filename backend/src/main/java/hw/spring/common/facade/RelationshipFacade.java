@@ -39,7 +39,11 @@ public class RelationshipFacade {
 
         user.addActivity(activity.forUser(userActivity));
         userService.updateUser(userId, user);
-        activityService.updateActivity(activityId, activity);
+        try {
+            activityService.updateActivity(activityId, activity);
+        } catch (NoSuchActivityException e) {
+            //TODO: handle it
+        }
     }
 
     public void assign(int userId, int activityId) {

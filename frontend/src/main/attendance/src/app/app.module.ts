@@ -12,6 +12,8 @@ import { RoutingModule } from './routing/routing.module';
 import { NewStudentComponent } from './views/new-student/new-student.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { NewActivityComponent } from './views/new-activity/new-activity.component';
+import {LogInService} from "./services/log-in.service";
+import { LogInComponent } from './log-in/log-in.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +24,7 @@ import { NewActivityComponent } from './views/new-activity/new-activity.componen
     NewStudentComponent,
     NavBarComponent,
     NewActivityComponent,
+    LogInComponent,
   ],
   imports: [
     BrowserModule,
@@ -29,7 +32,7 @@ import { NewActivityComponent } from './views/new-activity/new-activity.componen
     HttpModule,
     RoutingModule
   ],
-  providers: [],
+  providers: [LogInService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

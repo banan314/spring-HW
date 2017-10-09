@@ -7,6 +7,7 @@ import { ActivityListComponent } from '../views/activity-list.component';
 import { NewStudentComponent } from '../views/new-student/new-student.component';
 import {AppComponent} from "../app.component";
 import { NavBarComponent } from '../nav-bar/nav-bar.component';
+import {LogInComponent} from "../log-in/log-in.component";
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: '',
     component: NavBarComponent
+  },
+  {
+    path: 'login',
+    component: LogInComponent
   }
 ];
 

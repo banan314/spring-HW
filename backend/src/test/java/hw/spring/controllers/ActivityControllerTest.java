@@ -31,7 +31,7 @@ public class ActivityControllerTest {
     public void getAll() throws Exception {
         mvc.perform(MockMvcRequestBuilders.request(HttpMethod.GET, "/activities")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+                .andExpect(status().isForbidden());
     }
 
 }

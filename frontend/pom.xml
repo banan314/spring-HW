@@ -7,23 +7,23 @@
     <parent>
         <groupId>org.springframework</groupId>
         <artifactId>gs-spring-boot</artifactId>
-        <version>0.1.0</version>
+        <version>0.3.0</version>
     </parent>
 
     <groupId>org.springframework</groupId>
     <artifactId>frontend</artifactId>
-    <version>0.1.0</version>
+    <version>0.2.0</version>
 
+    <build>
     <plugins>
         <plugin>
             <groupId>com.github.eirslett</groupId>
             <artifactId>frontend-maven-plugin</artifactId>
-            <version>1.3</version>
 
             <configuration>
-                <nodeVersion>v6.10.1</nodeVersion>o
+                <nodeVersion>v6.10.1</nodeVersion>
                 <npmVersion>4.4.1</npmVersion>
-                <workingDirectory>src/main/frontend</workingDirectory>
+                <workingDirectory>src/main/frontend/attendance</workingDirectory>
             </configuration>
 
             <executions>
@@ -54,5 +54,6 @@
             </executions>
         </plugin>
     </plugins>
+    </build>
 
 </project>

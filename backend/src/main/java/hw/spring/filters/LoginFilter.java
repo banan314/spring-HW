@@ -1,0 +1,56 @@
+package hw.spring.filters;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import hw.spring.DTO.UserDTO;
+import hw.spring.services.TokenAuthenticationService;
+import hw.spring.services.UserAuthentication;
+import hw.spring.services.user.UserService;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+public class LoginFilter extends AbstractAuthenticationProcessingFilter {
+    private final TokenAuthenticationService tokenAuthenticationService;
+    private final UserDetailsService userService;
+
+    public LoginFilter(String urlMapping, TokenAuthenticationService tokenAuthenticationService, UserDetailsService
+            userService, AuthenticationManager authenticationManager) {
+        super(urlMapping);
+        this.tokenAuthenticationService = tokenAuthenticationService;
+        this.userService = userService;
+        assert null != authenticationManager : "authentication manager must not be null";
+        setAuthenticationManager(authenticationManager);
+    }
+
+    @Override
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws
+            AuthenticationException, IOException, ServletException {
+        final UserDTO user = toUser(request);
+        final UsernamePasswordAuthenticationToken loginToken = user.toAuthenticationToken();
+        return getAuthenticationManager().authenticate(loginToken);
+    }
+
+    private UserDTO toUser(HttpServletRequest request) throws IOException {
+        return new ObjectMapper().readValue(request.getInputStream(), UserDTO.class);
+    }
+
+    @Override
+    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain
+            chain, Authentication authResult) throws IOException, ServletException {
+        final UserDetails authenticatedUser = userService.loadUserByUsername(authResult.getName());
+        final UserAuthentication userAuthentication = new UserAuthentication(authenticatedUser);
+        tokenAuthenticationService.addJwtTokenToHeader(response, userAuthentication);
+        SecurityContextHolder.getContext().setAuthentication(userAuthentication);
+    }
+}

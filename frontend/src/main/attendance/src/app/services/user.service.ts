@@ -21,7 +21,14 @@ export class UserService extends DatabaseService{
   getUsers() :Promise<User[]> {
     return this.http.get(this.backendHref + this.usersHref)
       .toPromise()
-      .then(response => response.json() as User[])
+      .then(
+        response => {
+          if(!response.ok) {
+            return null;
+          }
+          return response.json() as User[];
+        }
+      )
       .catch(this.handleError);
   }
 
@@ -36,7 +43,8 @@ export class UserService extends DatabaseService{
   addUser(user: User, callback: ()=>void): void {
     console.log("add " + user.username);
     console.log("href = " + this.backendHref + this.usersHref)
-    this.http.post(this.backendHref + this.usersHref, JSON.stringify({username: user.username}), {headers: this.headers})
+    this.http.post(this.backendHref + this.usersHref, JSON.stringify({username: user.username}),
+      {headers: this.prepareHeaders()})
       .toPromise()
       .then(res => {
         res.text();

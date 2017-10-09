@@ -5,7 +5,10 @@ import {Component, OnInit} from '@angular/core';
 import {Activity} from "../model/activity";
 import {User} from "../model/user";
 import {UserService} from "../services/user.service";
-import {isUndefined} from "util";
+import {Router} from "@angular/router";
+import {Observable} from "rxjs/Observable";
+import {Response} from "@angular/http";
+import {log} from "util";
 
 @Component({
   moduleId: module.id,
@@ -20,7 +23,7 @@ export class AttendanceListComponent implements OnInit {
   edited: boolean = false;
   editedUser: User;
 
-  constructor(private userService: UserService) {
+  constructor(private router: Router, private userService: UserService) {
   }
 
   ngOnInit() {
@@ -39,7 +42,11 @@ export class AttendanceListComponent implements OnInit {
   getUsers() {
     this.userService.getUsers().then(res => {
       this.users = res;
-    });
+      console.log("users");
+      if (null == res) {
+        this.router.navigate(['/login']);
+      }
+  });
   }
 
   deleteUser(user: User) {

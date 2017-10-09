@@ -56,8 +56,10 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+hw.spring.jwt.secret: ########       
 ```
-where `******` is my password.
+where `******` is my password. You also have to provide secret string for JSON Web Tokens (`######`).
 
 ### Links:
 <http://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion>

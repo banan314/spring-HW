@@ -21,7 +21,9 @@ export class ActivityService extends DatabaseService {
    * */
 
   getActivities(): Promise<Activity[]> {
-    return this.http.get(this.backendHref + this.activityHref)
+    return this.http.get(this.backendHref + this.activityHref, {
+      headers: this.prepareHeaders()
+    })
       .toPromise()
       .then(response => response.json() as Activity[])
       .catch(this.handleError);
@@ -34,7 +36,7 @@ export class ActivityService extends DatabaseService {
         location: activity.location,
         startDate: activity.startDate
       }),
-      {headers: this.headers})
+      {headers: this.prepareHeaders()})
       .toPromise()
       .then(res => {
         res.text();
