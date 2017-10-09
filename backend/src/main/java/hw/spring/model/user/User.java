@@ -22,7 +22,7 @@ import java.util.List;
         uniqueConstraints =
                 @UniqueConstraint(columnNames = {"email", "username"})
 )
-public class User implements Serializable, Comparable<User> {
+public class User implements Serializable {
 
     public enum Role {
         ADMIN, STUDENT;
@@ -159,11 +159,5 @@ public class User implements Serializable, Comparable<User> {
 
     public void setActivities(List<Activity> activities) {
         this.activities = activities;
-    }
-
-    @Override
-    public int compareTo(User o) {
-        if(this.id == o.id) return 0;
-        return this.id < o.id ? -1:1;
     }
 }

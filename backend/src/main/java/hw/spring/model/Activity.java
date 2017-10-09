@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Kamil on 05-Apr-17.
  */
 @Entity(name = "activities")
-public class Activity implements Serializable, Comparable<Activity>{
+public class Activity implements Serializable {
     private @Id @GeneratedValue int id;
     private String name;
     private String location;
@@ -76,11 +76,5 @@ public class Activity implements Serializable, Comparable<Activity>{
     public Activity forUser(UserActivity user) {
         this.ownerUsers.add(user);
         return this;
-    }
-
-    @Override
-    public int compareTo(Activity o) {
-        if(this.id == o.id) return 0;
-        return this.id < o.id ? -1:1;
     }
 }

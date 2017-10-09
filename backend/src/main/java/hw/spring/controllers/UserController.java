@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -34,11 +35,8 @@ public class UserController {
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     public User[] getAllUsers() {
-        Set<User> allUsers = userService.getAll();
-//        return allUsers.toArray(new User[allUsers.size()]);
-        User[] usersArray = allUsers.toArray(new User[0]);
-        Arrays.sort(usersArray);
-        return usersArray;
+        List<User> allUsers = userService.getAll();
+        return allUsers.toArray(new User[allUsers.size()]);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

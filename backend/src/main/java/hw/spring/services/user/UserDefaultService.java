@@ -49,10 +49,8 @@ public class UserDefaultService implements UserService {
         mockUsers.add(mockUser);
     }
 
-    public Set<User> getAll() {
-        Set<User> users = new HashSet<>();
-        userRepository.findAll().forEach(user -> users.add(user));
-        return users;
+    public List<User> getAll() {
+        return userRepository.findAllByOrderById();
     }
 
     public User getById(int id) throws NoSuchUserException {

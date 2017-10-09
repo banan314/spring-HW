@@ -4,7 +4,6 @@ import hw.spring.model.exception.BadRequestException;
 import hw.spring.repositories.ActivityRepository;
 import hw.spring.model.exception.NoSuchActivityException;
 import hw.spring.model.Activity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -43,10 +42,8 @@ public class ActivityDefaultService implements ActivityService {
         activityRepository.save(mockActivities);
     }
 
-    public Set<Activity> getAll() {
-        Set<Activity> activities = new HashSet<>();
-        activityRepository.findAll().forEach(activity -> activities.add(activity));
-        return activities;
+    public List<Activity> getAll() {
+        return activityRepository.findAllByOrderById();
     }
 
     public Activity getById(int id) throws NoSuchActivityException {
