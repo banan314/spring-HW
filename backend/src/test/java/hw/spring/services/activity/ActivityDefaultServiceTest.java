@@ -38,9 +38,26 @@ public class ActivityDefaultServiceTest {
     private ActivityDefaultService serviceNotAutowired;
     @Mock private ActivityRepository repository;
 
+    List<Activity> mockActivities = new ArrayList<Activity>(3);
+
     @Before
     public void setUp() {
         serviceNotAutowired = new ActivityDefaultService(repository);
+        init();
+    }
+
+    private void init() {
+        if (mockActivities.isEmpty())
+            createMockActivities();
+    }
+
+    private void createMockActivities() {
+        mockActivities.addAll(Arrays.asList(
+                new Activity("lecturing", LocalDate.of(2016, 3, 20)),
+                new Activity("exercising", LocalDate.of(2015, 12, 24)),
+                new Activity("learning", LocalDate.of(2012, 9, 1)))
+        );
+        mockActivities.stream().forEach(activity -> activity.setLocation("Politechnika Rzeszowska"));
     }
 
     @Test
@@ -51,13 +68,8 @@ public class ActivityDefaultServiceTest {
 
     @Test
     public void getAll() throws Exception {
-        List<Activity> mockActivities = new ArrayList<Activity>();
-        mockActivities.addAll(Arrays.asList(
-                new Activity("lecturing", LocalDate.of(2016, 3, 20)),
-                new Activity("exercising", LocalDate.of(2015, 12, 24)),
-                new Activity("learning", LocalDate.of(2012, 9, 1)))
-        );
         when(repository.findAll()).thenReturn(mockActivities);
+        when(repository.findAllByOrderById()).thenReturn(mockActivities);
 
         val activities = serviceNotAutowired.getAll();
 

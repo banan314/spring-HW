@@ -17,29 +17,12 @@ import java.util.*;
 public class ActivityDefaultService implements ActivityService {
 
     private static final int MAX_ACTIVITIES = 8;
-    List<Activity> mockActivities = new ArrayList<Activity>();
-
-    private void init() {
-        if (mockActivities.isEmpty())
-            createMockActivities();
-    }
-
-    private void createMockActivities() {
-        mockActivities.addAll(Arrays.asList(
-                new Activity("lecturing", LocalDate.of(2016, 3, 20)),
-                new Activity("exercising", LocalDate.of(2015, 12, 24)),
-                new Activity("learning", LocalDate.of(2012, 9, 1)))
-        );
-        mockActivities.stream().forEach(activity -> activity.setLocation("Politechnika Rzeszowska"));
-    }
 
     ActivityRepository activityRepository;
 
     @Inject
     ActivityDefaultService(ActivityRepository ar) {
-        //init();
         activityRepository = ar;
-        activityRepository.save(mockActivities);
     }
 
     public List<Activity> getAll() {
@@ -78,7 +61,7 @@ public class ActivityDefaultService implements ActivityService {
     }
 
     public void updateActivity(long id, Activity activity) throws NoSuchActivityException {
-        if(null == activityRepository.findOne((int) id)) {
+        if (null == activityRepository.findOne((int) id)) {
             throw new NoSuchActivityException();
         }
         activityRepository.save(activity);

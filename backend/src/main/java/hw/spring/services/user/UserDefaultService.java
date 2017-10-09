@@ -21,32 +21,9 @@ public class UserDefaultService implements UserService {
 
     UserRepository userRepository;
 
-    Set<User> mockUsers = new HashSet<User>();
-
     @Inject
     UserDefaultService(UserRepository ur) {
-        //init();
         this.userRepository = ur;
-        userRepository.save(mockUsers);
-    }
-
-    private void init() {
-        if (mockUsers.isEmpty())
-            createMockUsers();
-    }
-
-    private void createMockUsers() {
-        User mockUser;
-
-        mockUser = new User(
-                "Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, new Date(1994, 3, 20),
-                "Joe Staunton");
-        mockUsers.add(mockUser);
-
-        mockUser = new User(
-                "Bloody_Mary", "bmary@yandex.ru", (short) 25, Sex.MALE, new Date(1989, 12, 21),
-                "Mary Dobrowolski");
-        mockUsers.add(mockUser);
     }
 
     public List<User> getAll() {
@@ -86,7 +63,7 @@ public class UserDefaultService implements UserService {
     @Override
     public UserDetails loadUserByUsername(String name) {
         User loadedUser = userRepository.findByUsername(name);
-        if(null == loadedUser) {
+        if (null == loadedUser) {
             return null;
         }
         return new JavadevUserDetails(loadedUser.getUsername(), loadedUser.getPassword(), authorities());
@@ -95,7 +72,7 @@ public class UserDefaultService implements UserService {
     @Override
     public UserDetails loadUserByEmail(String email) {
         User loadedUser = userRepository.findByEmail(email);
-        if(null == loadedUser) {
+        if (null == loadedUser) {
             return null;
         }
         return new JavadevUserDetails(loadedUser.getUsername(), loadedUser.getPassword(), authorities());

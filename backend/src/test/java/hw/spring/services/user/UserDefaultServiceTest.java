@@ -1,5 +1,6 @@
 package hw.spring.services.user;
 
+import hw.spring.model.Activity;
 import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.Sex;
 import hw.spring.model.user.User;
@@ -10,15 +11,15 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mock;
 
+import java.time.LocalDate;
+import java.util.*;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.notNull;
-import org.mockito.ArgumentMatchers;
 
-import java.util.Arrays;
-import java.util.Date;
+import org.mockito.ArgumentMatchers;
 
 public class UserDefaultServiceTest {
     private static final Logger LOG = Logger.getLogger(UserDefaultServiceTest.class.getName());
@@ -26,20 +27,36 @@ public class UserDefaultServiceTest {
     private UserDefaultService service;
     private UserRepository repository;
 
+    List<User> mockUsers = new ArrayList<>(2);
+
     @Before
     public void setUp() throws Exception {
         repository = mock(UserRepository.class);
         service = new UserDefaultService(repository);
+        init();
+    }
+
+    private void init() {
+        if (mockUsers.isEmpty()) {
+            createMockUsers();
+        }
+    }
+
+    private void createMockUsers() {
+        User mockUser;
+
+        mockUser = new User("Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, new Date(1994, 3, 20), "Joe Staunton");
+        mockUsers.add(mockUser);
+
+        mockUser = new User("Bloody_Mary", "bmary@yandex.ru", (short) 25, Sex.MALE, new Date(1989, 12, 21), "Mary " +
+                "Dobrowolski");
+        mockUsers.add(mockUser);
     }
 
     @Test
     public void getAll() throws Exception {
-        val mockUser = new User(
-                "Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, new Date(1994, 3, 20),
-                "Joe Staunton");
-
-        val mockUsers = Arrays.asList(mockUser);
         when(repository.findAll()).thenReturn(mockUsers);
+        when(repository.findAllByOrderById()).thenReturn(mockUsers);
         val users = service.getAll();
         assertEquals(mockUsers.size(), users.size());
     }
@@ -57,9 +74,8 @@ public class UserDefaultServiceTest {
 
     @Test
     public void addUser() throws Exception {
-        val mockUser = new User(
-                "Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, new Date(1994, 3, 20),
-                "Joe Staunton");
+        val mockUser = new User("Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, new Date(1994, 3, 20), "Joe " +
+                "Staunton");
 
         service.addUser(mockUser);
         verify(repository).save(mockUser);
@@ -78,9 +94,8 @@ public class UserDefaultServiceTest {
 
     @Test
     public void updateUser() throws Exception {
-        val mockUser = new User(
-                "Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, new Date(1994, 3, 20),
-                "Joe Staunton");
+        val mockUser = new User("Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, new Date(1994, 3, 20), "Joe " +
+                "Staunton");
 
         service.updateUser(10, mockUser);
         verify(repository).save(mockUser);
