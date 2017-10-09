@@ -34,7 +34,9 @@ public class UserSerializationTest {
         String result = new ObjectMapper().writeValueAsString(user);
 
         assertThat(result, containsString("FEMALE"));
-        assertThat(result, containsString("1994,3,20"));
+        assertThat(result, containsString("1994"));
+        assertThat(result, containsString("3"));
+        assertThat(result, containsString("20"));
     }
 
     @Test
