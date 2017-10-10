@@ -33,13 +33,13 @@ public class UserController {
         return HttpStatus.valueOf(404);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.GET)
+    @GetMapping(value = "")
     public User[] getAllUsers() {
         List<User> allUsers = userService.getAll();
         return allUsers.toArray(new User[allUsers.size()]);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/{id}")
     public User getUser(@PathVariable(value = "id") int id) {
         User specific;
         try {
@@ -54,18 +54,18 @@ public class UserController {
         return new ResourceNotFoundException("User of id" + id + " not found", null);
     }
 
-    @RequestMapping(value = "", method = RequestMethod.POST)
+    @PostMapping(value = "")
     public void post(@RequestBody User user) {
         userService.addUser(user);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "/{id}")
     public void put(@RequestBody User user, @PathVariable int id) {
         user.setId(id);
         userService.updateUser(id, user);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @DeleteMapping(value = "/{id}")
     public void deleteUser(@PathVariable int id) {
         try {
             userService.getById(id);

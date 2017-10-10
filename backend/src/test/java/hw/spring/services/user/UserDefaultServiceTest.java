@@ -8,6 +8,9 @@ import lombok.val;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
 import java.sql.Date;
@@ -17,17 +20,19 @@ import java.util.logging.Logger;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
+@RunWith(MockitoJUnitRunner.class)
 public class UserDefaultServiceTest {
     private static final Logger LOG = Logger.getLogger(UserDefaultServiceTest.class.getName());
 
     private UserDefaultService service;
+
+    @Mock
     private UserRepository repository;
 
     List<User> mockUsers = new ArrayList<>(2);
 
     @Before
     public void setUp() throws Exception {
-        repository = mock(UserRepository.class);
         service = new UserDefaultService(repository);
         init();
     }
@@ -51,7 +56,6 @@ public class UserDefaultServiceTest {
 
     @Test
     public void getAll() throws Exception {
-        when(repository.findAll()).thenReturn(mockUsers);
         when(repository.findAllByOrderById()).thenReturn(mockUsers);
         val users = service.getAll();
         assertEquals(mockUsers.size(), users.size());

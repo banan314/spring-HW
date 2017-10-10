@@ -8,10 +8,7 @@ import hw.spring.model.user.User;
 import hw.spring.services.activity.ActivityService;
 import hw.spring.services.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 
@@ -27,12 +24,12 @@ public class ActivityUsersController {
     public ActivityUsersController() {
     }
 
-    @RequestMapping(value = "activities/{activityId}/users/{id}", method = RequestMethod.PUT)
+    @PutMapping(value = "activities/{activityId}/users/{id}")
     public void assignUser(@PathVariable(value = "id") int userId, @PathVariable(value = "activityId") int activityId) {
         relationshipFacade.assign(userId, activityId);
     }
 
-    @RequestMapping(value = "users/{id}/activities/{activityId}", method = RequestMethod.PUT)
+    @PutMapping(value = "users/{id}/activities/{activityId}")
     public void assignActivity(@PathVariable(value = "id") int userId, @PathVariable(value = "activityId") int activityId) {
         relationshipFacade.assign(userId, activityId);
     }

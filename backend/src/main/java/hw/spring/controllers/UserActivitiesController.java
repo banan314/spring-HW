@@ -30,7 +30,7 @@ public class UserActivitiesController {
         this.activityService = as;
     }
 
-    @RequestMapping(value = "/{userId}/activities", method = RequestMethod.GET)
+    @GetMapping(value = "/{userId}/activities")
     public List<Activity> getActivitiesByUserId(@PathVariable(name = "userId") int userId) {
         User specific = fetchUserOrDefault(userId);
         if(specific == null)
