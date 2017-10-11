@@ -4,7 +4,6 @@ import hw.spring.model.exception.BadRequestException;
 import hw.spring.repositories.ActivityRepository;
 import hw.spring.model.exception.NoSuchActivityException;
 import hw.spring.model.Activity;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
@@ -18,35 +17,16 @@ import java.util.*;
 public class ActivityDefaultService implements ActivityService {
 
     private static final int MAX_ACTIVITIES = 8;
-    List<Activity> mockActivities = new ArrayList<Activity>();
-
-    private void init() {
-        if (mockActivities.isEmpty())
-            createMockActivities();
-    }
-
-    private void createMockActivities() {
-        mockActivities.addAll(Arrays.asList(
-                new Activity("lecturing", LocalDate.of(2016, 3, 20)),
-                new Activity("exercising", LocalDate.of(2015, 12, 24)),
-                new Activity("learning", LocalDate.of(2012, 9, 1)))
-        );
-        mockActivities.stream().forEach(activity -> activity.setLocation("Politechnika Rzeszowska"));
-    }
 
     ActivityRepository activityRepository;
 
     @Inject
     ActivityDefaultService(ActivityRepository ar) {
-        //init();
         activityRepository = ar;
-        activityRepository.save(mockActivities);
     }
 
-    public Set<Activity> getAll() {
-        Set<Activity> activities = new HashSet<>();
-        activityRepository.findAll().forEach(activity -> activities.add(activity));
-        return activities;
+    public List<Activity> getAll() {
+        return activityRepository.findAllByOrderById();
     }
 
     public Activity getById(int id) throws NoSuchActivityException {
@@ -81,7 +61,7 @@ public class ActivityDefaultService implements ActivityService {
     }
 
     public void updateActivity(long id, Activity activity) throws NoSuchActivityException {
-        if(null == activityRepository.findOne((int) id)) {
+        if (null == activityRepository.findOne((int) id)) {
             throw new NoSuchActivityException();
         }
         activityRepository.save(activity);

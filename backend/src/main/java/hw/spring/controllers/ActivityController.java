@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Set;
 
 /**
@@ -54,9 +55,8 @@ public class ActivityController {
 
     @GetMapping(value = "")
     public Activity[] getAll() {
-        Set<Activity> activitySet = activityService.getAll();
-        Activity[] activitiesArray = activitySet.toArray(new Activity[0]);
-        Arrays.sort(activitiesArray);
+        Collection<Activity> activities = activityService.getAll();
+        Activity[] activitiesArray = activities.toArray(new Activity[0]);
         return activitiesArray;
     }
 

@@ -6,7 +6,7 @@ import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
 
 import java.io.IOException;
-import java.util.Date;
+import java.sql.Date;
 
 /**
  * Created by kamil on 26.04.17.
@@ -23,6 +23,13 @@ public class CustomDateSerializer extends StdSerializer<Date> {
 
     @Override
     public void serialize(Date date, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        jsonGenerator.writeArray(new int[]{date.getYear(), date.getMonth(), date.getDate()}, 0, 3);
+        String[] values = date.toString().split("-");
+        final int year;
+        final int month;
+        final int day;
+        year = Integer.parseInt(values[0]);
+        month = Integer.parseInt(values[1]);
+        day = Integer.parseInt(values[2]);
+        jsonGenerator.writeArray(new int[]{year, month, day}, 0, 3);
     }
 }

@@ -6,11 +6,10 @@ import hw.spring.common.serializer.CustomDateSerializer;
 import hw.spring.model.Activity;
 
 import javax.persistence.*;
-import javax.validation.Constraint;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,7 +21,7 @@ import java.util.List;
         uniqueConstraints =
                 @UniqueConstraint(columnNames = {"email", "username"})
 )
-public class User implements Serializable, Comparable<User> {
+public class User implements Serializable {
 
     public enum Role {
         ADMIN, STUDENT;
@@ -159,11 +158,5 @@ public class User implements Serializable, Comparable<User> {
 
     public void setActivities(List<Activity> activities) {
         this.activities = activities;
-    }
-
-    @Override
-    public int compareTo(User o) {
-        if(this.id == o.id) return 0;
-        return this.id < o.id ? -1:1;
     }
 }
