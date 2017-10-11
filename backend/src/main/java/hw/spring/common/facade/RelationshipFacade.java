@@ -26,9 +26,6 @@ public class RelationshipFacade {
     @Autowired
     private UserActivityRepository userActivityRepository;
 
-    public RelationshipFacade() {
-    }
-
     public void assign(User user, Activity activity) {
         int userId = user.getId();
         int activityId = (int) activity.getId();

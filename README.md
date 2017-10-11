@@ -1,20 +1,21 @@
 ### Frontend
-To run frontend, go to `frontend/src/main/attendance` and then follow the instructions in [README](./frontend/src/main/attendance/README.md). That is, 
+To run frontend, go to `frontend/attendance` and then follow the instructions in [README](./frontend/attendance/README.md). That is, 
 ```
-cd frontend/src/main/attendance
+cd frontend/attendance
 npm start
 ```
 
-### Learn what you can do with Spring Boot
+### Technologies
 
-Spring Boot offers a fast way to build applications. It looks at your classpath and at beans you have configured, makes reasonable assumptions about what you're missing, and adds it. With Spring Boot you can focus more on business features and less on infrastructure.
+What is used:
+* Maven
+* Spring Boot, Spring Data, Spring Security
+* Angular 
 
 ### Create a simple web application
 Now you can create a web controller for a simple web application.
 
-`src/main/java/hello/HelloController.java`
-
-If you are using Maven, execute:
+Execute:
 
 ```
 $ mvn package && java -jar target/{project_id}-0.1.0.jar

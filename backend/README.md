@@ -1,0 +1,1 @@
+The module has 36% of code coverage, according to Sonar metrics. 

@@ -1,10 +1,9 @@
 package hw.spring.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import hw.spring.DTO.UserDTO;
+import hw.spring.dto.UserDTO;
 import hw.spring.services.TokenAuthenticationService;
 import hw.spring.services.UserAuthentication;
-import hw.spring.services.user.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

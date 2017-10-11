@@ -39,13 +39,13 @@ public class ActivityDefaultService implements ActivityService {
 
     @Override
     public void addActivity(Activity activity) throws BadRequestException {
+        assert null != activityRepository;
+
         if (activityRepository.count() > MAX_ACTIVITIES) {
             throw new BadRequestException("Max activities count reached");
         }
 
-        if (null != activityRepository) {
-            activityRepository.save(activity);
-        }
+        activityRepository.save(activity);
     }
 
     private boolean hasntActivityId(Activity activity) {

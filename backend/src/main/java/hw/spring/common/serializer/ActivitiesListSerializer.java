@@ -25,7 +25,6 @@ public class ActivitiesListSerializer extends StdSerializer<List<Activity>> {
 
     @Override
     public void serialize(List<Activity> activities, JsonGenerator jsonGenerator, SerializerProvider serializerProvider) throws IOException {
-        int size = activities.size();
         ArrayList<String> activitiesNames = new ArrayList<>();
         activities.stream().forEach(a -> {
             String name = a.getName();
