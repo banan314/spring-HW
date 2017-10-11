@@ -1,4 +1,4 @@
-package hw.spring.DTO;
+package hw.spring.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

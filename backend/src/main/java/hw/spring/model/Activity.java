@@ -44,11 +44,11 @@ public class Activity implements Serializable {
         this.id = (int) id;
     }
 
-    public List<UserActivity> getUser() {
+    public List<UserActivity> getOwnerUsers() {
         return this.ownerUsers;
     }
 
-    public void setUser(List<UserActivity> users) {
+    public void setOwnerUsers(List<UserActivity> users) {
         this.ownerUsers = users;
     }
     public String getName() {
