@@ -5,10 +5,8 @@ import hw.spring.model.UserActivity;
 import hw.spring.model.exception.NoSuchActivityException;
 import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.User;
-import hw.spring.repositories.UserActivityRepository;
 import hw.spring.services.activity.ActivityService;
 import hw.spring.services.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.inject.Inject;
@@ -19,12 +17,8 @@ import javax.inject.Inject;
 @Component
 public class RelationshipFacade {
 
-    @Autowired
-    private ActivityService activityService;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserActivityRepository userActivityRepository;
+    @Inject ActivityService activityService;
+    @Inject UserService userService;
 
     public void assign(User user, Activity activity) {
         int userId = user.getId();
@@ -54,7 +48,6 @@ public class RelationshipFacade {
         try {
             activity = activityService.getById(activityId);
         } catch (NoSuchActivityException e) {
-            return;
         }
     }
 }
