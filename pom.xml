@@ -3,19 +3,19 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.springframework</groupId>
-    <artifactId>gs-spring-boot</artifactId>
+    <groupId>hw.spring</groupId>
+    <artifactId>spring-hw</artifactId>
     <version>0.3.0</version>
     <packaging>pom</packaging>
 
-    <name>parent</name>
-    <description>The ng2boot parent project</description>
+    <name>spring-hw</name>
+    <description>Homework of Spring Project</description>
 
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.2.RELEASE</version>
+        <version>2.0.4.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
