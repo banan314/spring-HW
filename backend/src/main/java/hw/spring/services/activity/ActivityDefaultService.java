@@ -1,14 +1,13 @@
 package hw.spring.services.activity;
 
-import hw.spring.model.exception.BadRequestException;
-import hw.spring.repositories.ActivityRepository;
-import hw.spring.model.exception.NoSuchActivityException;
 import hw.spring.model.Activity;
+import hw.spring.model.exception.BadRequestException;
+import hw.spring.model.exception.NoSuchActivityException;
+import hw.spring.repositories.ActivityRepository;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.List;
 
 /**
  * Created by Kamil on 31-Mar-17.
@@ -17,12 +16,10 @@ import java.util.*;
 public class ActivityDefaultService implements ActivityService {
 
     private static final int MAX_ACTIVITIES = 8;
+    @Inject ActivityRepository activityRepository;
 
-    ActivityRepository activityRepository;
-
-    @Inject
-    ActivityDefaultService(ActivityRepository ar) {
-        activityRepository = ar;
+    public void setActivityRepository(ActivityRepository activityRepository) {
+        this.activityRepository = activityRepository;
     }
 
     public List<Activity> getAll() {

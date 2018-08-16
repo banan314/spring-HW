@@ -1,17 +1,17 @@
 package hw.spring.services.user;
 
-import hw.spring.model.user.JavadevUserDetails;
-import hw.spring.model.user.Sex;
-import hw.spring.repositories.UserRepository;
 import hw.spring.model.exception.NoSuchUserException;
+import hw.spring.model.user.JavadevUserDetails;
 import hw.spring.model.user.User;
-import org.springframework.data.domain.Sort;
+import hw.spring.repositories.UserRepository;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by Kamil on 31-Mar-17.
@@ -19,11 +19,10 @@ import java.util.*;
 @Service
 public class UserDefaultService implements UserService {
 
-    UserRepository userRepository;
+    @Inject UserRepository userRepository;
 
-    @Inject
-    UserDefaultService(UserRepository ur) {
-        this.userRepository = ur;
+    public void setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
     public List<User> getAll() {
@@ -81,4 +80,6 @@ public class UserDefaultService implements UserService {
     Collection<? extends GrantedAuthority> authorities() {
         return Collections.singleton(User.Role.STUDENT::toString);
     }
+
+
 }

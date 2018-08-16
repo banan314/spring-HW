@@ -2,7 +2,6 @@ package hw.spring.services.user;
 
 import hw.spring.model.user.JavadevUserDetails;
 import hw.spring.model.user.User;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,12 +13,7 @@ import java.util.Collections;
 @Service
 public class UserDetailsServiceManager implements UserDetailsService {
 
-    private final UserService service;
-
-    @Inject
-    UserDetailsServiceManager(UserService service) {
-        this.service = service;
-    }
+    @Inject private UserService service;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
@@ -30,4 +24,5 @@ public class UserDetailsServiceManager implements UserDetailsService {
 //            throw new UsernameNotFoundException("User " + s + " not found!");
         return ud;
     }
+
 }

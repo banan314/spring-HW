@@ -3,14 +3,12 @@ package hw.spring.controllers;
 import hw.spring.common.NotImplemented;
 import hw.spring.common.facade.RelationshipFacade;
 import hw.spring.model.Activity;
-import hw.spring.model.exception.NoSuchActivityException;
 import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.User;
-import hw.spring.services.activity.ActivityService;
 import hw.spring.services.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -20,14 +18,13 @@ import java.util.List;
 @RequestMapping(path = "users")
 public class UserActivitiesController {
 
-    private UserService userService;
-    private ActivityService activityService;
-    @Autowired
-    private RelationshipFacade relationshipFacade;
+    private final UserService userService;
+    private final RelationshipFacade relationshipFacade;
 
-    public UserActivitiesController(@Autowired UserService us, @Autowired ActivityService as) {
-        this.userService = us;
-        this.activityService = as;
+    @Inject
+    public UserActivitiesController(UserService userService, RelationshipFacade relationshipFacade) {
+        this.userService = userService;
+        this.relationshipFacade = relationshipFacade;
     }
 
     @GetMapping(value = "/{userId}/activities")
@@ -62,7 +59,7 @@ public class UserActivitiesController {
     public void post(@PathVariable(value = "id") int userId, @RequestBody Activity activities[]) {
         User specific;
         try {
-            specific = userService.getById((int) userId);
+            specific = userService.getById(userId);
         } catch (NoSuchUserException e) {
             specific = null;
         }
