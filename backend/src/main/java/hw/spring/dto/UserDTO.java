@@ -6,6 +6,15 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 public class UserDTO {
 
     private final String email;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     private final String username;
     private final String password;
 

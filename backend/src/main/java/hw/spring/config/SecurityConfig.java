@@ -1,31 +1,31 @@
 package hw.spring.config;
 
-import hw.spring.filters.AuthenticationFilter;
 import hw.spring.filters.LoginFilter;
 import hw.spring.services.TokenAuthenticationService;
-import hw.spring.services.user.UserDetailsServiceManager;
-import hw.spring.services.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.web.bind.annotation.GetMapping;
 
-@EnableWebSecurity
+import javax.inject.Inject;
+
+@Configuration
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
 public class SecurityConfig
     extends WebSecurityConfigurerAdapter {
 
-        @Autowired
-        private UserDetailsServiceManager userService;
+    @Inject private UserDetailsService userService;
+    @Inject private TokenAuthenticationService tokenAuthenticationService;
 
-        @Autowired
-        private TokenAuthenticationService tokenAuthenticationService;
-
-        @Override
+    @Override
         protected void configure(HttpSecurity http) throws Exception {
             //TODO: must be a better workaround...
             /** INFO:
@@ -36,11 +36,19 @@ public class SecurityConfig
 
             http
                     .authorizeRequests()
-                    .antMatchers("/").permitAll()
+                    .antMatchers("/", "/docs", "/users/new").permitAll()
+                    .anyRequest().authenticated()
+                    .and()
+                    .formLogin().loginPage("/login").permitAll()
+                    .and()
+                    .authorizeRequests()
                     .antMatchers("/users/**").hasRole("ADMIN")
+                    .and()
+                    .authorizeRequests()
                     .antMatchers("/activities/**").hasRole("STUDENT")
-                    .antMatchers("/login").permitAll()
-                    .antMatchers("/docs").permitAll()
+                    .and()
+                    .logout().permitAll()
+
                     //TODO: how about endpoints that gives access to users via activities
                     ;
 
@@ -48,6 +56,12 @@ public class SecurityConfig
                     new LoginFilter("/login", tokenAuthenticationService, userService, authenticationManager()),
                     UsernamePasswordAuthenticationFilter.class
             );
+
+            LogoutSuccessHandler logoutSuccessHandler = new LogoutSuccessHandlerImp();
+
+            http.logout()
+                    .logoutUrl("/logout")
+                    .logoutSuccessHandler(logoutSuccessHandler);
 
             //TODO: add it
             /*http.addFilterBefore(
@@ -69,5 +83,10 @@ public class SecurityConfig
             auth
                     .inMemoryAuthentication()
                     .withUser("user").password("password").roles("STUDENT");
+        }
+
+        @GetMapping(value = "/login")
+        public String login() {
+            return "login";
         }
 }

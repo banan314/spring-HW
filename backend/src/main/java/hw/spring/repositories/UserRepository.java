@@ -1,7 +1,6 @@
 package hw.spring.repositories;
 
 import hw.spring.model.user.User;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

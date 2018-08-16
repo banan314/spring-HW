@@ -2,17 +2,15 @@ package hw.spring.controllers;
 
 import hw.spring.model.Activity;
 import hw.spring.model.exception.BadRequestException;
-import hw.spring.services.activity.ActivityService;
 import hw.spring.model.exception.NoSuchActivityException;
+import hw.spring.services.activity.ActivityService;
 import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * Created by Kamil on 9-Apr-17.

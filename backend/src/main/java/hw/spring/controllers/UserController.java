@@ -9,9 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Kamil on 31-Mar-17.
@@ -54,7 +52,7 @@ public class UserController {
         return new ResourceNotFoundException("User of id" + id + " not found", null);
     }
 
-    @PostMapping(value = "")
+    @PostMapping(value = "/new")
     public void post(@RequestBody User user) {
         userService.addUser(user);
     }
