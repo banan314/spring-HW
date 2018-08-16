@@ -2,19 +2,16 @@ package hw.spring.services.activity;
 
 import hw.spring.model.Activity;
 import hw.spring.repositories.ActivityRepository;
-import lombok.val;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import javax.inject.Inject;
 import java.sql.Date;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,7 +29,8 @@ import static org.mockito.Mockito.when;
 @RunWith(SpringRunner.class)
 public class ActivityDefaultServiceTest {
 
-    @Autowired private ActivityDefaultService activityDefaultService;
+    @Inject
+    private ActivityDefaultService activityDefaultService;
 
     private ActivityDefaultService serviceNotAutowired;
     @Mock private ActivityRepository repository;
@@ -45,7 +43,8 @@ public class ActivityDefaultServiceTest {
 
     @Before
     public void setUp() {
-        serviceNotAutowired = new ActivityDefaultService(repository);
+        serviceNotAutowired = new ActivityDefaultService();
+        serviceNotAutowired.activityRepository = repository;
         init();
     }
 
@@ -72,7 +71,7 @@ public class ActivityDefaultServiceTest {
         when(repository.findAll()).thenReturn(mockActivities);
         when(repository.findAllByOrderById()).thenReturn(mockActivities);
 
-        val activities = serviceNotAutowired.getAll();
+        List<Activity> activities = serviceNotAutowired.getAll();
 
         assertEquals(3, activities.size());
     }
@@ -81,7 +80,7 @@ public class ActivityDefaultServiceTest {
     public void addActivity() throws Exception {
         Date date;
 
-        val activity = new Activity("lecturing", Date.valueOf("2016-3-20"));
+        Activity activity = new Activity("lecturing", Date.valueOf("2016-3-20"));
 
         serviceNotAutowired.addActivity(activity);
         verify(repository).save(ArgumentMatchers.<Activity>notNull());

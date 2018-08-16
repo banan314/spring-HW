@@ -4,7 +4,6 @@ import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.Sex;
 import hw.spring.model.user.User;
 import hw.spring.repositories.UserRepository;
-import lombok.val;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -12,18 +11,21 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.util.ArrayList;
+import javax.inject.Inject;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class UserDefaultServiceTest {
     private static final Logger LOG = Logger.getLogger(UserDefaultServiceTest.class.getName());
 
+    @Inject
     private UserDefaultService service;
 
     @Mock
@@ -33,7 +35,7 @@ public class UserDefaultServiceTest {
 
     @Before
     public void setUp() throws Exception {
-        service = new UserDefaultService(repository);
+        service.userRepository = repository;
         init();
     }
 
@@ -57,7 +59,7 @@ public class UserDefaultServiceTest {
     @Test
     public void getAll() throws Exception {
         when(repository.findAllByOrderById()).thenReturn(mockUsers);
-        val users = service.getAll();
+        List<User> users = service.getAll();
         assertEquals(mockUsers.size(), users.size());
     }
 
@@ -74,7 +76,7 @@ public class UserDefaultServiceTest {
 
     @Test
     public void addUser() throws Exception {
-        val mockUser = new User("Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, Date.valueOf("1994-3-20"), "Joe " +
+        User mockUser = new User("Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, Date.valueOf("1994-3-20"), "Joe " +
                 "Staunton");
 
         service.addUser(mockUser);
@@ -94,7 +96,7 @@ public class UserDefaultServiceTest {
 
     @Test
     public void updateUser() throws Exception {
-        val mockUser = new User("Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, Date.valueOf("1994-3-20"), "Joe " +
+        User mockUser = new User("Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, Date.valueOf("1994-3-20"), "Joe " +
                 "Staunton");
 
         service.updateUser(10, mockUser);
