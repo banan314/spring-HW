@@ -6,7 +6,6 @@ import hw.spring.common.serializer.CustomDateSerializer;
 import hw.spring.model.Activity;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
@@ -35,20 +34,33 @@ public class User implements Serializable {
             }
         }
     }
-  
-    private @Id @GeneratedValue int id;
+
+    private @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq") int id;
 
     private String email;
     private String username;
     private short age;
     private Sex sex;
-    private String firstName;
-    private String lastName;
 
     private Role role;
     private String password;
 
+    @JsonSerialize(using = CustomDateSerializer.class)
+    private Date dateOfBirth;
+
+    @JsonSerialize(using = ActivitiesListSerializer.class)
+    @ManyToMany(mappedBy = "ownerUsers")
+    private List<Activity> activities = new ArrayList<Activity>();
+
     public User() {
+    }
+
+    public User(String username, String email, short age, Sex sex, Date dateOfBirth, String name) {
+        this.username = username;
+        this.age = age;
+        this.sex = sex;
+        this.dateOfBirth = dateOfBirth;
+        setEmail(email);
     }
 
     public int getId() {
@@ -57,6 +69,14 @@ public class User implements Serializable {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getUsername() {
@@ -83,22 +103,6 @@ public class User implements Serializable {
         this.sex = sex;
     }
 
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -115,42 +119,12 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public void setName(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
-    public String getName() {
-        return new StringBuffer().append(this.firstName).append(this.lastName)
-                .toString();
+    public Date getDateOfBirth() {
+        return dateOfBirth;
     }
 
-    @JsonSerialize(using = CustomDateSerializer.class)
-    private Date dateOfBirth;
-
-    @JsonSerialize(using = ActivitiesListSerializer.class)
-    @ManyToMany(mappedBy = "ownerUsers") private List<Activity> activities = new ArrayList<Activity>();
-
-    public User(String username, String email, short age, Sex sex, Date dateOfBirth, String name) {
-        this.username = username;
-        this.age = age;
-        this.sex = sex;
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
-        setEmail(email);
-
-        //TODO: does not work with multiple names (more than 2 words)
-        String splitted[] = name.split(" ");
-        setName(splitted[0], splitted[1]);
-    }
-
-    @NotNull
-    public User addActivity(Activity activity) {
-        this.activities.add(activity);
-        return this;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", username=" + username + ", age=" + age + ", sex=" + sex + ", dateOfBirth=" + dateOfBirth + '}';
     }
 
     public List<Activity> getActivities() {
@@ -159,5 +133,15 @@ public class User implements Serializable {
 
     public void setActivities(List<Activity> activities) {
         this.activities = activities;
+    }
+
+    public User addActivity(Activity activity) {
+        this.activities.add(activity);
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" + "id=" + id + ", username=" + username + ", age=" + age + ", sex=" + sex + ", dateOfBirth=" + dateOfBirth + '}';
     }
 }

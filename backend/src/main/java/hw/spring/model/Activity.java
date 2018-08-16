@@ -3,12 +3,8 @@ package hw.spring.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hw.spring.common.serializer.CustomDateSerializer;
-import hw.spring.common.serializer.LocalDateSerializer;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
@@ -18,16 +14,17 @@ import java.util.List;
  */
 @Entity(name = "activities")
 public class Activity implements Serializable {
-    private @Id @GeneratedValue int id;
+
+    private @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_id_seq") int id;
     private String name;
     private String location;
+
+    @JsonSerialize(using = CustomDateSerializer.class)
+    private Date startDate;
 
     @JsonIgnore
     @ManyToMany
     private List<UserActivity> ownerUsers;
-
-    @JsonSerialize(using = CustomDateSerializer.class)
-    private Date startDate;
 
     public Activity() { }
 
@@ -44,19 +41,20 @@ public class Activity implements Serializable {
         this.id = (int) id;
     }
 
-    public List<UserActivity> getOwnerUsers() {
-        return this.ownerUsers;
-    }
-
-    public void setOwnerUsers(List<UserActivity> users) {
-        this.ownerUsers = users;
-    }
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public Date getStartDate() {
@@ -67,12 +65,12 @@ public class Activity implements Serializable {
         this.startDate = startDate;
     }
 
-    public String getLocation() {
-        return location;
+    public List<UserActivity> getOwnerUsers() {
+        return this.ownerUsers;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setOwnerUsers(List<UserActivity> users) {
+        this.ownerUsers = users;
     }
 
     public Activity forUser(UserActivity user) {
