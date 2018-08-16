@@ -1,4 +1,5 @@
-import {User} from "./user";
+import {User} from './user';
+
 export class Activity {
   get users(): User[] {
     return this._users;
