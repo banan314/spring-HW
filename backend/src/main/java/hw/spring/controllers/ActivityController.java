@@ -4,13 +4,12 @@ import hw.spring.model.Activity;
 import hw.spring.model.exception.BadRequestException;
 import hw.spring.model.exception.NoSuchActivityException;
 import hw.spring.services.activity.ActivityService;
-import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import java.util.Collection;
+import java.util.*;
 
 /**
  * Created by Kamil on 9-Apr-17.
@@ -26,10 +25,9 @@ public class ActivityController {
         this.activityService = as;
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoSuchElementException.class)
     public HttpStatus handleNotFoundResource() {
-        return HttpStatus.valueOf(404);
+        return HttpStatus.NOT_FOUND;
     }
 
     @ExceptionHandler(BadRequestException.class)
@@ -40,15 +38,7 @@ public class ActivityController {
 
     @GetMapping(value = "/{id}")
     public Activity getActivity(@PathVariable(value = "id") int id) {
-        try {
-            return activityService.getById(id);
-        } catch (NoSuchActivityException e) {
-            throw createNotFoundException(id);
-        }
-    }
-
-    private RuntimeException createNotFoundException(int id) {
-        return new ResourceNotFoundException("Activity with id " + id + " not found!", null);
+        return activityService.getById(id).get();
     }
 
     @GetMapping(value = "")
@@ -76,11 +66,6 @@ public class ActivityController {
 
     @DeleteMapping(value = "/{id}")
     public void deleteActivity(@PathVariable(value = "id") int id) {
-        try {
-            activityService.getById(id);
-        } catch (NoSuchActivityException e) {
-            throw createNotFoundException(id);
-        }
         activityService.deleteActivity(id);
     }
 }

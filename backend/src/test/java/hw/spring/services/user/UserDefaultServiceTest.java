@@ -1,6 +1,5 @@
 package hw.spring.services.user;
 
-import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.Sex;
 import hw.spring.model.user.User;
 import hw.spring.repositories.UserRepository;
@@ -15,6 +14,7 @@ import javax.inject.Inject;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.assertEquals;
@@ -66,11 +66,11 @@ public class UserDefaultServiceTest {
     @Test
     public void getById() throws Exception {
         try {
-            service.getById(10);
-        } catch (NoSuchUserException e) {
+            service.getById(10).get();
+        } catch (NoSuchElementException e) {
             LOG.info("no such user exception thrown");
         } finally {
-            verify(repository).findOne(10);
+            verify(repository).findById(10);
         }
     }
 
@@ -86,7 +86,7 @@ public class UserDefaultServiceTest {
     @Test
     public void deleteUser() throws Exception {
         service.deleteUser(10);
-        verify(repository).delete(10);
+        verify(repository).deleteById(10);
     }
 
     @Ignore

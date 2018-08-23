@@ -1,15 +1,14 @@
 package hw.spring.controllers;
 
 import hw.spring.common.NotImplemented;
-import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.User;
 import hw.spring.services.user.UserService;
-import org.springframework.boot.context.config.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.*;
 
 /**
  * Created by Kamil on 31-Mar-17.
@@ -25,10 +24,9 @@ public class UserController {
         this.userService = us;
     }
 
-    @ExceptionHandler(ResourceNotFoundException.class)
-    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoSuchElementException.class)
     public HttpStatus handleNotFoundResource() {
-        return HttpStatus.valueOf(404);
+        return HttpStatus.NOT_FOUND;
     }
 
     @GetMapping(value = "")
@@ -39,17 +37,7 @@ public class UserController {
 
     @GetMapping(value = "/{id}")
     public User getUser(@PathVariable(value = "id") int id) {
-        User specific;
-        try {
-            specific = userService.getById(id);
-        } catch (NoSuchUserException e) {
-            throw createNotFoundException(id);
-        }
-        return specific;
-    }
-
-    private RuntimeException createNotFoundException(int id) {
-        return new ResourceNotFoundException("User of id" + id + " not found", null);
+        return userService.getById(id).get();
     }
 
     @PostMapping(value = "/new")
@@ -65,11 +53,6 @@ public class UserController {
 
     @DeleteMapping(value = "/{id}")
     public void deleteUser(@PathVariable int id) {
-        try {
-            userService.getById(id);
-        } catch (NoSuchUserException e) {
-            throw createNotFoundException(id);
-        }
         userService.deleteUser(id);
     }
 

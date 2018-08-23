@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Kamil on 31-Mar-17.
@@ -26,12 +27,8 @@ public class ActivityDefaultService implements ActivityService {
         return activityRepository.findAllByOrderById();
     }
 
-    public Activity getById(int id) throws NoSuchActivityException {
-        Activity activity = activityRepository.findOne(id);
-        if (null == activity) {
-            throw new NoSuchActivityException();
-        }
-        return activity;
+    public Optional<Activity> getById(int id) {
+        return activityRepository.findById(id);
     }
 
     @Override
@@ -50,17 +47,18 @@ public class ActivityDefaultService implements ActivityService {
     }
 
     public void deleteActivity(int id) {
-        activityRepository.delete(id);
+        if (activityRepository.existsById(id)) {
+            activityRepository.deleteById(id);
+        }
     }
 
     public void deleteAll() {
         activityRepository.deleteAll();
     }
 
-    public void updateActivity(long id, Activity activity) throws NoSuchActivityException {
-        if (null == activityRepository.findOne((int) id)) {
-            throw new NoSuchActivityException();
+    public void updateActivity(int id, Activity activity) throws NoSuchActivityException {
+        if (activityRepository.existsById(id)) {
+            activityRepository.save(activity);
         }
-        activityRepository.save(activity);
     }
 }

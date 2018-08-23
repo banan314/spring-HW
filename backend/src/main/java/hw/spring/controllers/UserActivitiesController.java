@@ -3,7 +3,6 @@ package hw.spring.controllers;
 import hw.spring.common.NotImplemented;
 import hw.spring.common.facade.RelationshipFacade;
 import hw.spring.model.Activity;
-import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.User;
 import hw.spring.services.user.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -36,13 +35,7 @@ public class UserActivitiesController {
     }
 
     private User fetchUserOrDefault(int id) {
-        User specific;
-        try {
-            specific = userService.getById(id);
-        } catch (NoSuchUserException e) {
-            specific = null;
-        }
-        return specific;
+        return userService.getById(id).orElse(null);
     }
 
     private Activity getActivityById(int userId, int activityId) {
@@ -57,12 +50,7 @@ public class UserActivitiesController {
 
     @PostMapping(value = "/{id}/activities")
     public void post(@PathVariable(value = "id") int userId, @RequestBody Activity activities[]) {
-        User specific;
-        try {
-            specific = userService.getById(userId);
-        } catch (NoSuchUserException e) {
-            specific = null;
-        }
+        User specific = fetchUserOrDefault(userId);
         for(Activity activity : activities) {
             relationshipFacade.assign(specific, activity);
         }

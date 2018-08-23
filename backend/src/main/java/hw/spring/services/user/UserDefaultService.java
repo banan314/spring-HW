@@ -1,6 +1,5 @@
 package hw.spring.services.user;
 
-import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.JavadevUserDetails;
 import hw.spring.model.user.User;
 import hw.spring.repositories.UserRepository;
@@ -12,6 +11,7 @@ import javax.inject.Inject;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Kamil on 31-Mar-17.
@@ -29,12 +29,8 @@ public class UserDefaultService implements UserService {
         return userRepository.findAllByOrderById();
     }
 
-    public User getById(int id) throws NoSuchUserException {
-        User user = userRepository.findOne(id);
-        if (null == user) {
-            throw new NoSuchUserException();
-        }
-        return user;
+    public Optional<User> getById(int id) {
+        return userRepository.findById(id);
     }
 
     public void addUser(User user) {
@@ -48,7 +44,9 @@ public class UserDefaultService implements UserService {
     }
 
     public void deleteUser(int id) {
-        userRepository.delete(id);
+        if (userRepository.existsById(id)) {
+            userRepository.deleteById(id);
+        }
     }
 
     public void deleteAll() {

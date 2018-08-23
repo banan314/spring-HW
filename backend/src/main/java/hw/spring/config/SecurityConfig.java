@@ -16,12 +16,14 @@ import org.springframework.security.web.authentication.logout.LogoutSuccessHandl
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.inject.Inject;
+import javax.inject.Named;
 
 @Configuration
-@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER)
+@Order(SecurityProperties.BASIC_AUTH_ORDER)
 public class SecurityConfig
     extends WebSecurityConfigurerAdapter {
 
+    @Named("userDetailsServiceManager")
     @Inject private UserDetailsService userService;
     @Inject private TokenAuthenticationService tokenAuthenticationService;
 

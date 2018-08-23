@@ -3,7 +3,6 @@ package hw.spring.common.facade;
 import hw.spring.model.Activity;
 import hw.spring.model.UserActivity;
 import hw.spring.model.exception.NoSuchActivityException;
-import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.User;
 import hw.spring.services.activity.ActivityService;
 import hw.spring.services.user.UserService;
@@ -39,15 +38,7 @@ public class RelationshipFacade {
 
     public void assign(int userId, int activityId) {
         User user;
-        try {
-            user = userService.getById(userId);
-        } catch (NoSuchUserException e) {
-            return;
-        }
-        Activity activity;
-        try {
-            activity = activityService.getById(activityId);
-        } catch (NoSuchActivityException e) {
-        }
+        user = userService.getById(userId).orElse(new User());
+        Activity activity = activityService.getById(activityId).orElse(new Activity());
     }
 }

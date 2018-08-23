@@ -89,7 +89,7 @@ public class ActivityDefaultServiceTest {
     @Test
     public void deleteActivity() throws Exception {
         serviceNotAutowired.deleteActivity(10);
-        verify(repository).delete(10);
+        verify(repository).deleteById(10);
     }
 
 }
