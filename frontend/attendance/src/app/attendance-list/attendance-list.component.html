@@ -1,0 +1,59 @@
+<h3>Lista obecności</h3>
+
+<div class="input-group input-group-sm">
+  <span class="input-group-addon"><i class="fa fa-search"></i></span>
+  <input class="form-control" placeholder="Nie działa... :(">
+</div>
+<table class="table table-striped">
+  <thead>
+  <tr>
+    <th></th>
+    <th>Imię i nazwisko</th>
+    <th>Kontakt</th>
+    <th></th>
+    <th></th>
+    <th>Zajęcia</th>
+  </tr>
+  </thead>
+  <tr *ngFor="let user of users; let i = index">
+    <td class="col-xs-1">{{i + 1}}</td>
+
+    <span *ngIf="edited && user.id === editedUser.id; then thenBlock; else elseBlock"></span>
+    <ng-template #thenBlock>
+      <td><input name="username" id="inputUsername" [(ngModel)]="editedUser.username"></td>
+      <td><input name="email" id="inputEmail" [(ngModel)]="editedUser.email"></td>
+      <td>
+        <button (click)="acceptEdit(); $event.stopPropagation()">
+          <i class="fa fa-check" style="color: orange"></i>
+        </button>
+      </td>
+      <td>
+        <button (click)="rejectEdit(); $event.stopPropagation()"><i class="fa fa-trash-o" style="color: orange"></i></button>
+      </td>
+    </ng-template>
+    <ng-template #elseBlock>
+      <td><b>{{user.username}}</b></td>
+      <td>{{user.email}}</td>
+      <td>
+        <button (click)="editUser(user); $event.stopPropagation()"><i class="fa fa-pencil-square-o" style="color: orange"></i></button>
+      </td>
+      <td>
+        <button class="delete"
+                (click)="deleteUser(user); $event.stopPropagation()"><i class="fa fa-times" style="color: orange"></i></button>
+      </td>
+    </ng-template>
+    <!--
+    font awesome signs:
+    - fa-check
+    - fa-times
+    - .fa-pencil-square-o
+    - .fa-trash-o
+    -->
+    <td *ngFor="let activity of user.activities">{{activity}}</td>
+  </tr>
+</table>
+<span><button class="form-control" style="width: 30px;" (click)="addUser()">+</button><input class="form-control"
+                                                                                             placeholder="Dodaj użytkownika..."
+                                                                                             [(ngModel)]="user.username"
+                                                                                             name="username"/></span>
+<router-outlet></router-outlet>

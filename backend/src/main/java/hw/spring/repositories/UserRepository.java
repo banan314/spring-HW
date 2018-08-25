@@ -1,19 +1,20 @@
 package hw.spring.repositories;
 
 import hw.spring.model.user.User;
-import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by kamil on 21.04.17.
  */
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
-    User findByEmail(String email);
-    User findByUsername(String username);
+    Optional<User> findByEmail(String email);
+    Optional<User> findByUsername(String username);
+    boolean existsUserByEmail(String email);
 
     List<User> findAllByOrderById();
 }

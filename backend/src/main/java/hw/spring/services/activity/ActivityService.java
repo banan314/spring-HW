@@ -5,14 +5,15 @@ import hw.spring.model.exception.BadRequestException;
 import hw.spring.model.exception.NoSuchActivityException;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Kamil on 31-Mar-17.
  */
 public interface ActivityService {
     List<Activity> getAll();
-    Activity getById(int id) throws NoSuchActivityException;
+    Optional<Activity> getById(int id);
     void addActivity(Activity activity) throws BadRequestException;
     void deleteActivity(int id);
-    void updateActivity(long id, Activity user) throws NoSuchActivityException;
+    void updateActivity(int id, Activity user) throws NoSuchActivityException;
 }

@@ -2,12 +2,12 @@ package hw.spring.services;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 
+import javax.inject.Inject;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.Optional;
@@ -16,12 +16,10 @@ import java.util.Optional;
 public final class JwtTokenHandler {
 
     private final String secret;
-    private final UserDetailsService userService;
+    @Inject UserDetailsService userService;
 
-    @Autowired
-    public JwtTokenHandler(@Value("${hw.spring.jwt.secret}") String secret, UserDetailsService userService) {
+    public JwtTokenHandler(@Value("${hw.spring.jwt.secret}") String secret) {
         this.secret = secret;
-        this.userService = userService;
     }
 
     Optional<UserDetails> parseUserFromToken(String token) {

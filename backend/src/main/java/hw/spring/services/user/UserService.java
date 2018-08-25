@@ -1,21 +1,20 @@
 package hw.spring.services.user;
 
+import hw.spring.dto.UserDTO;
+import hw.spring.model.exception.EmailExistsException;
 import hw.spring.model.user.User;
-import hw.spring.model.exception.NoSuchUserException;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by Kamil on 31-Mar-17.
  */
 public interface UserService {
     List<User> getAll();
-    User getById(int id) throws NoSuchUserException;
+    Optional<User> getById(int id);
     void addUser(User user);
     void deleteUser(int id);
     void updateUser(int id, User user);
-
-    UserDetails loadUserByUsername(String name);
-    UserDetails loadUserByEmail(String email);
+    User registerNewUserAccount(UserDTO accountDTO) throws EmailExistsException;
 }

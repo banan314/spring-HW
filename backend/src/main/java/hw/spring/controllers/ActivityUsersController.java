@@ -1,14 +1,9 @@
 package hw.spring.controllers;
 
 import hw.spring.common.facade.RelationshipFacade;
-import hw.spring.model.Activity;
-import hw.spring.model.exception.NoSuchActivityException;
-import hw.spring.model.exception.NoSuchUserException;
-import hw.spring.model.user.User;
-import hw.spring.services.activity.ActivityService;
-import hw.spring.services.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
 
@@ -18,10 +13,11 @@ import javax.inject.Inject;
 @RestController
 public class ActivityUsersController {
 
-    @Autowired
-    RelationshipFacade relationshipFacade;
+    final RelationshipFacade relationshipFacade;
 
-    public ActivityUsersController() {
+    @Inject
+    public ActivityUsersController(RelationshipFacade relationshipFacade) {
+        this.relationshipFacade = relationshipFacade;
     }
 
     @PutMapping(value = "activities/{activityId}/users/{id}")

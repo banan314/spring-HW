@@ -1,8 +1,14 @@
-/**
- * Created by kamil on 01.05.17.
- */
-enum Sex {MALE, FEMALE};
+import {Sex} from './sex.enum';
+
 export class User {
+  private _id: number;
+  private _username: string;
+  private _age: number;
+  private _sex: Sex;
+
+  private _dateOfBirth: Date;
+  private _activities: string[];
+  private _email: string;
 
   constructor(id?: number, username?: string, age?: number, sex?: Sex, dateOfBirth?: Date, email?: string, activities?: string[]) {
     this._id = id;
@@ -29,10 +35,10 @@ export class User {
   get email(): string {
     return this._email;
   }
-
   set email(value: string) {
     this._email = value;
   }
+
   get id(): number {
     return this._id;
   }
@@ -80,15 +86,4 @@ export class User {
   set activities(value: string[]) {
     this._activities = value;
   }
-
-  private _id: number;
-  private _username: string;
-  private _age: number;
-  private _sex: Sex;
-
-  private _dateOfBirth: Date;
-  private _activities: string[];
-  private firstName: string;
-  private lastName: string;
-  private _email: string;
 }

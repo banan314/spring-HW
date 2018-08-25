@@ -3,14 +3,11 @@ package hw.spring.controllers;
 import hw.spring.common.NotImplemented;
 import hw.spring.common.facade.RelationshipFacade;
 import hw.spring.model.Activity;
-import hw.spring.model.exception.NoSuchActivityException;
-import hw.spring.model.exception.NoSuchUserException;
 import hw.spring.model.user.User;
-import hw.spring.services.activity.ActivityService;
 import hw.spring.services.user.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.inject.Inject;
 import java.util.List;
 
 /**
@@ -20,14 +17,13 @@ import java.util.List;
 @RequestMapping(path = "users")
 public class UserActivitiesController {
 
-    private UserService userService;
-    private ActivityService activityService;
-    @Autowired
-    private RelationshipFacade relationshipFacade;
+    private final UserService userService;
+    private final RelationshipFacade relationshipFacade;
 
-    public UserActivitiesController(@Autowired UserService us, @Autowired ActivityService as) {
-        this.userService = us;
-        this.activityService = as;
+    @Inject
+    public UserActivitiesController(UserService userService, RelationshipFacade relationshipFacade) {
+        this.userService = userService;
+        this.relationshipFacade = relationshipFacade;
     }
 
     @GetMapping(value = "/{userId}/activities")
@@ -39,13 +35,7 @@ public class UserActivitiesController {
     }
 
     private User fetchUserOrDefault(int id) {
-        User specific;
-        try {
-            specific = userService.getById(id);
-        } catch (NoSuchUserException e) {
-            specific = null;
-        }
-        return specific;
+        return userService.getById(id).orElse(null);
     }
 
     private Activity getActivityById(int userId, int activityId) {
@@ -60,12 +50,7 @@ public class UserActivitiesController {
 
     @PostMapping(value = "/{id}/activities")
     public void post(@PathVariable(value = "id") int userId, @RequestBody Activity activities[]) {
-        User specific;
-        try {
-            specific = userService.getById((int) userId);
-        } catch (NoSuchUserException e) {
-            specific = null;
-        }
+        User specific = fetchUserOrDefault(userId);
         for(Activity activity : activities) {
             relationshipFacade.assign(specific, activity);
         }

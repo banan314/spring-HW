@@ -1,33 +1,32 @@
 import { Injectable } from '@angular/core';
-import {Http, Response, Headers} from "@angular/http";
-import {Observable} from "rxjs/Observable";
-import "rxjs/Rx";
+import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 
 @Injectable()
 export class LogInService {
 
-  constructor(private http: Http) { }
+  constructor(private http: HttpClient) { }
 
-  login(email: string, password: string): Observable<Response> {
-    let loginRequest = JSON.stringify({email: email, password: password});
-    let headers = new Headers({'Content-Type': 'application/json', 'Accept': 'application/json'});
+  login(email: string, password: string) {
+    const loginRequest = JSON.stringify({email: email, password: password});
+    const headers = new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'});
 
-    return this.http.post('/backend/login', loginRequest, {headers: headers})
-      .do(response => this.mapResponse(response));
+    const result = this.http.post('/backend/login', loginRequest, {headers: headers, observe: 'response'});
+    result.subscribe(response => this.mapResponse(response));
+    return result;
   }
 
-  private mapResponse(response : Response) {
+  private mapResponse(response: HttpResponse<Object>) {
     //TODO: on rejection
     if (response.status === 200) {
       localStorage.setItem('jwt', response.headers.get('x-auth-token'));
     }
   }
 
-  isSignedIn():boolean {
+  isSignedIn(): boolean {
     return localStorage.getItem('jwt') !== null;
   }
 
-  logout():void {
+  logout(): void {
     localStorage.removeItem('jwt');
   }
 }

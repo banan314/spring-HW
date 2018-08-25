@@ -1,11 +1,10 @@
 package hw.spring.services;
 
-import hw.spring.services.JwtTokenHandler;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -16,7 +15,7 @@ public class TokenAuthenticationService {
 
     private final JwtTokenHandler jwtTokenHandler;
 
-    @Autowired
+    @Inject
     public TokenAuthenticationService(JwtTokenHandler jwtTokenHandler) {
         this.jwtTokenHandler = jwtTokenHandler;
     }
