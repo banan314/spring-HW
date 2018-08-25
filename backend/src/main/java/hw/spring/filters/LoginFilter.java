@@ -54,7 +54,13 @@ public class LoginFilter extends AbstractAuthenticationProcessingFilter {
         } catch (JsonParseException e) {
             logger.severe("JSON Parsing Error: " + e.getMessage());
         }
-        return new UserDTO("default@gmail.com", "user", "password");
+        return new UserDTO("default@gmail.com",
+                "user",
+                "password",
+                "password",
+                "Josh",
+                "Kowalsky",
+                (short)30);
     }
 
     @Override

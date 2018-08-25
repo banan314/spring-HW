@@ -2,9 +2,6 @@ import { Injectable } from '@angular/core';
 import {DatabaseService} from './database.service';
 import {Activity} from '../model/activity';
 
-@Injectable({
-  providedIn: 'root'
-})
 export class ActivityService extends DatabaseService {
 
   private activityHref = '/activities';

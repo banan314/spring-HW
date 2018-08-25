@@ -3,9 +3,6 @@ import {DatabaseService} from './database.service';
 import {User} from '../model/user';
 import {Observable} from 'rxjs';
 
-@Injectable({
-  providedIn: 'root'
-})
 export class UserService extends DatabaseService {
 
   private usersHref = '/users';

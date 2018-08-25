@@ -1,6 +1,7 @@
 package hw.spring.services;
 
-import hw.spring.model.user.JavadevUserDetails;
+import hw.spring.model.CustomUserDetails;
+import hw.spring.model.Role;
 import hw.spring.model.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -15,6 +16,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import java.util.Collections;
 import java.util.Optional;
 
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
@@ -34,19 +37,30 @@ class JwtTokenHandlerTest {
 
     @Test
     void parseUserFromTokenTest() {
-        when(serviceMock.loadUserByUsername("user")).thenReturn(new JavadevUserDetails("user", "password",
-                Collections.singleton(User.Role.STUDENT::toString)));
-        Optional<UserDetails> user = tokenHandler.parseUserFromToken(token);
+        User user = fakeUser();
+        when(serviceMock.loadUserByUsername("user")).thenReturn(new CustomUserDetails(user));
+        Optional<UserDetails> userDetails = tokenHandler.parseUserFromToken(token);
 
         verify(serviceMock).loadUserByUsername("user");
-        user.ifPresent(userDetails -> assertEquals("password", userDetails.getPassword(), "passwords do not match"));
-//        user.ifPresent(userDetails -> assertThat(userDetails.getAuthorities().size(), is(1)));
+        userDetails.ifPresent(ud -> {
+            assertEquals("password", ud.getPassword(), "passwords do not match");
+            assertThat(ud.getAuthorities().size(), is(1));
+        });
+    }
+
+    private User fakeUser() {
+        User user = new User();
+        user.setUsername("user");
+        user.setPassword("password");
+        Role role = new Role();
+        role.setName("ROLE_STUDENT");
+        user.setRoles(Collections.singleton(role));
+        return user;
     }
 
     @Test
     void createTokenForUserTest() {
-        UserDetails user = new JavadevUserDetails("user", "password",
-                Collections.singleton(User.Role.STUDENT::toString));
+        UserDetails user = new CustomUserDetails(fakeUser());
 
         String token = tokenHandler.createTokenForUser(user);
         String alg = (String) Jwts.parser()

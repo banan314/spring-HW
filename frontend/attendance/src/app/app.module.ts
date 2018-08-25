@@ -12,6 +12,11 @@ import { FooterComponent } from './footer/footer.component';
 import { AttendanceListComponent } from './attendance-list/attendance-list.component';
 import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { LogInComponent } from './log-in/log-in.component';
+import { RegisterComponent } from './register/register.component';
+import {RegisterService} from './services/register.service';
+import {ActivityService} from './services/activity.service';
+import {UserService} from './services/user.service';
+import {LogInService} from './services/log-in.service';
 
 @NgModule({
   declarations: [
@@ -22,7 +27,8 @@ import { LogInComponent } from './log-in/log-in.component';
     FooterComponent,
     AttendanceListComponent,
     NavBarComponent,
-    LogInComponent
+    LogInComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +36,7 @@ import { LogInComponent } from './log-in/log-in.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [RegisterService, ActivityService, UserService, LogInService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,17 +1,18 @@
 package hw.spring.services.user;
 
-import hw.spring.model.user.JavadevUserDetails;
+import hw.spring.dto.UserDTO;
+import hw.spring.model.Role;
+import hw.spring.model.exception.EmailExistsException;
 import hw.spring.model.user.User;
 import hw.spring.repositories.UserRepository;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
-import java.util.Collection;
-import java.util.Collections;
+import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 /**
  * Created by Kamil on 31-Mar-17.
@@ -19,7 +20,8 @@ import java.util.Optional;
 @Service
 public class UserDefaultService implements UserService {
 
-    @Inject UserRepository userRepository;
+    @Inject
+    UserRepository userRepository;
 
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -57,27 +59,30 @@ public class UserDefaultService implements UserService {
         userRepository.save(user);
     }
 
+    @Transactional
     @Override
-    public UserDetails loadUserByUsername(String name) {
-        User loadedUser = userRepository.findByUsername(name);
-        if (null == loadedUser) {
-            return null;
+    public User registerNewUserAccount(UserDTO accountDTO) throws EmailExistsException {
+        if (emailExists(accountDTO.getEmail())) {
+            throw new EmailExistsException("There is an account with that email address: " + accountDTO.getEmail());
         }
-        return new JavadevUserDetails(loadedUser.getUsername(), loadedUser.getPassword(), authorities());
+        User user = new User();
+        user.setEmail(accountDTO.getEmail());
+        user.setUsername(accountDTO.getUsername());
+        user.setName(accountDTO.getName());
+        user.setSurname(accountDTO.getSurname());
+//        user.setAge();
+        user.setPassword(accountDTO.getPassword());
+
+
+        Set<Role> roles = new HashSet<>(1);
+        Role role = new Role();
+        role.setName("ROLE_STUDENT");
+        roles.add(role);
+        user.setRoles(roles);
+        return userRepository.save(user);
     }
 
-    @Override
-    public UserDetails loadUserByEmail(String email) {
-        User loadedUser = userRepository.findByEmail(email);
-        if (null == loadedUser) {
-            return null;
-        }
-        return new JavadevUserDetails(loadedUser.getUsername(), loadedUser.getPassword(), authorities());
+    private boolean emailExists(String email) {
+        return userRepository.existsUserByEmail(email);
     }
-
-    Collection<? extends GrantedAuthority> authorities() {
-        return Collections.singleton(User.Role.STUDENT::toString);
-    }
-
-
 }

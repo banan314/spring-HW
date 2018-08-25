@@ -1,10 +1,13 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {Injectable} from '@angular/core';
 
 /**
  * Created by kamil on 03.05.17.
  */
+@Injectable()
 export class DatabaseService {
-  protected backendHref = 'backend';
+  protected backendHref = 'http://localhost:8080';
+  // protected backendHref = '/backend';
 
   constructor(protected http: HttpClient) {
 
@@ -16,10 +19,12 @@ export class DatabaseService {
   }
 
   protected prepareHeaders() {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Accept': 'application/json',
-      'x-auth-token': localStorage.getItem('jwt')
-    });
+    let headers = new HttpHeaders()
+      .append('Content-Type', 'application/json')
+      .append('Accept', 'application/json');
+    if (null != localStorage.getItem('jwt')) {
+      headers = headers.append('x-auth-token', localStorage.getItem('jwt'));
+    }
+    return headers;
   }
 }

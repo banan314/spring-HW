@@ -4,12 +4,17 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hw.spring.common.serializer.ActivitiesListSerializer;
 import hw.spring.common.serializer.CustomDateSerializer;
 import hw.spring.model.Activity;
+import hw.spring.model.Role;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
+import static org.hibernate.annotations.CascadeType.ALL;
 
 /**
  * Created by Kamil on 31-Mar-17.
@@ -22,45 +27,39 @@ import java.util.List;
 )
 public class User implements Serializable {
 
-    public enum Role {
-        ADMIN, STUDENT;
-
-        @Override
-        public String toString() {
-            switch (this) {
-                case ADMIN: return "ROLE_ADMIN";
-                case STUDENT: return "ROLE_STUDENT";
-                default: return "ROLE";
-            }
-        }
-    }
-
     private @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq") int id;
 
     private String email;
     private String username;
+    private String name;
+    private String surname;
     private short age;
+
     private Sex sex;
-
-    private Role role;
     private String password;
-
     @JsonSerialize(using = CustomDateSerializer.class)
     private Date dateOfBirth;
 
     @JsonSerialize(using = ActivitiesListSerializer.class)
     @ManyToMany(mappedBy = "ownerUsers")
-    private List<Activity> activities = new ArrayList<Activity>();
+    private List<Activity> activities = new ArrayList<Activity>(); //TODO: should be a set
+
+    @OneToMany @Cascade(ALL)
+    private Set<Role> roles;
 
     public User() {
     }
 
-    public User(String username, String email, short age, Sex sex, Date dateOfBirth, String name) {
-        this.username = username;
-        this.age = age;
-        this.sex = sex;
-        this.dateOfBirth = dateOfBirth;
-        setEmail(email);
+    public User(User user) {
+        this.id = user.getId();
+        this.email = user.getEmail();
+        this.username = user.getUsername();
+        this.age = user.getAge();
+        this.sex = user.getSex();
+        this.roles = user.getRoles();
+        this.password = user.getPassword();
+        this.dateOfBirth = user.getDateOfBirth();
+        this.activities = user.getActivities();
     }
 
     public int getId() {
@@ -87,6 +86,22 @@ public class User implements Serializable {
         this.username = username;
     }
 
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public short getAge() {
         return age;
     }
@@ -101,14 +116,6 @@ public class User implements Serializable {
 
     public void setSex(Sex sex) {
         this.sex = sex;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 
     public String getPassword() {
@@ -138,6 +145,14 @@ public class User implements Serializable {
     public User addActivity(Activity activity) {
         this.activities.add(activity);
         return this;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     @Override
