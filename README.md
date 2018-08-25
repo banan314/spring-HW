@@ -18,9 +18,17 @@ Now you can create a web controller for a simple web application.
 Execute:
 
 ```
-$ mvn package && java -jar target/{project_id}-0.1.0.jar
-$ curl localhost:8080
-Greetings from Spring Boot!
+cd backend
+mvn clean spring-boot:run
+```
+
+For now, I recommend using Java 1.8 to avoid warnings that occur with Java 1.9:
+```
+WARNING: An illegal reflective access operation has occurred
+WARNING: Illegal reflective access by org.springframework.cglib.core.ReflectUtils$1 (file:/home/kamil/.m2/repository/org/springframework/spring-core/5.0.8.RELEASE/spring-core-5.0.8.RELEASE.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
+WARNING: Please consider reporting this to the maintainers of org.springframework.cglib.core.ReflectUtils$1
+WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
+WARNING: All illegal access operations will be denied in a future release
 ```
 
 ## Integration with database
