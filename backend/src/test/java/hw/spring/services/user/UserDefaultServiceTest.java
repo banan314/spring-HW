@@ -3,6 +3,7 @@ package hw.spring.services.user;
 import hw.spring.model.user.Sex;
 import hw.spring.model.user.User;
 import hw.spring.repositories.UserRepository;
+import hw.spring.services.UserTestHelper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -22,7 +23,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-public class UserDefaultServiceTest {
+public class UserDefaultServiceTest extends UserTestHelper {
     private static final Logger LOG = Logger.getLogger(UserDefaultServiceTest.class.getName());
 
     @Inject
@@ -48,11 +49,10 @@ public class UserDefaultServiceTest {
     private void createMockUsers() {
         User mockUser;
 
-        mockUser = new User("Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, Date.valueOf("1994-3-20"), "Joe Staunton");
+        mockUser = fakeUser();
         mockUsers.add(mockUser);
 
-        mockUser = new User("Bloody_Mary", "bmary@yandex.ru", (short) 25, Sex.MALE, Date.valueOf("1989-12-21"), "Mary " +
-                "Dobrowolski");
+        mockUser = fakeAnother();
         mockUsers.add(mockUser);
     }
 
@@ -76,8 +76,7 @@ public class UserDefaultServiceTest {
 
     @Test
     public void addUser() throws Exception {
-        User mockUser = new User("Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, Date.valueOf("1994-3-20"), "Joe " +
-                "Staunton");
+        User mockUser = fakeAnother();
 
         service.addUser(mockUser);
         verify(repository).save(mockUser);
@@ -96,8 +95,7 @@ public class UserDefaultServiceTest {
 
     @Test
     public void updateUser() throws Exception {
-        User mockUser = new User("Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, Date.valueOf("1994-3-20"), "Joe " +
-                "Staunton");
+        User mockUser = fakeAnother();
 
         service.updateUser(10, mockUser);
         verify(repository).save(mockUser);

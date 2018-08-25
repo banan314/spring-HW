@@ -2,6 +2,7 @@ package hw.spring.model.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hw.spring.model.Activity;
+import hw.spring.services.UserTestHelper;
 import hw.spring.services.activity.ActivityDefaultServiceTest;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ import static org.junit.Assert.assertThat;
 /**
  * Created by kamil on 26.04.17.
  */
-public class UserSerializationTest {
+public class UserSerializationTest extends UserTestHelper {
     List<Activity> mockActivities = new ArrayList<Activity>();
 
     private void createMockActivities() {
@@ -27,9 +28,7 @@ public class UserSerializationTest {
 
     @Test
     public void givenSexAndDate_whenSerializing_thenReadable() throws Exception {
-        User user = new User(
-                "Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, Date.valueOf("1994-3-20"),
-                "Joe Staunton");
+        User user = fakeUser();
 
         String result = new ObjectMapper().writeValueAsString(user);
 
@@ -41,9 +40,8 @@ public class UserSerializationTest {
 
     @Test
     public void givenActivities_whenSerializing_thenReadableOutput() throws Exception {
-        User user = new User(
-                "Joe334", "joe334@wp.pl", (short) 20, Sex.FEMALE, Date.valueOf("1994-3-20"),
-                "Joe Staunton");
+        User user = fakeUser();
+
         createMockActivities();
         mockActivities.stream().skip(1).forEach(a -> user.addActivity(a));
 
