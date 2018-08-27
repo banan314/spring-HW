@@ -6,27 +6,33 @@ export class LogInService {
 
   constructor(private http: HttpClient) { }
 
-  login(email: string, password: string) {
-    const loginRequest = JSON.stringify({email: email, password: password});
-    const headers = new HttpHeaders({'Content-Type': 'application/json', 'Accept': 'application/json'});
+  private _url = '/login';
+  private backendHref = 'http://localhost:8080';
 
-    const result = this.http.post('/backend/login', loginRequest, {headers: headers, observe: 'response'});
+  login(username: string, password: string) {
+    const parameters: string = ['username=' + username, 'password=' + password].join('&');
+    const headers = new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded');
+
+    const result = this.http.post(this.backendHref + this._url, parameters, {headers: headers, observe: 'response'});
     result.subscribe(response => this.mapResponse(response));
     return result;
   }
 
   private mapResponse(response: HttpResponse<Object>) {
-    //TODO: on rejection
     if (response.status === 200) {
-      localStorage.setItem('jwt', response.headers.get('x-auth-token'));
+      localStorage.setItem('session_id', response.headers.get('x-auth-token'));
     }
   }
 
   isSignedIn(): boolean {
-    return localStorage.getItem('jwt') !== null;
+    return localStorage.getItem('session_id') !== null;
+  }
+
+  getSessionId() {
+    return localStorage.getItem('session_id');
   }
 
   logout(): void {
-    localStorage.removeItem('jwt');
+    localStorage.removeItem('session_id');
   }
 }

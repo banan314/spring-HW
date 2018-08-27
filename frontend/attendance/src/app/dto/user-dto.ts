@@ -4,5 +4,5 @@ export class UserDTO {
   username: string;
   email: string;
   password: string;
-  confirmPassword: string;
+  matchingPassword: string;
 }
