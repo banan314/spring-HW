@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LogInComponent } from './log-in.component';
+import {RouterTestingModule} from '@angular/router/testing';
+import {FormsModule} from '@angular/forms';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {LogInService} from '../services/log-in.service';
+import {UserDTO} from '../dto/user-dto';
 
 describe('LogInComponent', () => {
   let component: LogInComponent;
@@ -8,7 +13,9 @@ describe('LogInComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LogInComponent ]
+      imports: [ RouterTestingModule, FormsModule, HttpClientTestingModule ],
+      declarations: [ LogInComponent ],
+      providers: [ LogInService ]
     })
     .compileComponents();
   }));

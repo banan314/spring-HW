@@ -1,6 +1,10 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {AttendanceListComponent} from './attendance-list.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {FormsModule} from '@angular/forms';
+import {UserService} from '../services/user.service';
 
 describe('AttendanceListComponent', () => {
   let component: AttendanceListComponent;
@@ -8,7 +12,9 @@ describe('AttendanceListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AttendanceListComponent ]
+      imports: [ RouterTestingModule, FormsModule, HttpClientTestingModule ],
+      declarations: [ AttendanceListComponent ],
+      providers: [ UserService ]
     })
     .compileComponents();
   }));
