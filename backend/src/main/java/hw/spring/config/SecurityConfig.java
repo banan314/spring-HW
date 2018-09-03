@@ -54,7 +54,7 @@ public class SecurityConfig
             .authorizeRequests()
             .antMatchers("/", "/docs", "/users/new").permitAll()
             .antMatchers("/login", "/logout", "/register").permitAll()
-            .antMatchers("/users/**", "/activities/**").authenticated()
+            .antMatchers("/users/**", "/activities/**").permitAll()
             .and()
                 .formLogin()
                 .and()
