@@ -29,7 +29,7 @@ public class UserControllerTest {
     public void getAllUsers() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/users")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isOk());
     }
 
 }
