@@ -27,9 +27,9 @@ public class UserControllerTest {
 
     @Test
     public void getAllUsers() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.request(HttpMethod.GET, "/users")
+        mvc.perform(MockMvcRequestBuilders.get("/users")
                 .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isForbidden());
+                .andExpect(status().isUnauthorized());
     }
 
 }

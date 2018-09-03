@@ -30,9 +30,8 @@ public class UserController {
     }
 
     @GetMapping(value = "")
-    public User[] getAllUsers() {
-        List<User> allUsers = userService.getAll();
-        return allUsers.toArray(new User[allUsers.size()]);
+    public List<User> getAllUsers() {
+        return userService.getAll();
     }
 
     @GetMapping(value = "/{id}")

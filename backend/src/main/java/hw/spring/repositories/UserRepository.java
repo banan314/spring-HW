@@ -1,6 +1,8 @@
 package hw.spring.repositories;
 
+import hw.spring.model.Role;
 import hw.spring.model.user.User;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

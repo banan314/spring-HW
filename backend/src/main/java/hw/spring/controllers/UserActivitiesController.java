@@ -8,6 +8,8 @@ import hw.spring.services.user.UserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -27,7 +29,7 @@ public class UserActivitiesController {
     }
 
     @GetMapping(value = "/{userId}/activities")
-    public List<Activity> getActivitiesByUserId(@PathVariable(name = "userId") int userId) {
+    public Collection<Activity> getActivitiesByUserId(@PathVariable(name = "userId") int userId) {
         User specific = fetchUserOrDefault(userId);
         if(specific == null)
             return null;
@@ -50,10 +52,9 @@ public class UserActivitiesController {
 
     @PostMapping(value = "/{id}/activities")
     public void post(@PathVariable(value = "id") int userId, @RequestBody Activity activities[]) {
-        User specific = fetchUserOrDefault(userId);
-        for(Activity activity : activities) {
-            relationshipFacade.assign(specific, activity);
-        }
+        Arrays.stream(activities).forEach(activity -> {
+            relationshipFacade.assign(userId, activity.getId());
+        });
     }
 
     @NotImplemented
