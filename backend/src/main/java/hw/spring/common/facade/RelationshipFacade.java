@@ -1,7 +1,6 @@
 package hw.spring.common.facade;
 
 import hw.spring.model.Activity;
-import hw.spring.model.UserActivity;
 import hw.spring.model.exception.NoSuchActivityException;
 import hw.spring.model.user.User;
 import hw.spring.services.activity.ActivityService;
@@ -19,26 +18,21 @@ public class RelationshipFacade {
     @Inject ActivityService activityService;
     @Inject UserService userService;
 
-    public void assign(User user, Activity activity) {
-        int userId = user.getId();
-        int activityId = (int) activity.getId();
+    public void assign(int userId, int activityId) {
+        User user = userService.getById(userId).orElse(new User());
+        Activity activity = activityService.getById(activityId).orElse(new Activity());
 
-        UserActivity userActivity = new UserActivity();
-        userActivity.setActivity(activity);
-        userActivity.setTheUser(user);
-
-        user.addActivity(activity.forUser(userActivity));
-        userService.updateUser(userId, user);
-        try {
-            activityService.updateActivity(activityId, activity);
-        } catch (NoSuchActivityException e) {
-            //TODO: handle it
-        }
+        assign(user, activity);
     }
 
-    public void assign(int userId, int activityId) {
-        User user;
-        user = userService.getById(userId).orElse(new User());
-        Activity activity = activityService.getById(activityId).orElse(new Activity());
+    private void assign(User user, Activity activity) {
+        int userId = user.getId();
+        int activityId = activity.getId();
+
+        user.addActivity(activity)
+                .forUser(user);
+
+        userService.updateUser(userId, user);
+        activityService.updateActivity(activityId, activity);
     }
 }

@@ -9,7 +9,9 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.inject.Inject;
 import java.sql.Date;
@@ -26,7 +28,6 @@ import static org.mockito.Mockito.when;
 public class UserDefaultServiceTest extends UserTestHelper {
     private static final Logger LOG = Logger.getLogger(UserDefaultServiceTest.class.getName());
 
-    @Inject
     private UserDefaultService service;
 
     @Mock
@@ -36,6 +37,7 @@ public class UserDefaultServiceTest extends UserTestHelper {
 
     @Before
     public void setUp() throws Exception {
+        service = new UserDefaultService();
         service.userRepository = repository;
         init();
     }
@@ -84,6 +86,7 @@ public class UserDefaultServiceTest extends UserTestHelper {
 
     @Test
     public void deleteUser() throws Exception {
+        when(repository.existsById(10)).thenReturn(true);
         service.deleteUser(10);
         verify(repository).deleteById(10);
     }

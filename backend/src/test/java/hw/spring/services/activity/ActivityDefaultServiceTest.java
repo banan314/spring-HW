@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -55,8 +56,9 @@ public class ActivityDefaultServiceTest {
     }
 
     private void createMockActivities() {
-        mockActivities.addAll(Arrays.asList(new Activity("lecturing", Date.valueOf("2016-3-20")), new Activity
-                ("exercising", Date.valueOf("2015-12-24")), new Activity("learning", Date.valueOf("2012-9-1"))));
+        mockActivities.addAll(Arrays.asList(new Activity("lecturing", Date.valueOf("2016-3-20")),
+                new Activity("exercising", Date.valueOf("2015-12-24")),
+                new Activity("learning", Date.valueOf("2012-9-1"))));
         mockActivities.stream().forEach(activity -> activity.setLocation("Politechnika Rzeszowska"));
     }
 
@@ -88,6 +90,7 @@ public class ActivityDefaultServiceTest {
 
     @Test
     public void deleteActivity() throws Exception {
+        Mockito.when(repository.existsById(10)).thenReturn(true);
         serviceNotAutowired.deleteActivity(10);
         verify(repository).deleteById(10);
     }

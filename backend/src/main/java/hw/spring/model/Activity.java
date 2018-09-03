@@ -3,6 +3,7 @@ package hw.spring.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hw.spring.common.serializer.CustomDateSerializer;
+import hw.spring.model.user.User;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -15,7 +16,9 @@ import java.util.List;
 @Entity(name = "activities")
 public class Activity implements Serializable {
 
-    private @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_id_seq") int id;
+     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_id_seq")
+     private int id;
+
     private String name;
     private String location;
 
@@ -24,7 +27,7 @@ public class Activity implements Serializable {
 
     @JsonIgnore
     @ManyToMany
-    private List<UserActivity> ownerUsers;
+    private List<User> ownerUsers;
 
     public Activity() { }
 
@@ -33,7 +36,7 @@ public class Activity implements Serializable {
         this.startDate = startDate;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -65,15 +68,15 @@ public class Activity implements Serializable {
         this.startDate = startDate;
     }
 
-    public List<UserActivity> getOwnerUsers() {
+    public List<User> getOwnerUsers() {
         return this.ownerUsers;
     }
 
-    public void setOwnerUsers(List<UserActivity> users) {
+    public void setOwnerUsers(List<User> users) {
         this.ownerUsers = users;
     }
 
-    public Activity forUser(UserActivity user) {
+    public Activity forUser(User user) {
         this.ownerUsers.add(user);
         return this;
     }

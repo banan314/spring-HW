@@ -5,16 +5,17 @@ import hw.spring.common.serializer.ActivitiesListSerializer;
 import hw.spring.common.serializer.CustomDateSerializer;
 import hw.spring.model.Activity;
 import hw.spring.model.Role;
-import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static org.hibernate.annotations.CascadeType.ALL;
+import static javax.persistence.CascadeType.ALL;
+import static javax.persistence.FetchType.EAGER;
 
 /**
  * Created by Kamil on 31-Mar-17.
@@ -37,14 +38,15 @@ public class User implements Serializable {
 
     private Sex sex;
     private String password;
+
     @JsonSerialize(using = CustomDateSerializer.class)
     private Date dateOfBirth;
 
     @JsonSerialize(using = ActivitiesListSerializer.class)
     @ManyToMany(mappedBy = "ownerUsers")
-    private List<Activity> activities = new ArrayList<Activity>(); //TODO: should be a set
+    private List<Activity> activities = new ArrayList<>();
 
-    @OneToMany @Cascade(ALL)
+    @ManyToMany(mappedBy = "users", cascade = ALL, fetch = EAGER)
     private Set<Role> roles;
 
     public User() {
@@ -142,9 +144,9 @@ public class User implements Serializable {
         this.activities = activities;
     }
 
-    public User addActivity(Activity activity) {
+    public Activity addActivity(Activity activity) {
         this.activities.add(activity);
-        return this;
+        return activity;
     }
 
     public Set<Role> getRoles() {

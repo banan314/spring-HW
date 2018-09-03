@@ -56,12 +56,8 @@ public class ActivityController {
 
     @PutMapping(value = "/{id}")
     public HttpStatus update(@PathVariable(value = "id") int id, @RequestBody Activity activity) {
-        try {
-            activityService.updateActivity(id, activity);
-            return HttpStatus.OK;
-        } catch (NoSuchActivityException e) {
-            return HttpStatus.NOT_FOUND;
-        }
+        activityService.updateActivity(id, activity);
+        return HttpStatus.OK;
     }
 
     @DeleteMapping(value = "/{id}")

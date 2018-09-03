@@ -15,5 +15,5 @@ public interface ActivityService {
     Optional<Activity> getById(int id);
     void addActivity(Activity activity) throws BadRequestException;
     void deleteActivity(int id);
-    void updateActivity(int id, Activity user) throws NoSuchActivityException;
+    void updateActivity(int id, Activity user);
 }

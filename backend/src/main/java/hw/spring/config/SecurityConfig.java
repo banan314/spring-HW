@@ -1,8 +1,6 @@
 package hw.spring.config;
 
-import hw.spring.filters.LoginFilter;
 import hw.spring.services.CustomUserDetailsService;
-import hw.spring.services.TokenAuthenticationService;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,61 +11,84 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.inject.Inject;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.Arrays;
 
 @Configuration
-@Order(SecurityProperties.BASIC_AUTH_ORDER)
+@Order(SecurityProperties.IGNORED_ORDER)
 public class SecurityConfig
         extends WebSecurityConfigurerAdapter {
 
     @Inject
     private CustomUserDetailsService userDetailsService;
 
-    @Inject
-    private TokenAuthenticationService tokenAuthenticationService;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //TODO: must be a better workaround...
-        /** INFO:
-         * with CSRF enabled, after posting login credentials the server responded 403:
-         * Forbidden","message":"Invalid CSRF Token 'null' was found on the request parameter '_csrf' or header 'X-CSRF-TOKEN'.","path":"/login"
-         * */
         http.csrf().disable();
+        http.cors();
 
-//        AuthenticationSuccessHandler successHandler = new
-//                http.formLogin().successHandler();
+//        AuthenticationSuccessHandler successHandler = (request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK);
+        AuthenticationFailureHandler failureHandler = (request, response, exception) -> {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().print("Bad credentials");
+        };
+
         http
             .authorizeRequests()
             .antMatchers("/", "/docs", "/users/new").permitAll()
             .antMatchers("/login", "/logout", "/register").permitAll()
             .antMatchers("/users/**", "/activities/**").authenticated()
             .and()
-            .formLogin()
+                .formLogin()
+                .and()
+                .httpBasic()
 
         //TODO: how about endpoints that gives access to users via activities
         ;
-
-        http.addFilterBefore(
-                new LoginFilter("/users/**", tokenAuthenticationService, userDetailsService, authenticationManager()),
-                UsernamePasswordAuthenticationFilter.class
-        );
 
         LogoutSuccessHandler logoutSuccessHandler = new LogoutSuccessHandlerImp();
         http.logout()
                 .logoutUrl("/logout")
                 .logoutSuccessHandler(logoutSuccessHandler);
 
-        //TODO: add it
-        /*http.addFilterBefore(
-                new AuthenticationFilter(tokenAuthenticationService),
-                UsernamePasswordAuthenticationFilter.class
-        );*/
+        http.exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
+            @Override
+            public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
+                if (null != authException) {
+                    response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                    response.getWriter().print("Unauthorized ...");
+                }
+            }
+        });
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOrigins(Arrays.asList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowCredentials(true);
+        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 
     @Override
@@ -78,12 +99,25 @@ public class SecurityConfig
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(new PlainTextPasswordEncoder());
     }
 
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    public class PlainTextPasswordEncoder implements PasswordEncoder {
+
+        @Override
+        public String encode(CharSequence rawPassword) {
+            return rawPassword.toString();
+        }
+
+        @Override
+        public boolean matches(CharSequence rawPassword, String encodedPassword) {
+            return rawPassword.toString().equals(encodedPassword);
+        }
     }
 }
