@@ -5,8 +5,6 @@ import {HttpClient, HttpClientModule, HttpHandler} from '@angular/common/http';
 import {UserDTO} from '../dto/user-dto';
 import {BrowserModule} from '@angular/platform-browser';
 
-import { of } from 'rxjs';
-
 describe('RegisterService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -26,13 +24,13 @@ describe('RegisterService', () => {
       username: 'jkow',
       email: 'jkow@gmail.com',
       password: 'pass',
-      confirmPassword: 'pass'
+      matchingPassword: 'pass'
     };
 
     spyOn(service, 'registerUser').and.callThrough();
 
     service.registerUser(userDTO).subscribe(resp => {
-      expect(resp.ok).toBe(false);
+      expect(resp.ok).toBe(true);
     });
   })));
 });

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 /**
@@ -56,9 +57,10 @@ public class ActivityDefaultService implements ActivityService {
         activityRepository.deleteAll();
     }
 
-    public void updateActivity(int id, Activity activity) throws NoSuchActivityException {
-        if (activityRepository.existsById(id)) {
-            activityRepository.save(activity);
+    public void updateActivity(int id, Activity activity) {
+        if(null == activity) {
+            throw new NoSuchElementException();
         }
+        activityRepository.save(activity);
     }
 }

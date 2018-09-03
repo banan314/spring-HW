@@ -4,6 +4,7 @@ import hw.spring.dto.UserDTO;
 import hw.spring.model.Role;
 import hw.spring.model.exception.EmailExistsException;
 import hw.spring.model.user.User;
+import hw.spring.repositories.RoleRepository;
 import hw.spring.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,9 @@ public class UserDefaultService implements UserService {
 
     @Inject
     UserRepository userRepository;
+
+    @Inject
+    RoleRepository roleRepository;
 
     public void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -75,8 +79,7 @@ public class UserDefaultService implements UserService {
 
 
         Set<Role> roles = new HashSet<>(1);
-        Role role = new Role();
-        role.setName("ROLE_STUDENT");
+        Role role = roleRepository.findRole("ROLE_STUDENT");
         roles.add(role);
         user.setRoles(roles);
         return userRepository.save(user);

@@ -16,8 +16,6 @@ export class UserService extends DatabaseService {
   }
 
   addUser(user: User, callback: () => void) {
-    console.log('add ' + user.username);
-    console.log('href = ' + this.backendHref + this.usersHref);
     return this.http.post(this.backendHref + this.usersHref,
       JSON.stringify({username: user.username}),
       {headers: this.prepareHeaders()});
@@ -32,7 +30,7 @@ export class UserService extends DatabaseService {
   }
 
   assignActivity(activityId: number, userId: number) {
-    return this.http.put(this.composeIdUrl(userId) + '/activities/' + activityId.toString(), null);
+    return this.http.put(this.composeIdUrl(userId) + '/activities/' + activityId.toString(), null, { withCredentials: true });
   }
 
   private composeIdUrl(id: number): string {
