@@ -1122,7 +1122,7 @@ var DatabaseService = /** @class */ (function () {
     // protected backendHref = '/backend';
     function DatabaseService(http) {
         this.http = http;
-        this.backendHref = 'http://localhost:8080';
+        this.backendHref = 'http://localhost:' + '21851';
     }
     DatabaseService.prototype.get = function (endpoint, subscribe) {
         var url = this.backendHref + endpoint;
@@ -1194,7 +1194,7 @@ var LogInService = /** @class */ (function () {
         this.http = http;
         this.cookie = cookie;
         this._url = '/login';
-        this.backendHref = 'http://localhost:8080';
+        this.backendHref = 'http://localhost:' + '21851';
     }
     LogInService.prototype.login = function (username, password) {
         // const parameters: string = ['username=' + username, 'password=' + password].join('&');
