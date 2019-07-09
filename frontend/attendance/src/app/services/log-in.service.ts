@@ -5,6 +5,8 @@ import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
 export class LogInService {
 
   constructor(private http: HttpClient) { }
+  private _url = '/login';
+  private backendHref = 'http://localhost:' + '8080';
 
   login(email: string, password: string) {
     const loginRequest = JSON.stringify({email: email, password: password});
