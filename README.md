@@ -2,6 +2,7 @@
 To run frontend, go to `frontend/attendance` and then follow the instructions in [README](./frontend/attendance/README.md). That is, 
 ```
 cd frontend/attendance
+npm install
 npm start
 ```
 
