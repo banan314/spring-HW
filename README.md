@@ -67,7 +67,16 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
-hw.spring.jwt.secret: ########       
+hw.spring.jwt.secret: ########    
+   
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 604800
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
 ```
 where `******` is my password. You also have to provide secret string for JSON Web Tokens (`######`).
 
