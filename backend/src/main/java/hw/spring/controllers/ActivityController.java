@@ -48,6 +48,7 @@ public class ActivityController {
         return activitiesArray;
     }
 
+
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping(value = "")
     public void create(@Valid @RequestBody Activity activity) throws BadRequestException {

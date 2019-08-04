@@ -7,12 +7,9 @@ import hw.spring.model.Activity;
 import hw.spring.model.Role;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
@@ -38,6 +35,11 @@ public class User implements Serializable {
 
     private Sex sex;
     private String password;
+
+    @Column(name = "LASTPASSWORDRESETDATE")
+    @Temporal(TemporalType.TIMESTAMP)
+    @NotNull
+    private java.util.Date lastPasswordResetDate;
 
     @JsonSerialize(using = CustomDateSerializer.class)
     private Date dateOfBirth;
@@ -160,5 +162,25 @@ public class User implements Serializable {
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", username=" + username + ", age=" + age + ", sex=" + sex + ", dateOfBirth=" + dateOfBirth + '}';
+    }
+
+    public String getFirstname() {
+        return "N/A";
+    }
+
+    public String getLastname() {
+        return "N/A";
+    }
+
+    public Collection<Role> getAuthorities() {
+        return roles;
+    }
+
+    public Boolean getEnabled() {
+        return true;
+    }
+
+    public Date getLastPasswordResetDate() {
+        return lastPasswordResetDate;
     }
 }

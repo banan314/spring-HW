@@ -6,11 +6,9 @@ import {CookieService} from 'ngx-cookie-service';
 export class LogInService {
 
   private _url = '/login';
-  private backendHref = 'http://localhost:8080';
+  private backendHref = 'http://localhost:' + '8080';
 
   constructor(private http: HttpClient, private cookie: CookieService) { }
-
-
 
   login(username: string, password: string) {
     // const parameters: string = ['username=' + username, 'password=' + password].join('&');
