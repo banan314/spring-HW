@@ -9,7 +9,11 @@ import hw.spring.model.Role;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.*;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
@@ -180,7 +184,7 @@ public class User implements Serializable {
         return true;
     }
 
-    public Date getLastPasswordResetDate() {
+    public java.util.Date getLastPasswordResetDate() {
         return lastPasswordResetDate;
     }
 }
