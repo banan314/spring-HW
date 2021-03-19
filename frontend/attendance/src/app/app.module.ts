@@ -18,6 +18,8 @@ import {ActivityService} from './services/activity.service';
 import {UserService} from './services/user.service';
 import {LogInService} from './services/log-in.service';
 import {CookieService} from 'ngx-cookie-service';
+import {AuthGuard} from './auth-guard/auth-guard';
+import {LoggedInAuthGuard} from './logged-in-auth-guard/logged-in-auth-guard';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,9 @@ import {CookieService} from 'ngx-cookie-service';
     ActivityService,
     UserService,
     LogInService,
-    CookieService
+    CookieService,
+    AuthGuard,
+    LoggedInAuthGuard
   ],
   bootstrap: [AppComponent]
 })

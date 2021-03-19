@@ -7,6 +7,7 @@ export class LogInService {
 
   private _url = '/login';
   private backendHref = 'http://localhost:' + '8080';
+  private _isLoggedIn = false;
 
   constructor(private http: HttpClient, private cookie: CookieService) { }
 
@@ -24,11 +25,26 @@ export class LogInService {
       authorization : 'Basic ' + btoa(username + ':' + password)
     });
 
-    return this.http.get(this.backendHref + this._url, {headers: headers});
+    const response = this.http.get(this.backendHref + this._url, {headers: headers});
+
+    response.subscribe((res: Response) => {
+      const status = res.status;
+      if (status === 200) {
+        this._isLoggedIn = true;
+      } else {
+        this._isLoggedIn = false;
+      }
+    });
+
+    return response;
   }
 
   private mapResponse(response: HttpResponse<Object>) {
       console.log(response.headers);
+  }
+
+  isLoggedIn(): boolean {
+    return this._isLoggedIn;
   }
 
   logout(): void {
