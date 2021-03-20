@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Attendance manager';
-  greetings = 'Sprawdź swoją obecność i dostępne zajęcia. Dodaj zajęcia lub użytkowników.';
+  greetings = 'Check your attendence and available activities. Add new activities or users.';
 }
