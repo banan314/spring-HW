@@ -1,20 +1,15 @@
 package hw.spring.services.user;
 
-import hw.spring.model.user.Sex;
 import hw.spring.model.user.User;
 import hw.spring.repositories.UserRepository;
-import hw.spring.services.UserTestHelper;
+import hw.spring.UserTestHelper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.inject.Inject;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;

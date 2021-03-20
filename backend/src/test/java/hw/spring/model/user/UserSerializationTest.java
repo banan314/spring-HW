@@ -2,11 +2,10 @@ package hw.spring.model.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import hw.spring.model.Activity;
-import hw.spring.services.UserTestHelper;
+import hw.spring.UserTestHelper;
 import hw.spring.services.activity.ActivityDefaultServiceTest;
 import org.junit.Test;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 

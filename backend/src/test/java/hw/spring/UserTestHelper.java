@@ -1,4 +1,4 @@
-package hw.spring.services;
+package hw.spring;
 
 import hw.spring.model.user.Sex;
 import hw.spring.model.user.User;
