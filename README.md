@@ -23,15 +23,6 @@ cd backend
 mvn clean spring-boot:run
 ```
 
-For now, I recommend using Java 1.8 to avoid warnings that occur with Java 1.9:
-```
-WARNING: An illegal reflective access operation has occurred
-WARNING: Illegal reflective access by org.springframework.cglib.core.ReflectUtils$1 (file:/home/kamil/.m2/repository/org/springframework/spring-core/5.0.8.RELEASE/spring-core-5.0.8.RELEASE.jar) to method java.lang.ClassLoader.defineClass(java.lang.String,byte[],int,int,java.security.ProtectionDomain)
-WARNING: Please consider reporting this to the maintainers of org.springframework.cglib.core.ReflectUtils$1
-WARNING: Use --illegal-access=warn to enable warnings of further illegal reflective access operations
-WARNING: All illegal access operations will be denied in a future release
-```
-
 ## Integration with database
 To integrate your application with PostgreSQL database, you have to supply 
 configuration file to Spring framework and put it somewhere in `/src/main/resources` probably.
@@ -79,6 +70,3 @@ jwt:
       refresh: refresh
 ```
 where `******` is my password. You also have to provide secret string for JSON Web Tokens (`######`).
-
-### Links:
-<http://www.baeldung.com/jackson-bidirectional-relationships-and-infinite-recursion>
