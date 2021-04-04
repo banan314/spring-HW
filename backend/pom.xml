@@ -17,6 +17,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.0.4.RELEASE</version>
+        <relativePath/>
     </parent>
 
     <dependencies>
@@ -76,7 +77,7 @@
         <dependency>
             <groupId>org.springframework.mobile</groupId>
             <artifactId>spring-mobile-autoconfigure</artifactId>
-            <version>RELEASE</version>
+            <version>2.0.0.M3</version>
         </dependency>
 
         <dependency>
@@ -114,14 +115,5 @@
             <url>https://repo.spring.io/milestone</url>
         </repository>
     </repositories>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
 
 </project>
