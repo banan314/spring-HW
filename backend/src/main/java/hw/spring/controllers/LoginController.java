@@ -6,6 +6,7 @@ import hw.spring.model.jwt.JwtAuthenticationRequest;
 import hw.spring.model.jwt.JwtUser;
 import hw.spring.model.jwt.JwtAuthenticationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 @RestController
-public class AuthenticationRestController {
+@RequestMapping(path = "${jwt.route.authentication.path}")
+public class LoginController {
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -32,11 +34,12 @@ public class AuthenticationRestController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Qualifier("jwtUserDetailsService")
     @Autowired
     private UserDetailsService userDetailsService;
 
-    @RequestMapping(value = "${jwt.route.authentication.path}", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
+    @PostMapping(value = "/login")
+    public ResponseEntity<?> login(@RequestBody JwtAuthenticationRequest authenticationRequest) throws AuthenticationException {
 
         authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
 
@@ -48,7 +51,7 @@ public class AuthenticationRestController {
         return ResponseEntity.ok(new JwtAuthenticationResponse(token));
     }
 
-    @RequestMapping(value = "${jwt.route.authentication.refresh}", method = RequestMethod.GET)
+    @GetMapping(value = "${jwt.route.authentication.refresh}")
     public ResponseEntity<?> refreshAndGetAuthenticationToken(HttpServletRequest request) {
         String authToken = request.getHeader(tokenHeader);
         final String token = authToken.substring(7);
@@ -63,18 +66,10 @@ public class AuthenticationRestController {
         }
     }
 
-    @ExceptionHandler({AuthenticationException.class})
-    public ResponseEntity<String> handleAuthenticationException(AuthenticationException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-    }
-
     /**
      * Authenticates the user. If something is wrong, an {@link AuthenticationException} will be thrown
      */
     private void authenticate(String username, String password) {
-        Objects.requireNonNull(username);
-        Objects.requireNonNull(password);
-
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         } catch (DisabledException e) {
@@ -82,5 +77,10 @@ public class AuthenticationRestController {
         } catch (BadCredentialsException e) {
             throw new AuthenticationException("Bad credentials!", e);
         }
+    }
+
+    @ExceptionHandler({AuthenticationException.class})
+    public ResponseEntity<String> handleAuthenticationException(AuthenticationException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
     }
 }

@@ -7,6 +7,7 @@ import hw.spring.services.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
@@ -14,14 +15,10 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @RestController
-public class AuthenticationController {
+@RequestMapping(path = "${jwt.route.authentication.path}")
+public class RegisterController {
     @Inject
     UserService userService;
-
-//    @GetMapping(value = "/login")
-//    public String login() {
-//        return "login";
-//    }
 
     @PostMapping(value = "/register")
     public HttpStatus registerUser(@Valid @RequestBody UserDTO accountDTO) {
@@ -42,5 +39,4 @@ public class AuthenticationController {
         }
         return Optional.of(registered);
     }
-
 }

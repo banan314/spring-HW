@@ -63,7 +63,7 @@ public class SecurityConfig
 
             .authorizeRequests()
 
-            .antMatchers("/auth/**").permitAll()
+            .antMatchers(this.authenticationPath + "/**").permitAll()
             .antMatchers(HttpMethod.OPTIONS).permitAll()
             .anyRequest().authenticated();
 
@@ -113,26 +113,13 @@ public class SecurityConfig
     }
 
     @Bean
-    public PasswordEncoder passwordEncoderBean() {
-        return new BCryptPasswordEncoder();
-    }
-
-    @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
 
-//    public class PlainTextPasswordEncoder implements PasswordEncoder {
-//
-//        @Override
-//        public String encode(CharSequence rawPassword) {
-//            return rawPassword.toString();
-//        }
-//
-//        @Override
-//        public boolean matches(CharSequence rawPassword, String encodedPassword) {
-//            return rawPassword.toString().equals(encodedPassword);
-//        }
-//    }
+    @Bean
+    public PasswordEncoder passwordEncoderBean() {
+        return new BCryptPasswordEncoder();
+    }
 }
