@@ -22,11 +22,6 @@ public class UserDTO {
     @NotEmpty
     private String username;
 
-    private String name;
-    private String surname;
-    private short age;
-    private Sex sex;
-
     @NotNull
     @NotEmpty
     private String password;
@@ -35,15 +30,21 @@ public class UserDTO {
     @NotEmpty
     private String matchingPassword;
 
+    private String name;
+    private String surname;
+    private short age;
+    private Sex sex;
     private Date dateOfBirth;
 
-    public UserDTO(@JsonProperty(value = "email", defaultValue = "default@df.net") String email,
-                   @JsonProperty(value = "username", defaultValue = "defaultUser") String username,
+    public UserDTO(@JsonProperty(value = "email") String email,
+                   @JsonProperty(value = "username") String username,
                    @JsonProperty(value = "password", required = true) String password,
                    @JsonProperty(value = "matchingPassword", required = true) String matchingPassword,
-                   @JsonProperty(value = "name") String name,
-                   @JsonProperty(value = "surname") String surname,
-                   @JsonProperty(value = "age") short age) {
+                   @JsonProperty(value = "name", defaultValue = "Jan") String name,
+                   @JsonProperty(value = "surname", defaultValue = "Kowalski") String surname,
+                   @JsonProperty(value = "age", defaultValue = "20") short age,
+                   @JsonProperty(value = "sex", defaultValue = "FEMALE") Sex sex,
+                   @JsonProperty(value = "dateOfBirth", defaultValue = "1989-12-21") Date dateOfBirth) {
         this.email = email;
         this.username = username;
         this.password = password;
@@ -51,6 +52,8 @@ public class UserDTO {
         this.name = name;
         this.surname = surname;
         this.age = age;
+        this.sex = sex;
+        this.dateOfBirth = dateOfBirth;
     }
 
     public String getEmail() {
@@ -125,9 +128,11 @@ public class UserDTO {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public UsernamePasswordAuthenticationToken toAuthenticationToken() {
-        //TODO: I don't know if email or username?
-        UsernamePasswordAuthenticationToken upat = new UsernamePasswordAuthenticationToken(email, password);
-        return upat;
+    public UsernamePasswordAuthenticationToken toEmailAuthenticationToken() {
+        return new UsernamePasswordAuthenticationToken(email, password);
+    }
+
+    public UsernamePasswordAuthenticationToken toUsernameAuthenticationToken() {
+        return new UsernamePasswordAuthenticationToken(username, password);
     }
 }
