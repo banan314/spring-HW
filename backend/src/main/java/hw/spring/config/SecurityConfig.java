@@ -1,7 +1,7 @@
 package hw.spring.config;
 
-import hw.spring.security.JwtAuthorizationTokenFilter;
-import hw.spring.services.CustomUserDetailsService;
+import hw.spring.filters.JwtAuthorizationTokenFilter;
+import hw.spring.services.userdetails.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
@@ -77,7 +77,7 @@ public class SecurityConfig
                 .cacheControl();
 
 //        AuthenticationSuccessHandler successHandler = (request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK);
-//        AuthenticationFailureHandler failureHandler = (request, response, exception) -> {
+//        AuthenticationFailureHandler failureHandler = (request, response, exceptions) -> {
 //            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
 //            response.getWriter().print("Bad credentials");
 //        };

@@ -3,8 +3,8 @@ package hw.spring.model.user;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hw.spring.common.serializer.ActivitiesListSerializer;
 import hw.spring.common.serializer.CustomDateSerializer;
-import hw.spring.model.Activity;
-import hw.spring.model.Role;
+import hw.spring.model.activity.Activity;
+import hw.spring.model.user.role.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

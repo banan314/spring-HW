@@ -1,9 +1,8 @@
 package hw.spring.services.activity;
 
-import hw.spring.model.Activity;
-import hw.spring.model.exception.BadRequestException;
-import hw.spring.model.exception.NoSuchActivityException;
-import hw.spring.repositories.ActivityRepository;
+import hw.spring.model.activity.Activity;
+import hw.spring.common.exceptions.BadRequestException;
+import hw.spring.model.repositories.ActivityRepository;
 import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;

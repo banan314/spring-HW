@@ -1,8 +1,7 @@
 package hw.spring.controllers;
 
-import hw.spring.model.Activity;
-import hw.spring.model.exception.BadRequestException;
-import hw.spring.model.exception.NoSuchActivityException;
+import hw.spring.model.activity.Activity;
+import hw.spring.common.exceptions.BadRequestException;
 import hw.spring.services.activity.ActivityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

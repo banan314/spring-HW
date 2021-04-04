@@ -1,6 +1,6 @@
 package hw.spring.controllers;
 
-import hw.spring.common.facade.RelationshipFacade;
+import hw.spring.facades.RelationshipFacade;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;

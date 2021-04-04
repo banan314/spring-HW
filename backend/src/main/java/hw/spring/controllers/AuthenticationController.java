@@ -1,17 +1,15 @@
 package hw.spring.controllers;
 
-import hw.spring.dto.UserDTO;
-import hw.spring.model.exception.EmailExistsException;
+import hw.spring.model.dto.UserDTO;
+import hw.spring.common.exceptions.EmailExistsException;
 import hw.spring.model.user.User;
 import hw.spring.services.user.UserService;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
-import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.Optional;
 

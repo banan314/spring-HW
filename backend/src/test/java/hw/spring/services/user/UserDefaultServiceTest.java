@@ -1,8 +1,8 @@
 package hw.spring.services.user;
 
 import hw.spring.model.user.User;
-import hw.spring.repositories.UserRepository;
-import hw.spring.UserTestHelper;
+import hw.spring.model.repositories.UserRepository;
+import hw.spring.helpers.UserTestHelper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -65,7 +65,7 @@ public class UserDefaultServiceTest extends UserTestHelper {
         try {
             service.getById(10).get();
         } catch (NoSuchElementException e) {
-            LOG.info("no such user exception thrown");
+            LOG.info("no such user exceptions thrown");
         } finally {
             verify(repository).findById(10);
         }

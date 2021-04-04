@@ -2,9 +2,7 @@ package hw.spring.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import hw.spring.UserTestHelper;
-import hw.spring.model.Activity;
-import hw.spring.model.user.User;
+import hw.spring.model.activity.Activity;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

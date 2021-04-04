@@ -1,7 +1,7 @@
 package hw.spring.services.user;
 
-import hw.spring.dto.UserDTO;
-import hw.spring.model.exception.EmailExistsException;
+import hw.spring.model.dto.UserDTO;
+import hw.spring.common.exceptions.EmailExistsException;
 import hw.spring.model.user.User;
 
 import java.util.List;

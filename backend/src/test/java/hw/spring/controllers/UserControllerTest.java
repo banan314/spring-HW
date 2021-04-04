@@ -1,9 +1,8 @@
 package hw.spring.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
-import hw.spring.UserTestHelper;
+import hw.spring.helpers.UserTestHelper;
 import hw.spring.model.user.User;
 import org.junit.Ignore;
 import org.junit.Test;
