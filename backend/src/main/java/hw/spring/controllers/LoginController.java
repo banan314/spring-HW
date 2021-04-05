@@ -3,8 +3,8 @@ package hw.spring.controllers;
 import hw.spring.common.exceptions.AuthenticationException;
 import hw.spring.components.JwtTokenUtil;
 import hw.spring.model.jwt.JwtAuthenticationRequest;
-import hw.spring.model.jwt.JwtUser;
 import hw.spring.model.jwt.JwtAuthenticationResponse;
+import hw.spring.model.jwt.JwtUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,7 +19,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "${jwt.route.authentication.path}")

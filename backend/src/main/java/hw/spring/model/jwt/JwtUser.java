@@ -1,12 +1,11 @@
 package hw.spring.model.jwt;
 
-import java.util.Collection;
-import java.util.Date;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.Collection;
+import java.util.Date;
 
 /**
  * Created by stephan on 20.03.16.

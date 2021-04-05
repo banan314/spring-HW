@@ -1,8 +1,8 @@
 package hw.spring.services.userdetails;
 
-import hw.spring.model.user.User;
-import hw.spring.model.repositories.UserRepository;
 import hw.spring.factories.JwtUserFactory;
+import hw.spring.model.repositories.UserRepository;
+import hw.spring.model.user.User;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,7 +1,7 @@
 package hw.spring.services.activity;
 
-import hw.spring.model.activity.Activity;
 import hw.spring.common.exceptions.BadRequestException;
+import hw.spring.model.activity.Activity;
 
 import java.util.List;
 import java.util.Optional;

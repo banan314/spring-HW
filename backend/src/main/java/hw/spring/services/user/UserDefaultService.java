@@ -1,11 +1,11 @@
 package hw.spring.services.user;
 
-import hw.spring.model.dto.UserDTO;
-import hw.spring.model.user.role.Role;
 import hw.spring.common.exceptions.EmailExistsException;
-import hw.spring.model.user.User;
+import hw.spring.model.dto.UserDTO;
 import hw.spring.model.repositories.RoleRepository;
 import hw.spring.model.repositories.UserRepository;
+import hw.spring.model.user.User;
+import hw.spring.model.user.role.Role;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

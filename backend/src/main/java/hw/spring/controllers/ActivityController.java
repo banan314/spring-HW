@@ -1,14 +1,15 @@
 package hw.spring.controllers;
 
-import hw.spring.model.activity.Activity;
 import hw.spring.common.exceptions.BadRequestException;
+import hw.spring.model.activity.Activity;
 import hw.spring.services.activity.ActivityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
 import javax.validation.Valid;
-import java.util.*;
+import java.util.Collection;
+import java.util.NoSuchElementException;
 
 /**
  * Created by Kamil on 9-Apr-17.

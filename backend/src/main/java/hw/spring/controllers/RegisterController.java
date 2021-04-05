@@ -1,7 +1,7 @@
 package hw.spring.controllers;
 
-import hw.spring.model.dto.UserDTO;
 import hw.spring.common.exceptions.EmailExistsException;
+import hw.spring.model.dto.UserDTO;
 import hw.spring.model.user.User;
 import hw.spring.services.user.UserService;
 import org.springframework.http.HttpStatus;
