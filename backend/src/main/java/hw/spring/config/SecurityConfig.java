@@ -44,8 +44,8 @@ public class SecurityConfig
 
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.
-            csrf().disable()
+        httpSecurity
+           .csrf().disable()
 
             .exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
                 @Override
@@ -63,46 +63,16 @@ public class SecurityConfig
 
             .authorizeRequests()
 
+            .anyRequest().authenticated()
             .antMatchers(this.authenticationPath + "/**").permitAll()
-            .antMatchers(HttpMethod.OPTIONS).permitAll()
-            .anyRequest().authenticated();
+            .antMatchers(HttpMethod.OPTIONS).permitAll();
 
         httpSecurity
-                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+            .requestMatchers()
+                .antMatchers("/users/**", "/activities/**").and()
+            .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
-        // disable page caching
-        httpSecurity
-                .headers()
-                .frameOptions().sameOrigin()  // required to set for H2 else H2 Console will be blank.
-                .cacheControl();
-
-//        AuthenticationSuccessHandler successHandler = (request, response, authentication) -> response.setStatus(HttpServletResponse.SC_OK);
-//        AuthenticationFailureHandler failureHandler = (request, response, exceptions) -> {
-//            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-//            response.getWriter().print("Bad credentials");
-//        };
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-            .antMatchers(
-                    HttpMethod.POST,
-                    authenticationPath
-            )
-
-            // allow anonymous resource requests
-            .and()
-            .ignoring()
-            .antMatchers(
-                    HttpMethod.GET,
-                    "/",
-                    "/*.html",
-                    "/favicon.ico",
-                    "/**/*.html",
-                    "/**/*.css",
-                    "/**/*.js"
-            );
+        httpSecurity.cors();
     }
 
     @Override
