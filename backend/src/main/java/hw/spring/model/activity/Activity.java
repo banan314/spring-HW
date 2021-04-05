@@ -2,7 +2,7 @@ package hw.spring.model.activity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import hw.spring.common.serializer.CustomDateSerializer;
+import hw.spring.common.serializers.CustomDateSerializer;
 import hw.spring.model.user.User;
 
 import javax.persistence.*;

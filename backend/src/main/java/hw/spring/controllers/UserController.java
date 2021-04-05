@@ -1,6 +1,5 @@
 package hw.spring.controllers;
 
-import hw.spring.common.NotImplemented;
 import hw.spring.model.user.User;
 import hw.spring.services.user.UserService;
 import org.springframework.http.HttpStatus;
@@ -53,10 +52,5 @@ public class UserController {
     @DeleteMapping(value = "/{id}")
     public void deleteUser(@PathVariable int id) {
         userService.deleteUser(id);
-    }
-
-    @DeleteMapping(value = "")
-    @NotImplemented
-    public void deleteAll() {
     }
 }

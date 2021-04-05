@@ -1,6 +1,5 @@
 package hw.spring.controllers;
 
-import hw.spring.common.NotImplemented;
 import hw.spring.facades.RelationshipFacade;
 import hw.spring.model.activity.Activity;
 import hw.spring.model.user.User;
@@ -54,11 +53,5 @@ public class UserActivitiesController {
         Arrays.stream(activities).forEach(activity -> {
             relationshipFacade.assign(userId, activity.getId());
         });
-    }
-
-    @NotImplemented
-    @RequestMapping(value = "/{id}/activities", method = RequestMethod.DELETE)
-    public void deleteActivities(@PathVariable(value = "id") int userId) {
-
     }
 }
