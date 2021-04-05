@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -70,6 +72,7 @@ public class UserDefaultService implements UserService {
         user.setEmail(accountDTO.getEmail());
         user.setUsername(accountDTO.getUsername());
         user.setPassword(passwordEncoder.encode(accountDTO.getPassword()));
+        user.setLastPasswordResetDate(Date.valueOf(LocalDate.now()));
         user.setName(accountDTO.getName());
         user.setSurname(accountDTO.getSurname());
         user.setAge(accountDTO.getAge());

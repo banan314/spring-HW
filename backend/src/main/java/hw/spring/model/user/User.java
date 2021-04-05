@@ -1,8 +1,8 @@
 package hw.spring.model.user;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import hw.spring.common.serializer.ActivitiesListSerializer;
-import hw.spring.common.serializer.CustomDateSerializer;
+import hw.spring.common.serializers.ActivitiesListSerializer;
+import hw.spring.common.serializers.CustomDateSerializer;
 import hw.spring.model.activity.Activity;
 import hw.spring.model.user.role.Role;
 
@@ -134,6 +134,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public java.util.Date getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(java.util.Date lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
@@ -148,11 +156,6 @@ public class User implements Serializable {
 
     public void setActivities(List<Activity> activities) {
         this.activities = activities;
-    }
-
-    public Activity addActivity(Activity activity) {
-        this.activities.add(activity);
-        return activity;
     }
 
     public Set<Role> getRoles() {
@@ -172,6 +175,11 @@ public class User implements Serializable {
         return "N/A";
     }
 
+    public Activity addActivity(Activity activity) {
+        this.activities.add(activity);
+        return activity;
+    }
+
     public String getLastname() {
         return "N/A";
     }
@@ -182,9 +190,5 @@ public class User implements Serializable {
 
     public Boolean getEnabled() {
         return true;
-    }
-
-    public java.util.Date getLastPasswordResetDate() {
-        return lastPasswordResetDate;
     }
 }
