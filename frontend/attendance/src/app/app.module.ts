@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
@@ -17,9 +17,16 @@ import {RegisterService} from './services/register.service';
 import {ActivityService} from './services/activity.service';
 import {UserService} from './services/user.service';
 import {LogInService} from './services/log-in.service';
-import {CookieService} from 'ngx-cookie-service';
-import {AuthGuard} from './auth-guard/auth-guard';
-import {LoggedInAuthGuard} from './logged-in-auth-guard/logged-in-auth-guard';
+import {BackendService} from './services/backend.service';
+import {DatabaseService} from './services/database.service';
+import {RouterModule} from '@angular/router';
+import {AuthInterceptorService} from './services/auth-interceptor.service';
+
+const httpInterceptors = [{
+  provide: HTTP_INTERCEPTORS,
+  useClass: AuthInterceptorService,
+  multi: true
+}];
 
 @NgModule({
   declarations: [
@@ -35,18 +42,19 @@ import {LoggedInAuthGuard} from './logged-in-auth-guard/logged-in-auth-guard';
   ],
   imports: [
     BrowserModule,
+    RouterModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule
   ],
   providers: [
+    BackendService,
+    DatabaseService,
     RegisterService,
+    LogInService,
     ActivityService,
     UserService,
-    LogInService,
-    CookieService,
-    AuthGuard,
-    LoggedInAuthGuard
+    httpInterceptors
   ],
   bootstrap: [AppComponent]
 })

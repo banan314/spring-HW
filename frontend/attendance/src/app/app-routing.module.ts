@@ -5,25 +5,20 @@ import {ActivityListComponent} from './activity-list/activity-list.component';
 import {NewStudentComponent} from './new-student/new-student.component';
 import {NavBarComponent} from './nav-bar/nav-bar.component';
 import {LogInComponent} from './log-in/log-in.component';
-import {RegisterComponent} from "./register/register.component";
-import {LoggedInAuthGuard} from './logged-in-auth-guard/logged-in-auth-guard';
-import {AuthGuard} from './auth-guard/auth-guard';
+import {RegisterComponent} from './register/register.component';
 
 const routes: Routes = [
   {
     path: 'students',
     component: AttendanceListComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'activities',
     component: ActivityListComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: 'newstudent',
     component: NewStudentComponent,
-    canActivate: [AuthGuard]
   },
   {
     path: '',
@@ -32,7 +27,6 @@ const routes: Routes = [
   {
     path: 'login',
     component: LogInComponent,
-    canActivate: [LoggedInAuthGuard]
   },
   {
     path: 'register',
@@ -41,7 +35,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

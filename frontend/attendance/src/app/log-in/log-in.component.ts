@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {LogInService} from '../services/log-in.service';
 
@@ -22,12 +22,6 @@ export class LogInComponent implements OnInit {
     this.logInService.login(username, password)
       .subscribe(() => {
         this.router.navigate(['/activities']);
-      }, this.handleError);
+      });
   }
-
-  handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
-  }
-
 }

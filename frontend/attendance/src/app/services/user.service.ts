@@ -1,8 +1,8 @@
-import {Injectable} from '@angular/core';
 import {DatabaseService} from './database.service';
 import {User} from '../model/user';
-import {Observable} from 'rxjs';
+import {Injectable} from '@angular/core';
 
+@Injectable()
 export class UserService extends DatabaseService {
 
   private usersHref = '/users';
@@ -12,28 +12,26 @@ export class UserService extends DatabaseService {
   }
 
   getById(id: number) {
-    return this.http.get(this.composeIdUrl(id));
+    return this.get(this.composeIdUrl(id));
   }
 
-  addUser(user: User, callback: () => void) {
-    return this.http.post(this.backendHref + this.usersHref,
-      JSON.stringify({username: user.username}),
-      {headers: this.prepareHeaders()});
+  addUser(user: User) {
+    return this.post(this.usersHref, {username: user.username});
   }
 
-  deleteUser(id: number, callback?: () => void) {
-    return this.http.delete(this.composeIdUrl(id), null);
+  deleteUser(id: number) {
+    return this.delete(this.composeIdUrl(id));
   }
 
   updateUser(id: number, user: User) {
-    return this.http.put(this.composeIdUrl(id), user);
+    return this.put(this.composeIdUrl(id), user);
   }
 
   assignActivity(activityId: number, userId: number) {
-    return this.http.put(this.composeIdUrl(userId) + '/activities/' + activityId.toString(), null, { withCredentials: true });
+    return this.put(this.composeIdUrl(userId) + '/activities/' + activityId.toString());
   }
 
   private composeIdUrl(id: number): string {
-    return this.backendHref + this.usersHref + '/' + id.toString();
+    return this.usersHref + '/' + id.toString();
   }
 }

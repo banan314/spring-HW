@@ -26,7 +26,7 @@ export class ActivityListComponent implements OnInit {
 
   getActivities() {
     this.activityService.getActivities()
-      .subscribe(data => this.activities = data['activities']); // TODO: check
+      .subscribe(data => this.activities = data.body['activities']); // TODO: check
   }
 
   deleteActivity(activity: Activity): void {

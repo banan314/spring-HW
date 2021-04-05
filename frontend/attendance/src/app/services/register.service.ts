@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {UserDTO} from '../dto/user-dto';
-import {DatabaseService} from './database.service';
+import {BackendService} from './backend.service';
 
-// @Injectable({
-//   providedIn: 'root'
-// })
-export class RegisterService extends DatabaseService {
+@Injectable()
+export class RegisterService extends BackendService {
 
-  private registerHref = '/register';
+  private _url = this.backendHref + '/auth/register';
 
   public registerUser(userDTO: UserDTO) {
-    return this.http.post(this.backendHref + this.registerHref, JSON.stringify(userDTO),
-       { headers: this.prepareHeaders(), observe: 'response' }  );
+    return this.http.post(this._url, JSON.stringify(userDTO), {
+      headers: this.prepareHeaders(),
+      observe: 'response'
+    });
   }
 }

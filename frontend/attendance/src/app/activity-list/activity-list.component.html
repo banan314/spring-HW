@@ -32,12 +32,12 @@
       <h4 class="text-center">Fill in the form to add new activities.</h4>
       <form>
         <div class="form-group">
-          <label for="exampleInputFirstName">Subject</label>
-          <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Temat zajęć" [(ngModel)]="activity.name" name="firstName">
+          <label for="exampleInputFirstName">Subject: </label>
+          <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Subject" [(ngModel)]="activity.name" name="firstName">
         </div>
         <div class="form-group">
-          <label for="exampleInputLastName">Location</label>
-          <input type="text" class="form-control" id="exampleInputLastName" placeholder="Lokalizacja" [(ngModel)]="activity.location" name="lastName">
+          <label for="exampleInputLastName">Location: </label>
+          <input type="text" class="form-control" id="exampleInputLastName" placeholder="Location" [(ngModel)]="activity.location" name="lastName">
         </div>
 
         <div class='form-group date datepicker'>

@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {RouterTestingModule} from '@angular/router/testing';
 import {AppComponent} from './app.component';
@@ -9,7 +9,7 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       imports: [ RouterTestingModule, FormsModule],
       declarations: [ AppComponent, FooterComponent ]
@@ -27,7 +27,7 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`should have as title 'attendance'`, async(() => {
+  it(`should have as title 'attendance'`, waitForAsync(() => {
     console.log(component.title.toLowerCase());
     expect(component.title.toLowerCase()).toContain('attendance');
   }));
