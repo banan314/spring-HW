@@ -6,12 +6,24 @@
     <groupId>hw.spring</groupId>
     <artifactId>backend</artifactId>
 
-    <version>0.4</version>
+    <version>0.5</version>
 
     <properties>
-        <java.version>12</java.version>
+        <java.version>13</java.version>
         <junit.jupiter.version>5.3.0-M1</junit.jupiter.version>
     </properties>
+
+    <packaging>jar</packaging>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>2.5.4</version>
+            </plugin>
+        </plugins>
+    </build>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
