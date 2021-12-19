@@ -1,5 +1,6 @@
 package hw.spring.config;
 
+import hw.spring.filters.AdminAuthorizationFilter;
 import hw.spring.filters.JwtAuthorizationTokenFilter;
 import hw.spring.services.userdetails.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Value;
@@ -34,6 +35,9 @@ public class SecurityConfig
 
     @Inject
     private JwtAuthorizationTokenFilter authenticationTokenFilter;
+
+    @Inject
+    AdminAuthorizationFilter adminAuthorizationFilter;
 
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -70,6 +74,11 @@ public class SecurityConfig
             .requestMatchers()
                 .antMatchers("/users/**", "/activities/**").and()
             .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+
+        httpSecurity
+            .requestMatchers()
+                .antMatchers("/users/**").and()
+            .addFilter(adminAuthorizationFilter);
 
         httpSecurity.cors();
     }
