@@ -1,5 +1,6 @@
 package hw.spring.model.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import hw.spring.common.serializers.ActivitiesListSerializer;
 import hw.spring.common.serializers.CustomDateSerializer;
@@ -18,9 +19,6 @@ import java.util.Set;
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 
-/**
- * Created by Kamil on 31-Mar-17.
- */
 @Entity
 @Table(
         name = "users",
@@ -53,6 +51,7 @@ public class User implements Serializable {
     private List<Activity> activities = new ArrayList<>();
 
     @ManyToMany(mappedBy = "users", cascade = ALL, fetch = EAGER)
+    @JsonManagedReference
     private Set<Role> roles;
 
     public User() {

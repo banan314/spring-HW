@@ -1,5 +1,7 @@
 package hw.spring.model.user.role;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import hw.spring.model.user.User;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -22,6 +24,7 @@ public class Role implements GrantedAuthority {
     private RoleName name;
 
     @ManyToMany
+    @JsonBackReference
     private List<User> users = new ArrayList<>();
 
     public Role() {
