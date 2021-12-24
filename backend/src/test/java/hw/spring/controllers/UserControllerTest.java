@@ -39,7 +39,7 @@ public class UserControllerTest extends UserTestHelper {
     private ObjectWriter mapper = new ObjectMapper().writerWithDefaultPrettyPrinter();
 
     @Test
-    @WithMockUser(username = "test", password = "test", roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "test", password = "test", roles = {"ADMIN"})
     public void getAllUsers() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/users")
                 .accept(MediaType.APPLICATION_JSON))
@@ -58,7 +58,7 @@ public class UserControllerTest extends UserTestHelper {
     }
 
     @Test
-    @WithMockUser(username = "test", password = "test", roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "test", password = "test", roles = {"ADMIN"})
     public void post() throws Exception {
         User user = fakeUser();
 
@@ -68,7 +68,7 @@ public class UserControllerTest extends UserTestHelper {
     }
 
     @Test
-    @WithMockUser(username = "test", password = "test", roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "test", password = "test", roles = {"ADMIN"})
     public void put() throws Exception {
         User user = fakeUser();
 
@@ -78,7 +78,7 @@ public class UserControllerTest extends UserTestHelper {
     }
 
     @Test
-    @WithMockUser(username = "test", password = "test", roles = {"USER", "ADMIN"})
+    @WithMockUser(username = "test", password = "test", roles = {"ADMIN"})
     public void deleteUser() throws Exception {
         mvc.perform(MockMvcRequestBuilders.post("/users/2"));
     }
