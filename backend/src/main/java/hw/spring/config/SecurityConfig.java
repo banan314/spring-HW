@@ -78,7 +78,7 @@ public class SecurityConfig
         httpSecurity
             .requestMatchers()
                 .antMatchers("/users/**").and()
-            .addFilter(adminAuthorizationFilter);
+            .addFilterBefore(adminAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
 
         httpSecurity.cors();
     }
