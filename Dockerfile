@@ -1,7 +1,7 @@
 # stage 1
 FROM node as frontend
 WORKDIR /frontend
-COPY frontend .
+COPY frontend/attendance .
 RUN git config --global url."https://".insteadOf ssh://
 RUN npm install
 RUN npm run build
