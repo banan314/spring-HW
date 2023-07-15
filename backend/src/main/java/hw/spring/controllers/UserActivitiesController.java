@@ -1,8 +1,7 @@
 package hw.spring.controllers;
 
-import hw.spring.common.NotImplemented;
-import hw.spring.common.facade.RelationshipFacade;
-import hw.spring.model.Activity;
+import hw.spring.facades.RelationshipFacade;
+import hw.spring.model.activity.Activity;
 import hw.spring.model.user.User;
 import hw.spring.services.user.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.inject.Inject;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Created by kamil on 15.04.17.
@@ -55,11 +53,5 @@ public class UserActivitiesController {
         Arrays.stream(activities).forEach(activity -> {
             relationshipFacade.assign(userId, activity.getId());
         });
-    }
-
-    @NotImplemented
-    @RequestMapping(value = "/{id}/activities", method = RequestMethod.DELETE)
-    public void deleteActivities(@PathVariable(value = "id") int userId) {
-
     }
 }

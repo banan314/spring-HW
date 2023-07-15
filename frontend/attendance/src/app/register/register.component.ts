@@ -1,5 +1,4 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {Component, OnInit} from '@angular/core';
 import {RegisterService} from 'src/app/services/register.service';
 import {UserDTO} from '../dto/user-dto';
 

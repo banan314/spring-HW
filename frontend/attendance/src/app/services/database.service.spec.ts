@@ -1,8 +1,7 @@
-import { TestBed, inject } from '@angular/core/testing';
+import {inject, TestBed} from '@angular/core/testing';
 
 import {HttpClient, HttpHandler} from '@angular/common/http';
 import {DatabaseService} from './database.service';
-import {RouterTestingModule} from '@angular/router/testing';
 
 describe('DatabaseService', () => {
   beforeEach(() => {

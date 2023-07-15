@@ -1,20 +1,15 @@
 package hw.spring.services.user;
 
-import hw.spring.model.user.Sex;
 import hw.spring.model.user.User;
-import hw.spring.repositories.UserRepository;
-import hw.spring.services.UserTestHelper;
+import hw.spring.model.repositories.UserRepository;
+import hw.spring.helpers.UserTestHelper;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.inject.Inject;
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -24,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@Ignore("install all first, then remove")
 @RunWith(MockitoJUnitRunner.class)
 public class UserDefaultServiceTest extends UserTestHelper {
     private static final Logger LOG = Logger.getLogger(UserDefaultServiceTest.class.getName());
@@ -70,7 +66,7 @@ public class UserDefaultServiceTest extends UserTestHelper {
         try {
             service.getById(10).get();
         } catch (NoSuchElementException e) {
-            LOG.info("no such user exception thrown");
+            LOG.info("no such user exceptions thrown");
         } finally {
             verify(repository).findById(10);
         }

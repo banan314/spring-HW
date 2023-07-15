@@ -1,52 +1,54 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
+import {BackendService} from './backend.service';
 
 /**
  * Created by kamil on 03.05.17.
  */
 @Injectable()
-export class DatabaseService {
-  protected backendHref = 'http://localhost:8080';
-  // protected backendHref = '/backend';
+export class DatabaseService extends BackendService {
 
   constructor(protected http: HttpClient) {
-
+    super(http);
   }
 
-  protected get(endpoint: string, subscribe: (() => void)) {
+  protected get(endpoint: string) {
     const url = this.backendHref + endpoint;
-    this.http.get(url, {headers: this.prepareHeaders(), withCredentials: true, observe: 'response'})
-      .subscribe(subscribe, this.handleError);
+    const res = this.http.get(url, {
+      headers: this.prepareHeaders().append('Authorization', localStorage.getItem('jwt')),
+      observe: 'response'
+    });
+    res.subscribe(this.handleError);
+    return res;
   }
 
-  protected post(endpoint: string, body: string, subscribe: (() => void)) {
+  protected post(endpoint: string, body) {
     const url = this.backendHref + endpoint;
-    this.http.post(url, body, {headers: this.prepareHeaders(), withCredentials: true, observe: 'response'})
-      .subscribe(subscribe, this.handleError);
+    const res = this.http.post(url, body, {
+      headers: this.prepareHeaders().append('Authorization', localStorage.getItem('jwt')),
+      observe: 'response'
+    });
+    res.subscribe(this.handleError);
+    return res;
   }
 
-  protected put(endpoint: string, body: string, subscribe: (() => void)) {
+  protected put(endpoint: string, body?) {
     const url = this.backendHref + endpoint;
-    this.http.put(url, body, {headers: this.prepareHeaders(), withCredentials: true, observe: 'response'})
-      .subscribe(subscribe, this.handleError);
+    const res = this.http.put(url, body, {
+      headers: this.prepareHeaders().append('Authorization', localStorage.getItem('jwt')),
+      observe: 'response'
+    });
+    res.subscribe(this.handleError);
+    return res;
   }
 
-  protected delete(endpoint: string, body: string, subscribe: (() => void)) {
+  protected delete(endpoint: string) {
     const url = this.backendHref + endpoint;
-    this.http.delete(url, {headers: this.prepareHeaders(), withCredentials: true, observe: 'response'})
-      .subscribe(subscribe, this.handleError);
-
-  }
-
-  protected handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
-  }
-
-  protected prepareHeaders() {
-    return new HttpHeaders()
-      .append('Content-Type', 'application/json')
-      .append('Accept', 'application/json');
+    const res = this.http.delete(url, {
+      headers: this.prepareHeaders().append('Authorization', localStorage.getItem('jwt')),
+      observe: 'response'
+    });
+    res.subscribe(this.handleError);
+    return res;
   }
 }

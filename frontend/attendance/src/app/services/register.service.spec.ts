@@ -1,7 +1,7 @@
-import {TestBed, inject, async} from '@angular/core/testing';
+import {inject, TestBed, waitForAsync} from '@angular/core/testing';
 
-import { RegisterService } from './register.service';
-import {HttpClient, HttpClientModule, HttpHandler} from '@angular/common/http';
+import {RegisterService} from './register.service';
+import {HttpClientModule} from '@angular/common/http';
 import {UserDTO} from '../dto/user-dto';
 import {BrowserModule} from '@angular/platform-browser';
 
@@ -17,7 +17,7 @@ describe('RegisterService', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('should register a valid user', async(inject([RegisterService], (service: RegisterService) => {
+  it('should register a valid user', waitForAsync(inject([RegisterService], (service: RegisterService) => {
     const userDTO: UserDTO = {
       firstName: 'John',
       lastName: 'Kowalsky',

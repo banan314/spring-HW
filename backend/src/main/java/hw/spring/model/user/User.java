@@ -1,22 +1,24 @@
 package hw.spring.model.user;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import hw.spring.common.serializer.ActivitiesListSerializer;
-import hw.spring.common.serializer.CustomDateSerializer;
-import hw.spring.model.Activity;
-import hw.spring.model.Role;
+import hw.spring.common.serializers.ActivitiesListSerializer;
+import hw.spring.common.serializers.CustomDateSerializer;
+import hw.spring.model.activity.Activity;
+import hw.spring.model.user.role.Role;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.*;
+import java.sql.Date;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
 import static javax.persistence.FetchType.EAGER;
 
-/**
- * Created by Kamil on 31-Mar-17.
- */
 @Entity
 @Table(
         name = "users",
@@ -49,6 +51,7 @@ public class User implements Serializable {
     private List<Activity> activities = new ArrayList<>();
 
     @ManyToMany(mappedBy = "users", cascade = ALL, fetch = EAGER)
+    @JsonManagedReference
     private Set<Role> roles;
 
     public User() {
@@ -130,6 +133,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public java.util.Date getLastPasswordResetDate() {
+        return lastPasswordResetDate;
+    }
+
+    public void setLastPasswordResetDate(java.util.Date lastPasswordResetDate) {
+        this.lastPasswordResetDate = lastPasswordResetDate;
+    }
+
     public Date getDateOfBirth() {
         return dateOfBirth;
     }
@@ -144,11 +155,6 @@ public class User implements Serializable {
 
     public void setActivities(List<Activity> activities) {
         this.activities = activities;
-    }
-
-    public Activity addActivity(Activity activity) {
-        this.activities.add(activity);
-        return activity;
     }
 
     public Set<Role> getRoles() {
@@ -168,6 +174,11 @@ public class User implements Serializable {
         return "N/A";
     }
 
+    public Activity addActivity(Activity activity) {
+        this.activities.add(activity);
+        return activity;
+    }
+
     public String getLastname() {
         return "N/A";
     }
@@ -178,9 +189,5 @@ public class User implements Serializable {
 
     public Boolean getEnabled() {
         return true;
-    }
-
-    public Date getLastPasswordResetDate() {
-        return lastPasswordResetDate;
     }
 }

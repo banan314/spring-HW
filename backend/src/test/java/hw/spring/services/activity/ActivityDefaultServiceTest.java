@@ -1,7 +1,7 @@
 package hw.spring.services.activity;
 
-import hw.spring.model.Activity;
-import hw.spring.repositories.ActivityRepository;
+import hw.spring.model.activity.Activity;
+import hw.spring.model.repositories.ActivityRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

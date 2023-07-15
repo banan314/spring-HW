@@ -21,17 +21,13 @@ export class AttendanceListComponent implements OnInit {
   }
 
   ngOnInit() {
-
     this.getUsers();
   }
 
   addUser() {
-    console.log('adduser');
-    this.userService.addUser(this.user,
-      () => {
-        this.getUsers();
-      }
-    );
+    this.userService
+      .addUser(this.user)
+      .subscribe(this.getUsers);
   }
 
   getUsers() {
@@ -44,7 +40,7 @@ export class AttendanceListComponent implements OnInit {
   }
 
   deleteUser(user: User) {
-    this.userService.deleteUser(user.id, () => this.getUsers());
+    this.userService.deleteUser(user.id).subscribe(this.getUsers);
   }
 
   editUser(user: User) {

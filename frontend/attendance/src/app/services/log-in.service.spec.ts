@@ -1,15 +1,14 @@
-import {TestBed, inject, async} from '@angular/core/testing';
+import {inject, TestBed, waitForAsync} from '@angular/core/testing';
 
-import { LogInService } from './log-in.service';
-import {CookieService} from 'ngx-cookie-service';
-import {HttpClient, HttpClientModule, HttpHandler} from '@angular/common/http';
+import {LogInService} from './log-in.service';
+import {HttpClientModule} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
 
 describe('LogInService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ BrowserModule, HttpClientModule ],
-      providers: [ LogInService, CookieService ]
+      providers: [ LogInService ]
     });
   });
 
@@ -17,7 +16,7 @@ describe('LogInService', () => {
     expect(service).toBeTruthy();
   }));
 
-  it('test user successfully logs in', async(inject([LogInService], (service: LogInService) => {
+  it('test user successfully logs in', waitForAsync(inject([LogInService], (service: LogInService) => {
     spyOn(service, 'login').and.callThrough();
 
     service.login('test', 'test').subscribe(resp => {

@@ -1,37 +1,52 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders, HttpResponse} from '@angular/common/http';
-import {CookieService} from 'ngx-cookie-service';
+import {Token} from '../model/Token';
+import {BackendService} from './backend.service';
 
-@Injectable()
-export class LogInService {
+@Injectable({
+  providedIn: 'root'
+})
+export class LogInService extends BackendService {
 
-  private _url = '/login';
-  private backendHref = 'http://localhost:' + '8080';
+  private _url = '/auth/login';
 
-  constructor(private http: HttpClient, private cookie: CookieService) { }
+  constructor(protected http: HttpClient) {
+    super(http);
+  }
 
   login(username: string, password: string) {
-    // const parameters: string = ['username=' + username, 'password=' + password].join('&');
-    // const headers = new HttpHeaders().append('Content-Type', 'application/x-www-form-urlencoded');
-    //
-    // const result = this.http.post(this.backendHref + this._url, parameters, {headers: headers, observe: 'response'});
-    // result.subscribe(response => this.mapResponse(response), (error) => {
-    //   console.log(error);
-    // });
-    // return result;
+    const headers = new HttpHeaders().append('Content-Type', 'application/json');
 
-    const headers = new HttpHeaders({
-      authorization : 'Basic ' + btoa(username + ':' + password)
+    const res = this.http.post(this.backendHref + this._url, {
+      username: username,
+      password: password
+    }, {
+      headers: headers,
+      observe: 'response'
     });
+    res.subscribe(this.mapResponse, this.handleError);
 
-    return this.http.get(this.backendHref + this._url, {headers: headers});
+    return res;
   }
 
-  private mapResponse(response: HttpResponse<Object>) {
-      console.log(response.headers);
+  private mapResponse(res: HttpResponse<Object>) {
+    const status = res.status;
+    if (status === 200) {
+      const token = (res.body as Token).token;
+      localStorage.setItem('jwt', token);
+    }
   }
 
-  logout(): void {
-    this.cookie.delete('JSESSIONID');
+  isLoggedIn(): Promise<boolean> {
+    const token = localStorage.getItem('jwt');
+    return new Promise<boolean>(resolve => {
+      if (token) {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        resolve(payload.exp > (Date.now() / 1000));
+      } else {
+        resolve(false);
+      }
+    });
   }
 }
+

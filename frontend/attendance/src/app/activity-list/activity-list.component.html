@@ -1,14 +1,14 @@
 <div class="container">
-  <h3>Lista zajęć</h3>
-  Wybierz z listy zajęcia w których brałeś udział
-  <p><b>Twoja obecność na zajęciach: 2/8</b></p>
+  <h3>Activity list</h3>
+  Select from the list activities you took part in
+  <p><b>Your attendence: 2/8</b></p>
   <table class="table table-striped">
     <thead>
     <tr>
       <th></th>
-      <th>Nazwa zajęć</th>
-      <th>Lokalizacja</th>
-      <th>Data</th>
+      <th>Activity name</th>
+      <th>Location</th>
+      <th>Date</th>
       <th></th>
     </tr>
     </thead>
@@ -28,20 +28,20 @@
 
   <div class="row">
     <div class="col-md-6 col-md-offset-3">
-      <h1 class="text-center">Dodawanie zajęć</h1>
-      <h4 class="text-center">Uzupełnij formularz aby dodać nowe zajęcia.</h4>
+      <h1 class="text-center">Submission of activities</h1>
+      <h4 class="text-center">Fill in the form to add new activities.</h4>
       <form>
         <div class="form-group">
-          <label for="exampleInputFirstName">Temat zajęć</label>
-          <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Temat zajęć" [(ngModel)]="activity.name" name="firstName">
+          <label for="exampleInputFirstName">Subject: </label>
+          <input type="text" class="form-control" id="exampleInputFirstName" placeholder="Subject" [(ngModel)]="activity.name" name="firstName">
         </div>
         <div class="form-group">
-          <label for="exampleInputLastName">Lokalizacja</label>
-          <input type="text" class="form-control" id="exampleInputLastName" placeholder="Lokalizacja" [(ngModel)]="activity.location" name="lastName">
+          <label for="exampleInputLastName">Location: </label>
+          <input type="text" class="form-control" id="exampleInputLastName" placeholder="Location" [(ngModel)]="activity.location" name="lastName">
         </div>
 
         <div class='form-group date datepicker'>
-          <label for="datepicker">Data: <i class="glyphicon glyphicon-calendar"></i></label>
+          <label for="datepicker">Date: <i class="glyphicon glyphicon-calendar"></i></label>
           <input type='text' class="form-control" id="datepicker" placeholder="Data" [(ngModel)]="activity.startDate" name="startDate">
           <span class="input-group-addon" style="display: none" onclick="$('#datepicker').datepicker('dialog', new Date());">
 
@@ -49,7 +49,7 @@
           {{activity.startDate}}
         </div>
 
-        <button type="submit" class="btn btn-default center-block" style="color: white; background-color: #ff7726; width: 190px;" (click)="addActivity()">Dodaj zajęcie</button>
+        <button type="submit" class="btn btn-default center-block" style="color: white; background-color: #ff7726; width: 190px;" (click)="addActivity()">Add an activity</button>
       </form>
     </div>
   </div>

@@ -1,4 +1,4 @@
-import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed, waitForAsync} from '@angular/core/testing';
 
 import {ActivityListComponent} from './activity-list.component';
 import {FormsModule} from '@angular/forms';
@@ -10,7 +10,7 @@ describe('ActivityListComponent', () => {
   let component: ActivityListComponent;
   let fixture: ComponentFixture<ActivityListComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ActivityListComponent ],
       imports: [ RouterTestingModule, FormsModule, HttpClientTestingModule ],
