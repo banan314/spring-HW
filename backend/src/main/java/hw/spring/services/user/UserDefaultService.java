@@ -6,11 +6,11 @@ import hw.spring.model.repositories.RoleRepository;
 import hw.spring.model.repositories.UserRepository;
 import hw.spring.model.user.User;
 import hw.spring.model.user.role.Role;
+import hw.spring.model.user.role.RoleName;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.inject.Inject;
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -24,14 +24,15 @@ import java.util.Set;
 @Service
 public class UserDefaultService implements UserService {
 
-    @Inject
     UserRepository userRepository;
-
-    @Inject
     RoleRepository roleRepository;
-
-    @Inject
     PasswordEncoder passwordEncoder;
+
+    public UserDefaultService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public List<User> getAll() {
         return userRepository.findAllByOrderById();
@@ -80,7 +81,7 @@ public class UserDefaultService implements UserService {
         user.setDateOfBirth(accountDTO.getDateOfBirth());
 
         Set<Role> roles = new HashSet<>(1);
-        Role role = roleRepository.findRole("ROLE_STUDENT");
+        Role role = roleRepository.findRoleByName(RoleName.ROLE_STUDENT);
         roles.add(role);
         user.setRoles(roles);
         return userRepository.save(user);

@@ -3,32 +3,31 @@ package hw.spring.config;
 import hw.spring.filters.AdminAuthorizationFilter;
 import hw.spring.filters.JwtAuthorizationTokenFilter;
 import hw.spring.services.userdetails.CustomUserDetailsService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Configuration
 @Order(SecurityProperties.IGNORED_ORDER)
-public class SecurityConfig
-        extends WebSecurityConfigurerAdapter {
+public class SecurityConfig {
 
     @Inject
     private CustomUserDetailsService userDetailsService;
@@ -45,55 +44,63 @@ public class SecurityConfig
     @Value("${jwt.route.authentication.path}")
     private String authenticationPath;
 
-    @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity
-           .csrf().disable()
-
-            .exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
-                @Override
-                public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-                    if (null != authException) {
-                        // This is invoked when user tries to access a secured REST resource without supplying any credentials
-                        // We should just send a 401 Unauthorized response because there is no 'login page' to redirect to
-                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized ...");
-                    }
-                }
-            }).and()
-
-            // don't create session
-            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-
-            .authorizeRequests()
-
-            .anyRequest().authenticated()
-            .antMatchers(this.authenticationPath + "/**").permitAll()
-            .antMatchers(HttpMethod.OPTIONS).permitAll();
-
-        httpSecurity
-            .requestMatchers()
-                .antMatchers("/users/**", "/activities/**").and()
-            .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-
-        httpSecurity
-            .requestMatchers()
-                .antMatchers("/users/**").and()
-            .addFilterBefore(adminAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
-
-        httpSecurity.cors();
-    }
-
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth
-            .userDetailsService(userDetailsService)
-            .passwordEncoder(passwordEncoderBean());
-    }
+    private static final String[] AUTH_WHITELIST = {
+            // -- Swagger UI v2
+            "/v2/api-docs",
+            "v2/api-docs",
+            "/swagger-resources",
+            "swagger-resources",
+            "/swagger-resources/**",
+            "swagger-resources/**",
+            "/configuration/ui",
+            "configuration/ui",
+            "/configuration/security",
+            "configuration/security",
+            "/swagger-ui.html",
+            "swagger-ui.html",
+            "webjars/**",
+            // -- Swagger UI v3
+            "/v3/api-docs/**",
+            "v3/api-docs/**",
+            "/swagger-ui/**",
+            "swagger-ui/**",
+            // CSA Controllers
+            "/csa/api/token",
+            // Actuators
+            "/actuator/**",
+            "/health/**"
+    };
 
     @Bean
-    @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
-        return super.authenticationManagerBean();
+    public SecurityFilterChain configureSecurity(HttpSecurity http) throws Exception {
+        http
+                .csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
+                    @Override
+                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
+                        if (null != authException) {
+                            // This is invoked when user tries to access a secured REST resource without supplying any credentials
+                            // We should just send a 401 Unauthorized response because there is no 'login page' to redirect to
+                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized ...");
+                        }
+                    }
+                }).and()
+
+                // don't create session
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                .authorizeHttpRequests(requests -> requests
+                        .requestMatchers(HttpMethod.OPTIONS).permitAll()
+                        .requestMatchers(AUTH_WHITELIST).permitAll()
+                        .requestMatchers(this.authenticationPath + "/**").permitAll()
+                        .anyRequest().authenticated()
+                )
+                .httpBasic(Customizer.withDefaults())
+
+                .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(adminAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .cors();
+        return http.build();
     }
 
     @Bean

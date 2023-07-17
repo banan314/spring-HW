@@ -1,5 +1,6 @@
 package hw.spring.services.user;
 
+import hw.spring.model.repositories.RoleRepository;
 import hw.spring.model.user.User;
 import hw.spring.model.repositories.UserRepository;
 import hw.spring.helpers.UserTestHelper;
@@ -9,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +29,19 @@ public class UserDefaultServiceTest extends UserTestHelper {
     private UserDefaultService service;
 
     @Mock
-    private UserRepository repository;
+    private UserRepository userRepository;
+
+    @Mock
+    private RoleRepository roleRepository;
+
+    @Mock
+    private PasswordEncoder passwordEncoder;
 
     List<User> mockUsers = new ArrayList<>(2);
 
     @Before
     public void setUp() throws Exception {
-        service = new UserDefaultService();
-        service.userRepository = repository;
+        service = new UserDefaultService(userRepository, roleRepository, passwordEncoder);
         init();
     }
 
@@ -56,7 +63,7 @@ public class UserDefaultServiceTest extends UserTestHelper {
 
     @Test
     public void getAll() throws Exception {
-        when(repository.findAllByOrderById()).thenReturn(mockUsers);
+        when(userRepository.findAllByOrderById()).thenReturn(mockUsers);
         List<User> users = service.getAll();
         assertEquals(mockUsers.size(), users.size());
     }
@@ -68,7 +75,7 @@ public class UserDefaultServiceTest extends UserTestHelper {
         } catch (NoSuchElementException e) {
             LOG.info("no such user exceptions thrown");
         } finally {
-            verify(repository).findById(10);
+            verify(userRepository).findById(10);
         }
     }
 
@@ -77,14 +84,14 @@ public class UserDefaultServiceTest extends UserTestHelper {
         User mockUser = fakeAnother();
 
         service.addUser(mockUser);
-        verify(repository).save(mockUser);
+        verify(userRepository).save(mockUser);
     }
 
     @Test
     public void deleteUser() throws Exception {
-        when(repository.existsById(10)).thenReturn(true);
+        when(userRepository.existsById(10)).thenReturn(true);
         service.deleteUser(10);
-        verify(repository).deleteById(10);
+        verify(userRepository).deleteById(10);
     }
 
     @Ignore
@@ -97,7 +104,7 @@ public class UserDefaultServiceTest extends UserTestHelper {
         User mockUser = fakeAnother();
 
         service.updateUser(10, mockUser);
-        verify(repository).save(mockUser);
+        verify(userRepository).save(mockUser);
     }
 
 }

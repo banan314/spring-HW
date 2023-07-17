@@ -7,7 +7,7 @@ import hw.spring.common.serializers.CustomDateSerializer;
 import hw.spring.model.activity.Activity;
 import hw.spring.model.user.role.Role;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
@@ -16,8 +16,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import static javax.persistence.CascadeType.ALL;
-import static javax.persistence.FetchType.EAGER;
+import static jakarta.persistence.CascadeType.ALL;
+import static jakarta.persistence.FetchType.EAGER;
 
 @Entity
 @Table(

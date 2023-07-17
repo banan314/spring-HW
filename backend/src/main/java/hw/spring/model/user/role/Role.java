@@ -1,11 +1,10 @@
 package hw.spring.model.user.role;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import hw.spring.model.user.User;
+import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
