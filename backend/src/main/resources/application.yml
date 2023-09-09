@@ -1,0 +1,39 @@
+#
+# [ Database Configuration Section ]
+#
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: masterkey
+    driver-class-name: org.postgresql.Driver
+    # ===============================
+    # = JPA / HIBERNATE
+    # ===============================
+    # Show or not log for each sql query
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+
+
+#debug: true
+
+jwt:
+  header: Authorization
+  secret: mySecret
+  expiration: 604800 # 1 week
+  route:
+    authentication:
+      path: auth
+      refresh: refresh
