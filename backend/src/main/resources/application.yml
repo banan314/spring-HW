@@ -37,3 +37,6 @@ jwt:
     authentication:
       path: auth
       refresh: refresh
+
+frontend:
+  origin: localhost:4200

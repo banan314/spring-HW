@@ -13,6 +13,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.AuthenticationException;
@@ -21,12 +22,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.inject.Inject;
 import java.io.IOException;
+import java.util.List;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@Order(SecurityProperties.IGNORED_ORDER)
+//@Order(SecurityProperties.IGNORED_ORDER)
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Inject
@@ -38,11 +46,11 @@ public class SecurityConfig {
     @Inject
     AdminAuthorizationFilter adminAuthorizationFilter;
 
-    @Value("${jwt.header}")
-    private String tokenHeader;
-
     @Value("${jwt.route.authentication.path}")
     private String authenticationPath;
+
+    @Value("${frontend.origin}")
+    private String frontendOrigin;
 
     private static final String[] AUTH_WHITELIST = {
             // -- Swagger UI v2
@@ -75,16 +83,14 @@ public class SecurityConfig {
     public SecurityFilterChain configureSecurity(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling().authenticationEntryPoint(new AuthenticationEntryPoint() {
-                    @Override
-                    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException {
-                        if (null != authException) {
-                            // This is invoked when user tries to access a secured REST resource without supplying any credentials
-                            // We should just send a 401 Unauthorized response because there is no 'login page' to redirect to
-                            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized ...");
-                        }
+                .cors(withDefaults())
+                .exceptionHandling(configurer -> configurer.authenticationEntryPoint((request, response, authException) -> {
+                    if (null != authException) {
+                        // This is invoked when user tries to access a secured REST resource without supplying any credentials
+                        // We should just send a 401 Unauthorized response because there is no 'login page' to redirect to
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized ...");
                     }
-                }).and()
+                }))
 
                 // don't create session
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -95,12 +101,31 @@ public class SecurityConfig {
                         .requestMatchers(this.authenticationPath + "/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults())
+                .httpBasic(withDefaults())
 
                 .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(adminAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-                .cors();
+                .addFilterBefore(adminAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+        config.setAllowedOrigins(urlOrigins(frontendOrigin));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+
+        return source;
+    }
+
+    private List<String> urlOrigins(String origin) {
+        return List.of("http://", "https://")
+                .stream()
+                .map(s -> s + origin)
+                .toList();
     }
 
     @Bean

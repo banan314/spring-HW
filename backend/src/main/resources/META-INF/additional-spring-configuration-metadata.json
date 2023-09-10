@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "frontend.origin",
+      "type": "java.lang.String",
+      "description": "Origin of frontend (Angular application), for now it's on localhost for development."
+  }
+] }
