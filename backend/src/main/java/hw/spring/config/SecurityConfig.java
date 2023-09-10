@@ -101,7 +101,6 @@ public class SecurityConfig {
                         .requestMatchers(this.authenticationPath + "/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .httpBasic(withDefaults())
 
                 .addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(adminAuthorizationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -114,6 +113,8 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
         config.setAllowedOrigins(urlOrigins(frontendOrigin));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);

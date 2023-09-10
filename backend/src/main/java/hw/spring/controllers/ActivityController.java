@@ -11,9 +11,6 @@ import javax.validation.Valid;
 import java.util.Collection;
 import java.util.NoSuchElementException;
 
-/**
- * Created by Kamil on 9-Apr-17.
- */
 @RestController
 @RequestMapping(path = "activities")
 public class ActivityController {
