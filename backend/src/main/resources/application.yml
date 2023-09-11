@@ -40,3 +40,13 @@ jwt:
 
 frontend:
   origin: localhost:4200
+
+logging:
+  level:
+    org:
+      springframework:
+        security:
+          web:
+            FilterChainProxy: DEBUG
+            access:
+              ExceptionTranslationFilter: TRACE

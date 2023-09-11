@@ -2,24 +2,17 @@ package hw.spring.config;
 
 import hw.spring.filters.AdminAuthorizationFilter;
 import hw.spring.filters.JwtAuthorizationTokenFilter;
-import hw.spring.services.userdetails.CustomUserDetailsService;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -27,30 +20,13 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.inject.Inject;
-import java.io.IOException;
 import java.util.List;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-//@Order(SecurityProperties.IGNORED_ORDER)
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig {
-
-    @Inject
-    private CustomUserDetailsService userDetailsService;
-
-    @Inject
-    private JwtAuthorizationTokenFilter authenticationTokenFilter;
-
-    @Inject
-    AdminAuthorizationFilter adminAuthorizationFilter;
-
-    @Value("${jwt.route.authentication.path}")
-    private String authenticationPath;
-
-    @Value("${frontend.origin}")
-    private String frontendOrigin;
 
     private static final String[] AUTH_WHITELIST = {
             // -- Swagger UI v2
@@ -78,6 +54,15 @@ public class SecurityConfig {
             "/actuator/**",
             "/health/**"
     };
+    @Inject
+    private
+    AdminAuthorizationFilter adminAuthorizationFilter;
+    @Inject
+    private JwtAuthorizationTokenFilter authenticationTokenFilter;
+    @Value("/${jwt.route.authentication.path}/login")
+    private String authenticationPath;
+    @Value("${frontend.origin}")
+    private String frontendOrigin;
 
     @Bean
     public SecurityFilterChain configureSecurity(HttpSecurity http) throws Exception {
@@ -98,7 +83,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers(HttpMethod.OPTIONS).permitAll()
                         .requestMatchers(AUTH_WHITELIST).permitAll()
-                        .requestMatchers(this.authenticationPath + "/**").permitAll()
+                        .requestMatchers(authenticationPath).permitAll()
                         .anyRequest().authenticated()
                 )
 
@@ -122,7 +107,7 @@ public class SecurityConfig {
         return source;
     }
 
-    private List<String> urlOrigins(String origin) {
+    private static List<String> urlOrigins(String origin) {
         return List.of("http://", "https://")
                 .stream()
                 .map(s -> s + origin)
