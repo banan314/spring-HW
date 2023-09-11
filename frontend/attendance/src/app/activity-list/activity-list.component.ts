@@ -1,6 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {Activity} from '../model/activity';
 import {ActivityService} from '../services/activity.service';
+import HttpStatus from '../constants/HttpStatus';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-activity-list',
@@ -12,7 +14,7 @@ export class ActivityListComponent implements OnInit {
   activities: Activity[];
   activity: Activity = new Activity;
 
-  constructor(private activityService: ActivityService) {
+  constructor(private activityService: ActivityService, private router: Router) {
   }
 
   ngOnInit() {
@@ -26,11 +28,17 @@ export class ActivityListComponent implements OnInit {
 
   getActivities() {
     this.activityService.getActivities()
-      .subscribe(data => this.activities = data.body['activities']); // TODO: check
+      .subscribe(data => {
+        if(data.status == HttpStatus.OK) {
+          this.activities = data.body['activities'];
+        } else if(data.status == HttpStatus.UNAUTHORIZED) {
+          this.router.navigate(['login']);
+        }
+      });
   }
 
   deleteActivity(activity: Activity): void {
-    this.activityService.deleteActivity(activity.id).subscribe (data => this.getActivities());
+    this.activityService.deleteActivity(activity.id).subscribe(data => this.getActivities());
   }
 
 }

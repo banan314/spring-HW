@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {User} from '../model/user';
 import {Router} from '@angular/router';
 import {UserService} from '../services/user.service';
+import HttpStatus from '../constants/HttpStatus';
 
 @Component({
   selector: 'app-attendance-list',
@@ -31,12 +32,14 @@ export class AttendanceListComponent implements OnInit {
   }
 
   getUsers() {
-    this.userService.getUsers().subscribe(data => {
-      this.users = data['users']; // TODO: check
-      if (null == data) {
-        this.router.navigate(['/login']);
-      }
-    });
+    this.userService.getUsers()
+      .subscribe(data => {
+        if (data.status == HttpStatus.OK) {
+          this.users = data.body['users'];
+        } else if (data.status == HttpStatus.UNAUTHORIZED) {
+          this.router.navigate(['/login']);
+        }
+      });
   }
 
   deleteUser(user: User) {

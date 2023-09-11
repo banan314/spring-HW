@@ -8,7 +8,7 @@ export class UserService extends DatabaseService {
   private usersHref = '/users';
 
   getUsers() {
-    return this.http.get(this.backendHref + this.usersHref);
+    return this.get(this.usersHref);
   }
 
   getById(id: number) {
