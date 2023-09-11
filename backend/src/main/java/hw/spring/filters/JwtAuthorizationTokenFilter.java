@@ -1,5 +1,9 @@
 package hw.spring.filters;
 
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -9,17 +13,15 @@ import org.springframework.security.web.util.matcher.RequestMatcher;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Component
 public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
+    private static final RequestMatchers requestMatchers = new RequestMatchers("/users/**", "/activities/**");
     private final Logger logger;
     private final FilterUtil filterUtil;
-    private RequestMatcher requestMatcher = new AntPathRequestMatcher("/users/**", "/activities/**");
 
     public JwtAuthorizationTokenFilter(FilterUtil filterUtil, Logger logger) {
         this.logger = logger;
@@ -28,7 +30,7 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        if(!requestMatcher.matches(request)) {
+        if (!requestMatchers.matches(request)) {
             chain.doFilter(request, response);
             return;
         }
@@ -42,5 +44,20 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
             logger.info("authorized user '{}', setting security context", username);
             SecurityContextHolder.getContext().setAuthentication(authentication);
         });
+    }
+
+    static class RequestMatchers {
+        private final List<RequestMatcher> requestMatchers = new ArrayList<>();
+
+        RequestMatchers(String... paths) {
+            for (var path : paths) {
+                requestMatchers.add(new AntPathRequestMatcher(path));
+            }
+        }
+
+        boolean matches(HttpServletRequest request) {
+            return requestMatchers.stream()
+                    .anyMatch(requestMatcher -> requestMatcher.matches(request));
+        }
     }
 }
