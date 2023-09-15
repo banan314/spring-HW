@@ -35,7 +35,7 @@ export class AttendanceListComponent implements OnInit {
     this.userService.getUsers()
       .subscribe(data => {
         if (data.status == HttpStatus.OK) {
-          this.users = data.body['users'];
+          this.users = data.body as User[];
         } else if (data.status == HttpStatus.UNAUTHORIZED) {
           this.router.navigate(['/login']);
         }

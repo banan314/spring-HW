@@ -29,9 +29,9 @@ export class ActivityListComponent implements OnInit {
   getActivities() {
     this.activityService.getActivities()
       .subscribe(data => {
-        if(data.status == HttpStatus.OK) {
-          this.activities = data.body['activities'];
-        } else if(data.status == HttpStatus.UNAUTHORIZED) {
+        if (data.status == HttpStatus.OK) {
+          this.activities = data.body as Activity[];
+        } else if (data.status == HttpStatus.UNAUTHORIZED) {
           this.router.navigate(['login']);
         }
       });
