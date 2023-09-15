@@ -1,7 +1,7 @@
 package hw.spring.controllers;
 
 import hw.spring.common.exceptions.EmailExistsException;
-import hw.spring.model.dto.UserDTO;
+import hw.spring.model.dto.UserRegistrationDTO;
 import hw.spring.model.user.User;
 import hw.spring.services.user.UserService;
 import org.springframework.http.HttpStatus;
@@ -18,19 +18,20 @@ import java.util.Optional;
 @RequestMapping(path = "${jwt.route.authentication.path}")
 public class RegisterController {
     @Inject
+    private
     UserService userService;
 
     @PostMapping(value = "/register")
-    public HttpStatus registerUser(@Valid @RequestBody UserDTO accountDTO) {
+    public HttpStatus registerUser(@Valid @RequestBody UserRegistrationDTO accountDTO) {
         Optional<User> registered = createUserAccount(accountDTO);
-        if(registered.isPresent()) {
+        if (registered.isPresent()) {
             return HttpStatus.CREATED;
         } else {
             return HttpStatus.CONFLICT;
         }
     }
 
-    private Optional<User> createUserAccount(UserDTO accountDTO) {
+    private Optional<User> createUserAccount(UserRegistrationDTO accountDTO) {
         User registered;
         try {
             registered = userService.registerNewUserAccount(accountDTO);

@@ -1,16 +1,16 @@
 package hw.spring.services.user;
 
 import hw.spring.common.exceptions.EmailExistsException;
-import hw.spring.model.dto.UserDTO;
+import hw.spring.model.dto.UserRegistrationDTO;
 import hw.spring.model.repositories.RoleRepository;
 import hw.spring.model.repositories.UserRepository;
 import hw.spring.model.user.User;
 import hw.spring.model.user.role.Role;
 import hw.spring.model.user.role.RoleName;
+import jakarta.transaction.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import jakarta.transaction.Transactional;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.HashSet;
@@ -24,9 +24,9 @@ import java.util.Set;
 @Service
 public class UserDefaultService implements UserService {
 
-    UserRepository userRepository;
-    RoleRepository roleRepository;
-    PasswordEncoder passwordEncoder;
+    private UserRepository userRepository;
+    private RoleRepository roleRepository;
+    private PasswordEncoder passwordEncoder;
 
     public UserDefaultService(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -34,37 +34,38 @@ public class UserDefaultService implements UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Override
     public List<User> getAll() {
         return userRepository.findAllByOrderById();
     }
 
+    @Override
     public Optional<User> getById(int id) {
         return userRepository.findById(id);
     }
 
+    @Override
     public void addUser(User user) {
         if (null != userRepository) {
             userRepository.save(user);
         }
     }
 
+    @Override
     public void deleteUser(int id) {
         if (userRepository.existsById(id)) {
             userRepository.deleteById(id);
         }
     }
 
-    public void deleteAll() {
-        userRepository.deleteAll();
-    }
-
+    @Override
     public void updateUser(int id, User user) {
         userRepository.save(user);
     }
 
     @Transactional
     @Override
-    public User registerNewUserAccount(UserDTO accountDTO) throws EmailExistsException {
+    public User registerNewUserAccount(UserRegistrationDTO accountDTO) throws EmailExistsException {
         if (emailExists(accountDTO.getEmail())) {
             throw new EmailExistsException("There is an account with that email address: " + accountDTO.getEmail());
         }
@@ -89,5 +90,9 @@ public class UserDefaultService implements UserService {
 
     private boolean emailExists(String email) {
         return userRepository.existsUserByEmail(email);
+    }
+
+    public void deleteAll() {
+        userRepository.deleteAll();
     }
 }

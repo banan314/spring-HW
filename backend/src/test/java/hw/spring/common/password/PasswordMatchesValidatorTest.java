@@ -1,6 +1,6 @@
 package hw.spring.common.password;
 
-import hw.spring.model.dto.UserDTO;
+import hw.spring.model.dto.UserRegistrationDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -10,31 +10,31 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 class PasswordMatchesValidatorTest {
-    PasswordMatchesValidator passwordMatchesValidator;
-    UserDTO userDTO;
+    private PasswordMatchesValidator passwordMatchesValidator;
+    private UserRegistrationDTO userRegistrationDTO;
 
     @BeforeEach
     void setUp() {
         passwordMatchesValidator = new PasswordMatchesValidator();
-        userDTO = mock(UserDTO.class);
+        userRegistrationDTO = mock(UserRegistrationDTO.class);
     }
 
     @Test
     void whenPasswordsMatch_thenIsValidReturnsTrue() {
-        var password = "trniuf";
-        when(userDTO.getPassword()).thenReturn(password);
-        when(userDTO.getMatchingPassword()).thenReturn(password);
+        final var password = "trniuf";
+        when(userRegistrationDTO.getPassword()).thenReturn(password);
+        when(userRegistrationDTO.getMatchingPassword()).thenReturn(password);
 
-        assertTrue(passwordMatchesValidator.isValid(userDTO, null));
+        assertTrue(passwordMatchesValidator.isValid(userRegistrationDTO, null));
     }
 
     @Test
     void whenPasswordsDoNotMatch_thenIsValidReturnsFalse() {
-        var password1 = "trniuf";
-        var password2 = "friend";
-        when(userDTO.getPassword()).thenReturn(password1);
-        when(userDTO.getMatchingPassword()).thenReturn(password2);
+        final var password1 = "trniuf";
+        final var password2 = "friend";
+        when(userRegistrationDTO.getPassword()).thenReturn(password1);
+        when(userRegistrationDTO.getMatchingPassword()).thenReturn(password2);
 
-        assertFalse(passwordMatchesValidator.isValid(userDTO, null));
+        assertFalse(passwordMatchesValidator.isValid(userRegistrationDTO, null));
     }
 }

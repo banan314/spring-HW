@@ -1,5 +1,7 @@
 package hw.spring.controllers;
 
+import hw.spring.model.dto.UserDTO;
+import hw.spring.model.dto.UserDTOConverter;
 import hw.spring.model.user.User;
 import hw.spring.services.user.UserService;
 import org.springframework.http.HttpStatus;
@@ -16,11 +18,11 @@ import java.util.NoSuchElementException;
 @RequestMapping(path = "users")
 public class UserController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Inject
     public UserController(UserService us) {
-        this.userService = us;
+        userService = us;
     }
 
     @ExceptionHandler(NoSuchElementException.class)
@@ -29,8 +31,11 @@ public class UserController {
     }
 
     @GetMapping(value = "")
-    public List<User> getAllUsers() {
-        return userService.getAll();
+    public List<UserDTO> getAllUsers() {
+        return userService.getAll()
+                .stream()
+                .map(UserDTOConverter::fromUser)
+                .toList();
     }
 
     @GetMapping(value = "/{id}")

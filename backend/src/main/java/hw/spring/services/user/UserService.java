@@ -1,7 +1,7 @@
 package hw.spring.services.user;
 
 import hw.spring.common.exceptions.EmailExistsException;
-import hw.spring.model.dto.UserDTO;
+import hw.spring.model.dto.UserRegistrationDTO;
 import hw.spring.model.user.User;
 
 import java.util.List;
@@ -15,6 +15,8 @@ public interface UserService {
     Optional<User> getById(int id);
     void addUser(User user);
     void deleteUser(int id);
+
     void updateUser(int id, User user);
-    User registerNewUserAccount(UserDTO accountDTO) throws EmailExistsException;
+
+    User registerNewUserAccount(UserRegistrationDTO accountDTO) throws EmailExistsException;
 }
