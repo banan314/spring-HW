@@ -25,6 +25,8 @@ spring:
           use_jdbc_metadata_defaults: false
         dialect: org.hibernate.dialect.PostgreSQLDialect
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+  kafka:
+    bootstrap-servers: localhost:9092
 
 
 #debug: true
@@ -50,3 +52,17 @@ logging:
             FilterChainProxy: DEBUG
             access:
               ExceptionTranslationFilter: TRACE
+
+message:
+  topic:
+    name: spring-hw
+
+long:
+  message:
+    topic:
+      name: Attendance manager Spring-HW
+topic:
+  name:
+    check-in: check-in-topic
+    check-out: check-out-topic
+    activity-attendance: activity-attendance-topic
