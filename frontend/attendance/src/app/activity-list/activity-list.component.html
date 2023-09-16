@@ -43,7 +43,7 @@
         <div class='form-group date datepicker'>
           <label for="datepicker">Date: <i class="glyphicon glyphicon-calendar"></i></label>
           <input type='text' class="form-control" id="datepicker" placeholder="Data" [(ngModel)]="activity.startDate" name="startDate">
-          <span class="input-group-addon" style="display: none" onclick="$('#datepicker').datepicker('dialog', new Date());">
+          <span class="input-group-addon" style="display: none" onclick="datePicker()">
 
        </span>
           {{activity.startDate}}

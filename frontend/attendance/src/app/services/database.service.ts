@@ -14,13 +14,11 @@ export class DatabaseService extends BackendService {
 
   protected get(endpoint: string) {
     const url = this.backendHref + endpoint;
-    const res = this.http.get(url, {
+    return this.http.get(url, {
       headers: this.prepareHeaders().append('Authorization', localStorage.getItem('jwt')),
       withCredentials: true,
       observe: 'response'
     });
-    res.subscribe(this.handleError);
-    return res;
   }
 
   protected post(endpoint: string, body) {
