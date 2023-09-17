@@ -22,6 +22,7 @@ import {DatabaseService} from './services/database.service';
 import {RouterModule} from '@angular/router';
 import {AuthInterceptorService} from './services/auth-interceptor.service';
 import { LandingComponent } from './landing/landing.component';
+import { AppHeaderComponent } from './app-header/app-header.component';
 
 const httpInterceptors = [{
   provide: HTTP_INTERCEPTORS,
@@ -40,7 +41,8 @@ const httpInterceptors = [{
     NavBarComponent,
     LogInComponent,
     RegisterComponent,
-    LandingComponent
+    LandingComponent,
+    AppHeaderComponent
   ],
   imports: [
     BrowserModule,
