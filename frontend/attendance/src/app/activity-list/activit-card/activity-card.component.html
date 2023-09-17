@@ -1,0 +1,11 @@
+<div class="activity-card">
+  <h3>
+    {{i + 1}} {{activity.name}}
+    <button class="delete"
+            (click)="deleteActivity(activity); $event.stopPropagation()"><i class="fa fa-times"
+                                                                            style="color: orange"></i>
+    </button>
+  </h3>
+  <p>{{activity.location}}</p>
+  <p>{{activity.startDate | date:'medium'}}</p>
+</div>

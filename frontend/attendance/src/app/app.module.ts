@@ -23,6 +23,7 @@ import {RouterModule} from '@angular/router';
 import {AuthInterceptorService} from './services/auth-interceptor.service';
 import { LandingComponent } from './landing/landing.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
+import { ActivityCardComponent } from './activity-list/activit-card/activity-card.component';
 
 const httpInterceptors = [{
   provide: HTTP_INTERCEPTORS,
@@ -42,7 +43,8 @@ const httpInterceptors = [{
     LogInComponent,
     RegisterComponent,
     LandingComponent,
-    AppHeaderComponent
+    AppHeaderComponent,
+    ActivityCardComponent
   ],
   imports: [
     BrowserModule,

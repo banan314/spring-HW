@@ -1,0 +1,7 @@
+.activity-cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  gap: 2rem;
+  padding: 20px;
+}

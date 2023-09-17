@@ -37,10 +37,6 @@ export class ActivityListComponent implements OnInit {
       });
   }
 
-  deleteActivity(activity: Activity): void {
-    this.activityService.deleteActivity(activity.id).subscribe(data => this.getActivities());
-  }
-
   datePicker(): void {
 
   }

@@ -1,0 +1,19 @@
+.activity-card {
+  background-color: #42b4bb;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 12rem;
+}
+
+.activity-card h3 {
+  margin: 0;
+}
+
+.activity-card p {
+  margin: 8px 0;
+}
+
+.activity-card button {
+  margin-left: 2rem;
+}
