@@ -8,4 +8,6 @@
   </h3>
   <p>{{activity.location}}</p>
   <p>{{activity.startDate | date:'medium'}}</p>
+  <button (click)="checkIn(activity)">Check in</button>
+  <button (click)="checkOut(activity)">Check out</button>
 </div>

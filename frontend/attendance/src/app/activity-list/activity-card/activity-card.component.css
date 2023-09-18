@@ -10,7 +10,7 @@
   margin: 0;
 }
 
-.activity-card p {
+.activity-card p, button {
   margin: 8px 0;
 }
 

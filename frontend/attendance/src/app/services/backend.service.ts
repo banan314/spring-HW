@@ -1,15 +1,19 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
+import HttpStatus from "../constants/HttpStatus";
 
 @Injectable()
 export class BackendService {
   protected backendHref = 'http://localhost:8080';
 
-  constructor(protected http: HttpClient) { }
+  constructor(protected http: HttpClient) {
+  }
 
   protected handleError(error: any): Promise<any> {
-    console.error('An error occurred', error);
-    return Promise.reject(error.message || error);
+    if (error.status != HttpStatus.OK) {
+      console.error('An error occurred', error);
+      return Promise.reject(error.message || error);
+    }
   }
 
   protected prepareHeaders() {
