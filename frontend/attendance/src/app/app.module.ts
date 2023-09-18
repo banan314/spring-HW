@@ -25,6 +25,7 @@ import { LandingComponent } from './landing/landing.component';
 import { AppHeaderComponent } from './app-header/app-header.component';
 import { ActivityCardComponent } from './activity-list/activity-card/activity-card.component';
 import {CheckService} from "./services/check.service";
+import {ActivityAttendanceComponent} from "./activity-attendance/activity-attendance.component";
 
 const httpInterceptors = [{
   provide: HTTP_INTERCEPTORS,
@@ -45,7 +46,8 @@ const httpInterceptors = [{
     RegisterComponent,
     LandingComponent,
     AppHeaderComponent,
-    ActivityCardComponent
+    ActivityCardComponent,
+    ActivityAttendanceComponent
   ],
   imports: [
     BrowserModule,

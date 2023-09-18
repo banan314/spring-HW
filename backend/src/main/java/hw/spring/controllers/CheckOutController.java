@@ -20,17 +20,16 @@ public class CheckOutController {
     private String checkOutTopicName;
 
     @PostMapping("/check-out")
-    public void checkOut(@RequestBody final Activity activity) {
-        final String message = "checked out";
-        this.kafkaTemplate.send(this.checkOutTopicName, message)
+    public void checkOut(@RequestBody Activity activity) {
+        String message = "checked out from %s in %s"
+                .formatted(activity.getName(), activity.getLocation());
+        kafkaTemplate.send(checkOutTopicName, message)
                 .whenComplete((result, ex) -> {
-                    if (ex == null) {
-                        log.info("Sent message=[" + message +
-                                "] with offset=[" + result.getRecordMetadata().offset() + "]");
-                    } else {
+                    if (ex == null) log.info("Sent message=[" + message +
+                            "] with offset=[" + result.getRecordMetadata().offset() + "]");
+                    else
                         log.error("Unable to send message=[" +
                                 message + "] due to : " + ex.getMessage());
-                    }
                 });
     }
 }

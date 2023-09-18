@@ -6,6 +6,7 @@ import {NewStudentComponent} from './new-student/new-student.component';
 import {LogInComponent} from './log-in/log-in.component';
 import {RegisterComponent} from './register/register.component';
 import {LandingComponent} from './landing/landing.component';
+import {ActivityAttendanceComponent} from "./activity-attendance/activity-attendance.component";
 
 const routes: Routes = [
   {
@@ -28,6 +29,10 @@ const routes: Routes = [
   {
     path: 'landing',
     component: LandingComponent
+  },
+  {
+    path: 'attendance',
+    component: ActivityAttendanceComponent
   },
   {
     path: 'login',

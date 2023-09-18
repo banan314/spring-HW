@@ -17,6 +17,6 @@ public class CustomDateDeSerializer extends JsonDeserializer {
         int month = p.getIntValue();
         p.nextToken();
         int day = p.getIntValue();
-        return new Date(year, month, day);
+        return new Date(year - 1900, month, day);
     }
 }

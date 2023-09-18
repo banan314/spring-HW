@@ -21,7 +21,8 @@ public class CheckInController {
 
     @PostMapping("/check-in")
     public void checkIn(@RequestBody Activity activity) {
-        final String message = "checked in";
+        String message = "checked in %s in %s starting at %s"
+                .formatted(activity.getName(), activity.getLocation(), activity.getStartDate());
         kafkaTemplate.send(checkInTopicName, message)
                 .whenComplete((result, ex) -> {
                     if (ex == null) log.info("Sent message=[" + message +

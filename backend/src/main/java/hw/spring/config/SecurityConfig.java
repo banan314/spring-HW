@@ -25,7 +25,7 @@ import java.util.List;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity()
 public class SecurityConfig {
 
     private static final String[] AUTH_WHITELIST = {
@@ -70,11 +70,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(withDefaults())
                 .exceptionHandling(configurer -> configurer.authenticationEntryPoint((request, response, authException) -> {
-                    if (null != authException) {
-                        // This is invoked when user tries to access a secured REST resource without supplying any credentials
-                        // We should just send a 401 Unauthorized response because there is no 'login page' to redirect to
+                    // This is invoked when user tries to access a secured REST resource without supplying any credentials
+                    // We should just send a 401 Unauthorized response because there is no 'login page' to redirect to
+                    if (null != authException)
                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized ...");
-                    }
                 }))
 
                 // don't create session

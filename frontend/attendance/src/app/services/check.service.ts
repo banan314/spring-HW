@@ -18,4 +18,8 @@ export class CheckService extends DatabaseService {
   attendActivity(activity: Activity) {
     return this.post(this.activityAttendancePath, activity);
   }
+
+  getActivityAttendance() {
+    return this.get(this.activityAttendancePath);
+  }
 }

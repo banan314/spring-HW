@@ -61,8 +61,10 @@ long:
   message:
     topic:
       name: Attendance manager Spring-HW
+
 topic:
   name:
     check-in: check-in-topic
     check-out: check-out-topic
     activity-attendance: activity-attendance-topic
+  groupId: check
