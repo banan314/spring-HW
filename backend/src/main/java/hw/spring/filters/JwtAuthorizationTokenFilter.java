@@ -19,7 +19,8 @@ import java.util.List;
 
 @Component
 public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
-    private static final RequestMatchers requestMatchers = new RequestMatchers("/users/**", "/activities/**");
+    private static final RequestMatchers requestMatchers = new RequestMatchers("/users/**", "/activities/**",
+            "/check-in", "/check-out", "/activity/attendance");
     private final Logger logger;
     private final FilterUtil filterUtil;
 
@@ -46,15 +47,21 @@ public class JwtAuthorizationTokenFilter extends OncePerRequestFilter {
         });
     }
 
+    /**
+     * request matchers for given paths, for all methods
+     */
     static class RequestMatchers {
         private final List<RequestMatcher> requestMatchers = new ArrayList<>();
 
         RequestMatchers(String... paths) {
-            for (var path : paths) {
-                requestMatchers.add(new AntPathRequestMatcher(path));
-            }
+            for (var path : paths) requestMatchers.add(new AntPathRequestMatcher(path));
         }
 
+        /**
+         * check if any of the request matchers matches the given request
+         *
+         * @return <code>true</code> if any of the matchers matches request's path, <code>false</code> otherwise
+         */
         boolean matches(HttpServletRequest request) {
             return requestMatchers.stream()
                     .anyMatch(requestMatcher -> requestMatcher.matches(request));

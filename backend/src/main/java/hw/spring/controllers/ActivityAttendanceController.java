@@ -16,7 +16,7 @@ public class ActivityAttendanceController {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    @Value("${topic.name.activity-attendance")
+    @Value("${topic.name.activity-attendance}")
     private String activityAttendanceTopicName;
 
     @PostMapping("/activity/attendance")

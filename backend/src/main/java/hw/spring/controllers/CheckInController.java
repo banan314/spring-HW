@@ -16,21 +16,19 @@ public class CheckInController {
 
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    @Value("${topic.name.check-in")
+    @Value("${topic.name.check-in}")
     private String checkInTopicName;
 
     @PostMapping("/check-in")
-    public void checkIn(@RequestBody final Activity activity) {
+    public void checkIn(@RequestBody Activity activity) {
         final String message = "checked in";
-        this.kafkaTemplate.send(this.checkInTopicName, message)
+        kafkaTemplate.send(checkInTopicName, message)
                 .whenComplete((result, ex) -> {
-                    if (ex == null) {
-                        log.info("Sent message=[" + message +
-                                "] with offset=[" + result.getRecordMetadata().offset() + "]");
-                    } else {
+                    if (ex == null) log.info("Sent message=[" + message +
+                            "] with offset=[" + result.getRecordMetadata().offset() + "]");
+                    else
                         log.error("Unable to send message=[" +
                                 message + "] due to : " + ex.getMessage());
-                    }
                 });
     }
 }
