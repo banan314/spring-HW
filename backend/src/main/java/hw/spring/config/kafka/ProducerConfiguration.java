@@ -1,5 +1,6 @@
 package hw.spring.config.kafka;
 
+import hw.spring.model.activity.Activity;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,12 +19,26 @@ public class ProducerConfiguration {
     private String bootstrapAddress;
 
     @Bean
-    public KafkaTemplate<String, String> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+    public KafkaTemplate<String, Activity> kafkaActivityTemplate(ProducerFactory<String, Activity> producerFactory) {
+        return new KafkaTemplate<>(producerFactory);
     }
 
     @Bean
-    public ProducerFactory<String, String> producerFactory() {
+    public KafkaTemplate<String, String> kafkaStringTemplate(ProducerFactory<String, String> producerFactory) {
+        return new KafkaTemplate<>(producerFactory);
+    }
+
+    @Bean
+    public ProducerFactory<String, Activity> producerActivityFactory() {
+        return new DefaultKafkaProducerFactory<>(Map.of(
+                ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress,
+                ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class,
+                ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class
+        ));
+    }
+
+    @Bean
+    public ProducerFactory<String, String> producerStringFactory() {
         return new DefaultKafkaProducerFactory<>(Map.of(
                 ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress,
                 ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class,

@@ -14,22 +14,24 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class CheckInController {
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
+    private final KafkaTemplate<String, Activity> kafkaTemplate;
 
     @Value("${topic.name.check-in}")
     private String checkInTopicName;
 
     @PostMapping("/check-in")
-    public void checkIn(@RequestBody Activity activity) {
-        String message = "checked in %s in %s starting at %s"
+    public void checkIn(@RequestBody final Activity activity) {
+        final String message = "checked in %s in %s starting at %s"
                 .formatted(activity.getName(), activity.getLocation(), activity.getStartDate());
-        kafkaTemplate.send(checkInTopicName, message)
+        this.kafkaTemplate.send(this.checkInTopicName, activity)
                 .whenComplete((result, ex) -> {
-                    if (ex == null) log.info("Sent message=[" + message +
-                            "] with offset=[" + result.getRecordMetadata().offset() + "]");
-                    else
+                    if (ex == null) {
+                        log.info("Sent message=[" + message +
+                                "] with offset=[" + result.getRecordMetadata().offset() + "]");
+                    } else {
                         log.error("Unable to send message=[" +
                                 message + "] due to : " + ex.getMessage());
+                    }
                 });
     }
 }

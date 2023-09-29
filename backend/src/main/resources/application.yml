@@ -27,6 +27,11 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
   kafka:
     bootstrap-servers: localhost:9092
+  batch:
+    job:
+      enabled: off
+    jdbc:
+      initialize-schema: always
 
 
 #debug: true
@@ -52,15 +57,6 @@ logging:
             FilterChainProxy: DEBUG
             access:
               ExceptionTranslationFilter: TRACE
-
-message:
-  topic:
-    name: spring-hw
-
-long:
-  message:
-    topic:
-      name: Attendance manager Spring-HW
 
 topic:
   name:

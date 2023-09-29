@@ -7,8 +7,12 @@ import hw.spring.common.deserializers.CustomDateDeSerializer;
 import hw.spring.common.serializers.CustomDateSerializer;
 import hw.spring.model.user.User;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.sql.Date;
 import java.util.List;
 
@@ -16,69 +20,35 @@ import java.util.List;
  * Created by Kamil on 05-Apr-17.
  */
 @Entity(name = "activities")
+@Getter
+@Setter
+@NoArgsConstructor
 public class Activity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "activity_id_seq")
     private int id;
 
+    @Column
     private String name;
+
+    @Column
     private String location;
 
     @JsonSerialize(using = CustomDateSerializer.class)
     @JsonDeserialize(using = CustomDateDeSerializer.class)
     private Date startDate;
 
+    @Column
+    private BigDecimal price;
+
     @JsonIgnore
     @ManyToMany
     private List<User> ownerUsers;
 
-    public Activity() {
-    }
-
     public Activity(String name, Date startDate) {
         this.name = name;
         this.startDate = startDate;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = (int) id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLocation() {
-        return location;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
-
-    public Date getStartDate() {
-        return startDate;
-    }
-
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
-    }
-
-    public List<User> getOwnerUsers() {
-        return ownerUsers;
-    }
-
-    public void setOwnerUsers(List<User> users) {
-        ownerUsers = users;
     }
 
     public Activity forUser(User user) {

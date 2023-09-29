@@ -32,3 +32,6 @@ VALUES (1, 'New York', 'Hiking in Central Park', '2023-09-18'),
        (18, 'New Orleans', 'French Quarter Experience', '2023-10-05'),
        (19, 'Toronto', 'CN Tower Viewing', '2023-10-06'),
        (20, 'Buenos Aires', 'Tango Dance Lesson', '2023-10-07');
+
+INSERT INTO finance (id, name, revenue)
+VALUES (1, 'revenue', 0);
