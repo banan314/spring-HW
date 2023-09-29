@@ -4,10 +4,6 @@
       "name": "frontend.origin",
       "type": "java.lang.String",
       "description": "Origin of frontend (Angular application), for now it's on localhost for development."
-    },
-    {
-      "name": "message.topic.name",
-      "type": "java.lang.String",
-      "description": "Message topic name"
     }
-  ] }
+  ]
+}
