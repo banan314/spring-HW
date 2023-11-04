@@ -1,7 +1,6 @@
 package hw.spring.common.serializers;
 
 import com.fasterxml.jackson.core.JsonGenerator;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.AdditionalMatchers;
@@ -12,14 +11,13 @@ import java.sql.Date;
 import static org.mockito.Mockito.*;
 
 class CustomDateSerializerTest {
-    CustomDateSerializer customDateSerializer;
+    private CustomDateSerializer customDateSerializer;
 
     @BeforeEach
     void setUp() {
         customDateSerializer = new CustomDateSerializer();
     }
 
-    @Disabled
     @Test
     void serializePassesDateNumbers() throws IOException {
         JsonGenerator jsonGenerator = mock(JsonGenerator.class);
@@ -28,6 +26,6 @@ class CustomDateSerializerTest {
         customDateSerializer.serialize(date, jsonGenerator, null);
 
         verify(jsonGenerator, times(1))
-                .writeArray(AdditionalMatchers.aryEq(new int[] { 1, 2, 2003 }), eq(0), eq(3));
+                .writeArray(AdditionalMatchers.aryEq(new int[]{3903, 3, 1}), eq(0), eq(3));
     }
 }

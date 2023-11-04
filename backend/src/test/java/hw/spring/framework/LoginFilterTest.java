@@ -1,51 +1,47 @@
 package hw.spring.framework;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
-import javax.inject.Inject;
-
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import jakarta.servlet.http.Cookie;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 
-import jakarta.servlet.http.Cookie;
+import javax.inject.Inject;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class LoginFilterTest {
+class LoginFilterTest {
     @Inject
     private MockMvc mockMvc;
 
     @Test
-    public void testAuthentication() throws Exception {
+    void testAuthentication() throws Exception {
         final String postBodyContent = "username=test&email=test@test.com&password=test";
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type", "application/x-www-form-urlencoded");
 
         //check if the user can log in
         Cookie session = mockMvc.perform(post("/login")
-                .headers(headers)
-                .content(postBodyContent))
+                        .headers(headers)
+                        .content(postBodyContent))
                 .andReturn()
                 .getResponse()
                 .getCookie("JSESSIONID");
 
-        if(null == session) {
-            return;
-        }
+        if (null == session) return;
 
         //retrieve users
         mockMvc.perform(get("/users")
-            .cookie(session))
-            .andExpect(status().isOk());
+                        .cookie(session))
+                .andExpect(status().isOk());
 
     }
 }

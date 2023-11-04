@@ -2,14 +2,12 @@ package hw.spring.services.activity;
 
 import hw.spring.model.activity.Activity;
 import hw.spring.model.repositories.ActivityRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.inject.Inject;
 import java.sql.Date;
@@ -17,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -27,22 +25,20 @@ import static org.mockito.Mockito.when;
  * Created by kamil on 23.04.17.
  */
 @SpringBootTest
-@RunWith(SpringRunner.class)
 public class ActivityDefaultServiceTest {
 
+    private final List<Activity> mockActivities = new ArrayList<>(3);
     @Inject
     private ActivityDefaultService activityDefaultService;
-
     private ActivityDefaultService serviceNotAutowired;
-    @Mock private ActivityRepository repository;
+    @Mock
+    private ActivityRepository repository;
 
     public List<Activity> getMockActivities() {
         return mockActivities;
     }
 
-    List<Activity> mockActivities = new ArrayList<Activity>(3);
-
-    @Before
+    @BeforeEach
     public void setUp() {
         serviceNotAutowired = new ActivityDefaultService();
         serviceNotAutowired.activityRepository = repository;
@@ -50,10 +46,9 @@ public class ActivityDefaultServiceTest {
     }
 
     public void init() {
-        if (mockActivities.isEmpty()) {
-            createMockActivities();
-        }
+        if (mockActivities.isEmpty()) createMockActivities();
     }
+
 
     private void createMockActivities() {
         mockActivities.addAll(Arrays.asList(new Activity("lecturing", Date.valueOf("2016-3-20")),
@@ -80,8 +75,6 @@ public class ActivityDefaultServiceTest {
 
     @Test
     public void addActivity() throws Exception {
-        Date date;
-
         Activity activity = new Activity("lecturing", Date.valueOf("2016-3-20"));
 
         serviceNotAutowired.addActivity(activity);

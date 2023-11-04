@@ -1,15 +1,14 @@
 package hw.spring.services.user;
 
-import hw.spring.model.repositories.RoleRepository;
-import hw.spring.model.user.User;
-import hw.spring.model.repositories.UserRepository;
 import hw.spring.helpers.UserTestHelper;
-import org.junit.Before;
-import org.junit.Ignore;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import hw.spring.model.repositories.RoleRepository;
+import hw.spring.model.repositories.UserRepository;
+import hw.spring.model.user.User;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
@@ -17,38 +16,30 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@Ignore("install all first, then remove")
-@RunWith(MockitoJUnitRunner.class)
+@ExtendWith(MockitoExtension.class)
 public class UserDefaultServiceTest extends UserTestHelper {
     private static final Logger LOG = Logger.getLogger(UserDefaultServiceTest.class.getName());
-
+    private final List<User> mockUsers = new ArrayList<>(2);
     private UserDefaultService service;
-
     @Mock
     private UserRepository userRepository;
-
     @Mock
     private RoleRepository roleRepository;
-
     @Mock
     private PasswordEncoder passwordEncoder;
 
-    List<User> mockUsers = new ArrayList<>(2);
-
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         service = new UserDefaultService(userRepository, roleRepository, passwordEncoder);
         init();
     }
 
     private void init() {
-        if (mockUsers.isEmpty()) {
-            createMockUsers();
-        }
+        if (mockUsers.isEmpty()) createMockUsers();
     }
 
     private void createMockUsers() {
@@ -94,7 +85,6 @@ public class UserDefaultServiceTest extends UserTestHelper {
         verify(userRepository).deleteById(10);
     }
 
-    @Ignore
     @Test
     public void deleteAll() throws Exception {
     }
