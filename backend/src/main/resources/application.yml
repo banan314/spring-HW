@@ -32,6 +32,8 @@ spring:
       enabled: off
     jdbc:
       initialize-schema: always
+  profiles:
+    active: "dev"
 
 
 #debug: true

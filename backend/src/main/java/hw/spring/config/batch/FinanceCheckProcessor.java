@@ -4,12 +4,14 @@ import hw.spring.model.Finance;
 import hw.spring.model.activity.Activity;
 import hw.spring.model.repositories.FinanceRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.function.BinaryOperator;
 
 @Component
+@Profile("dev")
 @AllArgsConstructor
 class FinanceCheckProcessor {
     private static final String REVENUE_NAME = "revenue";

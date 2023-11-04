@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by kamil on 30.05.17.
  */
 @ExtendWith(SpringExtension.class)
-@SpringBootTest
+@SpringBootTest(properties = {"spring.profiles.active=test"})
 @AutoConfigureMockMvc
 class UserControllerTest extends UserTestHelper {
 

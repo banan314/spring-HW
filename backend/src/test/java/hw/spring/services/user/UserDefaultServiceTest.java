@@ -21,7 +21,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class UserDefaultServiceTest extends UserTestHelper {
+class UserDefaultServiceTest extends UserTestHelper {
     private static final Logger LOG = Logger.getLogger(UserDefaultServiceTest.class.getName());
     private final List<User> mockUsers = new ArrayList<>(2);
     private UserDefaultService service;
@@ -53,14 +53,14 @@ public class UserDefaultServiceTest extends UserTestHelper {
     }
 
     @Test
-    public void getAll() throws Exception {
+    void getAll() throws Exception {
         when(userRepository.findAllByOrderById()).thenReturn(mockUsers);
         List<User> users = service.getAll();
         assertEquals(mockUsers.size(), users.size());
     }
 
     @Test
-    public void getById() throws Exception {
+    void getById() throws Exception {
         try {
             service.getById(10).get();
         } catch (NoSuchElementException e) {
@@ -71,7 +71,7 @@ public class UserDefaultServiceTest extends UserTestHelper {
     }
 
     @Test
-    public void addUser() throws Exception {
+    void addUser() throws Exception {
         User mockUser = fakeAnother();
 
         service.addUser(mockUser);
@@ -79,18 +79,18 @@ public class UserDefaultServiceTest extends UserTestHelper {
     }
 
     @Test
-    public void deleteUser() throws Exception {
+    void deleteUser() throws Exception {
         when(userRepository.existsById(10)).thenReturn(true);
         service.deleteUser(10);
         verify(userRepository).deleteById(10);
     }
 
     @Test
-    public void deleteAll() throws Exception {
+    void deleteAll() throws Exception {
     }
 
     @Test
-    public void updateUser() throws Exception {
+    void updateUser() throws Exception {
         User mockUser = fakeAnother();
 
         service.updateUser(10, mockUser);

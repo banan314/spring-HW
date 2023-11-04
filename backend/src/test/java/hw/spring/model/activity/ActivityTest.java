@@ -1,6 +1,7 @@
 package hw.spring.model.activity;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.Test;
 
 import java.sql.Date;
 
@@ -9,7 +10,8 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 class ActivityTest {
 
-    public static void givenLocalDate_whenUsingSerializer_thenReadableOutput() throws Exception {
+    @Test
+    void givenLocalDate_whenUsingSerializer_thenReadableOutput() throws Exception {
         Activity activity = new Activity("cycling", Date.valueOf("2016-4-25"));
 
         String result = new ObjectMapper().writeValueAsString(activity);

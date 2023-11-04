@@ -9,6 +9,6 @@ import java.util.List;
  * Created by kamil on 21.04.17.
  */
 @org.springframework.stereotype.Repository
-public interface ActivityRepository extends CrudRepository<Activity, Integer>{
+public interface ActivityRepository extends CrudRepository<Activity, Integer> {
     List<Activity> findAllByOrderById();
 }
